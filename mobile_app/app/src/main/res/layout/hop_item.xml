@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/cardView"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="6dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="6dp">
+        <ImageView
+            android:id="@+id/cardView_img"
+            android:src="@drawable/hop_cone"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerVertical="true"
+            android:contentDescription="hop cone">
+
+        </ImageView>
+
+        <LinearLayout
+            android:id="@+id/cv_linear_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/cardView_img"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/cv_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Hop 1"
+                android:layout_marginStart="10dp" />
+            <TextView
+                android:id="@+id/cv_item_hop_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Bitter"
+                android:layout_marginStart="10dp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp"/>
+            <TextView
+                android:id="@+id/cv_item_phase_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/growing_phase_status"
+                android:layout_marginStart="10dp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="6dp"/>
+            <TextView
+                android:id="@+id/cv_item_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Status: Growing"
+                android:layout_marginStart="10dp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_hopPlantStatus"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="4dp"
+            android:layout_alignParentRight="true"
+            android:contentDescription="plant growing"
+            android:src="@drawable/growing_plant">
+
+        </ImageView>
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
