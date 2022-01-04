@@ -3,7 +3,7 @@ package com.asp.smartbeergreenhouse.model;
 import java.io.Serializable;
 
 public class Hop implements Serializable {
-    public enum GrowingPhase {Vegetative, Reproductive}
+    public enum GrowingPhase {Vegetative, Flowering}
 
     private String name;
     private String type;

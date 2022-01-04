@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
         //datasetList.init(listHops);
         datasetList.get().add(new Hop("Hop1", "Bitter",Hop.GrowingPhase.Vegetative, 40));
-        datasetList.get().add(new Hop("Hop2", "pi",Hop.GrowingPhase.Reproductive, 62));
-        datasetList.get().add(new Hop("Hop3", "Bitter",Hop.GrowingPhase.Reproductive, 100));
+        datasetList.get().add(new Hop("Hop2", "pi",Hop.GrowingPhase.Flowering, 62));
+        datasetList.get().add(new Hop("Hop3", "Bitter",Hop.GrowingPhase.Flowering, 100));
         // Prepare the RecyclerView:
         recyclerView = findViewById(R.id.recyclerView);
         recyclerViewAdapter = new MyAdapter(this, datasetList.get());
