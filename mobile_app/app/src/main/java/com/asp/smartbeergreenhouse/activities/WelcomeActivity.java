@@ -9,17 +9,23 @@ import android.view.View;
 import android.widget.Button;
 
 import com.asp.smartbeergreenhouse.R;
+import com.asp.smartbeergreenhouse.databinding.ActivityLoginBinding;
+import com.asp.smartbeergreenhouse.databinding.ActivitySignUpBinding;
+import com.asp.smartbeergreenhouse.databinding.ActivityWelcomeBinding;
 
 public class WelcomeActivity extends AppCompatActivity {
+
+    private ActivityWelcomeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_welcome);
+        binding = ActivityWelcomeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        Button signupButton = findViewById(R.id.welcome_login_btn);
-        Button loginButton = findViewById(R.id.welcome_signup_btn);
+        Button signupButton = binding.welcomeSignupBtn;
+        Button loginButton = binding.welcomeLoginBtn;
 
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override

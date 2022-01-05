@@ -11,8 +11,8 @@
         android:theme="@style/Theme.SmartBeerGreenHouse">
         <activity
             android:name=".activities.WelcomeActivity"
-            android:theme="@style/Theme.SmartBeerGreenHouseWelcome"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.SmartBeerGreenHouseWelcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,9 +26,11 @@
             android:name=".activities.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.MainActivity"
-            android:exported="true">
-        </activity>
+            android:name=".activities.FarmerActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".activities.BreweryActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

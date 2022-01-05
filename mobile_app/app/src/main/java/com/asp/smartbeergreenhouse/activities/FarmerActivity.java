@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 
-import com.asp.smartbeergreenhouse.R;
+import com.asp.smartbeergreenhouse.databinding.ActivityFarmerBinding;
 import com.asp.smartbeergreenhouse.model.Dataset;
 import com.asp.smartbeergreenhouse.model.Hop;
 import com.asp.smartbeergreenhouse.utils.MyAdapter;
@@ -24,12 +24,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class MainActivity extends AppCompatActivity {
+public class FarmerActivity extends AppCompatActivity {
 
     private static final String TAG = "ListOfItems, MainActivity";
-
     private final Dataset datasetList = new Dataset();
 
+    private ActivityFarmerBinding binding;
     private RecyclerView recyclerView;
     private MyAdapter recyclerViewAdapter;
     private SelectionTracker tracker;
@@ -38,14 +38,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityFarmerBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         //datasetList.init(listHops);
         datasetList.get().add(new Hop("Hop1", "Bitter",Hop.GrowingPhase.Vegetative, 40));
         datasetList.get().add(new Hop("Hop2", "pi",Hop.GrowingPhase.Flowering, 62));
         datasetList.get().add(new Hop("Hop3", "Bitter",Hop.GrowingPhase.Flowering, 100));
         // Prepare the RecyclerView:
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = binding.recyclerView;
         recyclerViewAdapter = new MyAdapter(this, datasetList.get());
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
