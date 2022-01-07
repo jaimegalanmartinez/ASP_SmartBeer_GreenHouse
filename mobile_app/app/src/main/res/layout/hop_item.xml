@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Bitter"
+                android:text="Location"
                 android:layout_marginStart="10dp" />
             <Space
                 android:layout_width="match_parent"
