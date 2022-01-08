@@ -16,7 +16,7 @@ public interface ThingsboardService {
 
     @Headers({"Accept: application/json", "Content-type: application/json"})
     @POST("auth/login")
-    Call<JsonObject> getToken (@Body String credentials);
+    Call<JsonObject> getToken (@Body JsonObject credentials);
 
 
     @Headers({"Content-Type: application/json"})
@@ -43,10 +43,5 @@ public interface ThingsboardService {
     //asset id: b0855880-6c82-11ec-9a04-591db17ccd5b - GH01_Room_01
     //asset id: d61abbe0-6c81-11ec-9a04-591db17ccd5b - GH1_GHR01_Row_01
     //asset id: f83df100-6c82-11ec-9a04-591db17ccd5b - Greenhouse_01
-    /*@Headers({"Content-Type: application/json"})
-    @GET("entityView/info/")
-    Call<JsonObject> getInfoEntityView (@Header("X-Authorization") String token,
-                                        @Path("entityViewId") String entityViewId);
-    */
 
 }
