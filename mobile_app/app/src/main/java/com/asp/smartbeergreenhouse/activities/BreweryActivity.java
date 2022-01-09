@@ -25,10 +25,7 @@ import com.asp.smartbeergreenhouse.utils.MyAdapter;
 import com.asp.smartbeergreenhouse.utils.MyItemDetailsLookup;
 import com.asp.smartbeergreenhouse.utils.MyItemKeyProvider;
 import com.asp.smartbeergreenhouse.utils.MyOnItemActivatedListener;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

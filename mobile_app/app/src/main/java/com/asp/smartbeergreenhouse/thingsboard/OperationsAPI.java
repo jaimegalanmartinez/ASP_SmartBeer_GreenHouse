@@ -2,6 +2,7 @@ package com.asp.smartbeergreenhouse.thingsboard;
 
 import android.util.Log;
 
+import com.asp.smartbeergreenhouse.model.Alarm;
 import com.asp.smartbeergreenhouse.model.Dataset;
 import com.asp.smartbeergreenhouse.model.Hop;
 import com.asp.smartbeergreenhouse.utils.MyAdapter;
@@ -9,8 +10,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -174,6 +177,92 @@ public class OperationsAPI {
             }
         });
 
+    }
+
+    private void getAlarmsFromDeviceId(String token, String deviceId, String pageSize, String pageNumber ){
+        ThingsboardService tbs = ThingsboardApiAdapter.getApiService();
+        Call<JsonObject> resp = tbs.getAlarmsFromDevice(token, deviceId, pageSize, pageNumber);
+        //this enqueue of the Callback means we are making an asynchronous request (which won't
+        //block the UI-thread)
+        resp.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.code() == 200) {
+                    try {
+                        //here we get the asset id from the response
+                       // String assetId = (new JSONObject((response.body().get("data").toString())).getString("id"));
+                        JSONArray alarms_data = new JSONArray(response.body().getAsJsonArray("data").toString());
+                        ArrayList<Alarm> listAlarms = new ArrayList<>();
+                        String alarmId;
+                        String type;
+                        String originatorName;
+                        long createdTime;
+                        long ackTs;
+                        String severity;
+                        String status;
+                        for(int i = 0; i < alarms_data.length(); i++){
+                            JSONObject alarmIdObj = new JSONObject(alarms_data.getJSONObject(i).get("id").toString());
+                            alarmId = alarmIdObj.get("id").toString();
+                            type = alarms_data.getJSONObject(i).get("type").toString();
+                            originatorName = alarms_data.getJSONObject(i).get("originatorName").toString();
+                            createdTime = alarms_data.getJSONObject(i).getLong("createdTime");
+                            ackTs = alarms_data.getJSONObject(i).getLong("ackTs");
+                            severity = alarms_data.getJSONObject(i).get("severity").toString();
+                            status = alarms_data.getJSONObject(i).get("status").toString();
+                            listAlarms.add(new Alarm(alarmId,type, originatorName, createdTime, ackTs,severity,status));
+                            Log.d("RESPONSE::", "Alarm " + i + ":");
+                            Log.d("RESPONSE::", "alarm id: " + alarmId);
+                            Log.d("RESPONSE::", "type: " + type);
+                            Log.d("RESPONSE::", "originatorName: " + originatorName);
+                            Log.d("RESPONSE::", "createdTime: " + createdTime);
+                            Log.d("RESPONSE::", "ackTs: " + ackTs);
+                            Log.d("RESPONSE::", "severity: " + severity);
+                            Log.d("RESPONSE::", "status: " + status);
+
+                        }
+                        Log.d("RESPONSE::", "Alarm 0, created time " + listAlarms.get(0).getCreatedTime());
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                } else Log.d("RESPONSE:ERROR code: ", String.valueOf(response.code()));
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("RESPONSE:ERROR", "Error, not working");
+            }
+        });
+    }
+
+    public void getAlarmsFromDevice(String token, String deviceName) {
+        ThingsboardService tbs = ThingsboardApiAdapter.getApiService();
+        Call<JsonObject> resp = tbs.getInfoFromDevice(token, deviceName);
+        //this enqueue of the Callback means we are making an asynchronous request (which won't
+        //block the UI-thread)
+        resp.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.code() == 200) {
+                    try {
+                        //here we get the asset id from the response
+                        String deviceId = (new JSONObject((response.body().get("id").toString())).getString("id"));
+                        //String assetName =  response.body().get("name").toString();
+                        Log.d("RESPONSE::", "Device id retrieved:" + deviceId);
+                        getAlarmsFromDeviceId(tokenAPI, deviceId, "100", "0");
+
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                } else Log.d("RESPONSE:ERROR code: ", String.valueOf(response.code()));
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("RESPONSE:ERROR", "Error, not working");
+            }
+        });
 
     }
 }
