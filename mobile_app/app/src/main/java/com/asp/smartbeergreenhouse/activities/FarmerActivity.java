@@ -57,9 +57,11 @@ public class FarmerActivity extends AppCompatActivity {
         //datasetList.get().add(new Hop("Hop3", "Bitter",Hop.GrowingPhase.Flowering, 100));
 
         Button logoutBtn = binding.farmerLogoutBtn;
+        Button alarmsBtn = binding.farmerAlarmsBtn;
+
         // Prepare the RecyclerView:
         recyclerView = binding.recyclerView;
-        recyclerViewAdapter = new MyAdapter(this, datasetList.get());
+        recyclerViewAdapter = new MyAdapter(this, datasetList.getHops());
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -69,7 +71,7 @@ public class FarmerActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Selection tracker (to allow for selection of items):
-        onItemActivatedListener = new MyOnItemActivatedListener(this, datasetList.get());
+        onItemActivatedListener = new MyOnItemActivatedListener(this, datasetList.getHops());
         tracker = new SelectionTracker.Builder<>(
                 "my-selection-id",
                 recyclerView,
@@ -91,8 +93,19 @@ public class FarmerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(FarmerActivity.this, LoginActivity.class);
                 startActivity(i);
-                datasetList.removeAllItems();
+                datasetList.removeAllItemsHops();
                 finish();
+            }
+        });
+
+        alarmsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                operation.getAlarmsFromGreenhouseAsset(operation.getTokenAPI(), "GH1_GHR01_Row_01");
+                Intent i = new Intent(FarmerActivity.this, AlarmsActivity.class);
+                startActivity(i);
+                //datasetList.removeAllItemsHops();
+
             }
         });
 
@@ -105,7 +118,7 @@ public class FarmerActivity extends AppCompatActivity {
                 String tokenRetrieved = inputMessage.getData().getString("token");
                 //Get Server attributes from greenhouse Room_01 (hop_type and growing phase)
                 operation.getAssetAttributes(tokenRetrieved,"GH01_Room_01");
-                operation.getAlarmsFromDevice(tokenRetrieved, "GH1_Room_01_Row_01_TEMP&HUM");
+
             }
         };
 
@@ -120,7 +133,25 @@ public class FarmerActivity extends AppCompatActivity {
         tracker.onSaveInstanceState(outState); // Save state about selections.
     }
 
+    public class TaskGetTokenFarmer implements Runnable {
+        Handler creator;
 
+        public TaskGetTokenFarmer(Handler handler){
+            this.creator = handler;
+        }
+
+        @Override
+        public void run() {
+            Message msg;
+            Bundle msg_data;
+
+            msg = creator.obtainMessage();
+            msg_data = msg.getData();
+            operation = new OperationsAPI(datasetList,recyclerViewAdapter);
+            msg_data.putString("token", operation.getTokenAPI());
+            msg.sendToTarget();
+        }
+    }
 
     public void seeCurrentSelection(View view) {
         // Button "see current selection" clicked
@@ -151,33 +182,12 @@ public class FarmerActivity extends AppCompatActivity {
             for (Integer pos : positionsSelected) {
                 //Log.d("hello", "PositionR: " + pos);
                 //recyclerViewAdapter.removeItem(pos); same behaviour that with datasetList.remove()
-                datasetList.remove(pos);
+                datasetList.removeHop(pos);
                 recyclerView.getAdapter().notifyItemRemoved(pos);
-                recyclerView.getAdapter().notifyItemRangeChanged(pos, datasetList.size());
+                recyclerView.getAdapter().notifyItemRangeChanged(pos, datasetList.sizeHopsList());
             }
             tracker.clearSelection();
         }
     }
-
-    public class TaskGetTokenFarmer implements Runnable {
-        Handler creator;
-
-        public TaskGetTokenFarmer(Handler handler){
-            this.creator = handler;
-        }
-
-        @Override
-        public void run() {
-            Message msg;
-            Bundle msg_data;
-
-            msg = creator.obtainMessage();
-            msg_data = msg.getData();
-            operation = new OperationsAPI(datasetList,recyclerViewAdapter);
-            msg_data.putString("token", operation.getTokenAPI());
-            msg.sendToTarget();
-        }
-    }
-
 
 }

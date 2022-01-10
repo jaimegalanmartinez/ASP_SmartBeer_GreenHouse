@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartBeerGreenHouse">
         <activity
+            android:name=".activities.AlarmsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.WelcomeActivity"
             android:exported="true"
             android:theme="@style/Theme.SmartBeerGreenHouseWelcome">
@@ -29,10 +32,10 @@
             android:exported="false" />
         <activity
             android:name=".activities.FarmerActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".activities.BreweryActivity"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
 
 </manifest>

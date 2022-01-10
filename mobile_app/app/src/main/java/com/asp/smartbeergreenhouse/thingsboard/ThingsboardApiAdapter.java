@@ -1,7 +1,5 @@
 package com.asp.smartbeergreenhouse.thingsboard;
 
-import java.util.concurrent.Executors;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;

@@ -47,7 +47,7 @@ public class BreweryActivity extends AppCompatActivity {
         Button logoutBtn = binding.breweryLogoutBtn;
         // Prepare the RecyclerView:
         recyclerView = binding.recyclerView;
-        recyclerViewAdapter = new MyAdapter(this, datasetList.get());
+        recyclerViewAdapter = new MyAdapter(this, datasetList.getHops());
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -57,7 +57,7 @@ public class BreweryActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Selection tracker (to allow for selection of items):
-        onItemActivatedListener = new MyOnItemActivatedListener(this, datasetList.get());
+        onItemActivatedListener = new MyOnItemActivatedListener(this, datasetList.getHops());
         tracker = new SelectionTracker.Builder<>(
                 "my-selection-id",
                 recyclerView,
@@ -79,7 +79,7 @@ public class BreweryActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(BreweryActivity.this, LoginActivity.class);
                 startActivity(i);
-                datasetList.removeAllItems();
+                datasetList.removeAllItemsHops();
                 finish();
             }
         });

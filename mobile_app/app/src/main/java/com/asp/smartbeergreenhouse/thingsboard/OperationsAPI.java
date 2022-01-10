@@ -129,7 +129,7 @@ public class OperationsAPI {
                             hopName = hopTypeObj.getString("value");
                         }
 
-                        datasetList.get().add(new Hop(hopName, "GH01_Room_01", phase, 40));
+                        datasetList.getHops().add(new Hop(hopName, "GH01_Room_01", phase, 40));
                         recyclerViewAdapter.notifyDataSetChanged();
 
 
@@ -209,7 +209,9 @@ public class OperationsAPI {
                             ackTs = alarms_data.getJSONObject(i).getLong("ackTs");
                             severity = alarms_data.getJSONObject(i).get("severity").toString();
                             status = alarms_data.getJSONObject(i).get("status").toString();
-                            listAlarms.add(new Alarm(alarmId,type, originatorName, createdTime, ackTs,severity,status));
+                            if (status.equals("ACTIVE_UNACK") || status.equals("ACTIVE_ACK")){
+                                listAlarms.add(new Alarm(alarmId,type, originatorName, createdTime, ackTs,severity,status));
+                            }
                             Log.d("RESPONSE::", "Alarm " + i + ":");
                             Log.d("RESPONSE::", "alarm id: " + alarmId);
                             Log.d("RESPONSE::", "type: " + type);
@@ -235,6 +237,95 @@ public class OperationsAPI {
         });
     }
 
+    private void getAlarmsFromAssetId(String token, String assetId, String pageSize, String pageNumber){
+        ThingsboardService tbs = ThingsboardApiAdapter.getApiService();
+        Call<JsonObject> resp = tbs.getAlarmsFromAsset(token, assetId, pageSize, pageNumber);
+        //this enqueue of the Callback means we are making an asynchronous request (which won't
+        //block the UI-thread)
+        resp.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.code() == 200) {
+                    try {
+                        //here we get the asset id from the response
+                        // String assetId = (new JSONObject((response.body().get("data").toString())).getString("id"));
+                        JSONArray alarms_data = new JSONArray(response.body().getAsJsonArray("data").toString());
+                        ArrayList<Alarm> listAlarms = new ArrayList<>();
+                        String alarmId;
+                        String type;
+                        String originatorName;
+                        long createdTime;
+                        long ackTs;
+                        String severity;
+                        String status;
+                        for(int i = 0; i < alarms_data.length(); i++){
+                            JSONObject alarmIdObj = new JSONObject(alarms_data.getJSONObject(i).get("id").toString());
+                            alarmId = alarmIdObj.get("id").toString();
+                            type = alarms_data.getJSONObject(i).get("type").toString();
+                            originatorName = alarms_data.getJSONObject(i).get("originatorName").toString();
+                            createdTime = alarms_data.getJSONObject(i).getLong("createdTime");
+                            ackTs = alarms_data.getJSONObject(i).getLong("ackTs");
+                            severity = alarms_data.getJSONObject(i).get("severity").toString();
+                            status = alarms_data.getJSONObject(i).get("status").toString();
+                            if (status.equals("ACTIVE_UNACK") || status.equals("ACTIVE_ACK")){
+                                datasetList.getAlarms().add(new Alarm(alarmId,type, originatorName, createdTime, ackTs,severity,status));
+                            }
+                            Log.d("RESPONSE::", "Alarm " + i + ":");
+                            Log.d("RESPONSE::", "alarm id: " + alarmId);
+                            Log.d("RESPONSE::", "type: " + type);
+                            Log.d("RESPONSE::", "originatorName: " + originatorName);
+                            Log.d("RESPONSE::", "createdTime: " + createdTime);
+                            Log.d("RESPONSE::", "ackTs: " + ackTs);
+                            Log.d("RESPONSE::", "severity: " + severity);
+                            Log.d("RESPONSE::", "status: " + status);
+
+                        }
+                        Log.d("RESPONSE::", "Alarm 0, created time " + listAlarms.get(0).getCreatedTime());
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                } else Log.d("RESPONSE:ERROR code: ", String.valueOf(response.code()));
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("RESPONSE:ERROR", "Error, not working");
+            }
+        });
+    }
+
+    public void getAlarmsFromGreenhouseAsset(String token, String assetName) {
+        ThingsboardService tbs = ThingsboardApiAdapter.getApiService();
+        Call<JsonObject> resp = tbs.getInfoFromDevice(token, assetName);
+        //this enqueue of the Callback means we are making an asynchronous request (which won't
+        //block the UI-thread)
+        resp.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.code() == 200) {
+                    try {
+                        //here we get the asset id from the response
+                        String assetId = (new JSONObject((response.body().get("id").toString())).getString("id"));
+                        //String assetName =  response.body().get("name").toString();
+                        Log.d("RESPONSE::", "Device id retrieved:" + assetId);
+                        getAlarmsFromAssetId(tokenAPI, assetId, "100", "0");
+
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                } else Log.d("RESPONSE:ERROR code: ", String.valueOf(response.code()));
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("RESPONSE:ERROR", "Error, not working");
+            }
+        });
+
+    }
+    
     public void getAlarmsFromDevice(String token, String deviceName) {
         ThingsboardService tbs = ThingsboardApiAdapter.getApiService();
         Call<JsonObject> resp = tbs.getInfoFromDevice(token, deviceName);

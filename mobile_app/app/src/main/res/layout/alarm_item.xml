@@ -13,32 +13,22 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="6dp">
-        <ImageView
-            android:id="@+id/cardView_img"
-            android:src="@drawable/hop_cone"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerVertical="true"
-            android:contentDescription="hop cone">
-
-        </ImageView>
 
         <LinearLayout
             android:id="@+id/cv_linear_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/cardView_img"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/cv_item_name"
+                android:id="@+id/cv_item_alarm_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Alarm 1"
+                android:text="Alarm high temperature"
                 android:layout_marginStart="10dp" />
             <TextView
-                android:id="@+id/cv_item_originator"
+                android:id="@+id/cv_item_alarm_originator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -48,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="8dp"/>
             <TextView
-                android:id="@+id/cv_item_createdTime"
+                android:id="@+id/cv_item_alarm_createdTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -58,17 +48,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="6dp"/>
             <TextView
-                android:id="@+id/cv_item_alarm_type"
+                android:id="@+id/cv_item_alarm_severity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Type: High temperature"
+                android:text="Severity: CRITICAL"
                 android:layout_marginStart="10dp" />
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="6dp"/>
             <TextView
-                android:id="@+id/cv_item_status"
+                android:id="@+id/cv_item_alarm_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -78,18 +68,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="6dp"/>
             <TextView
-                android:id="@+id/cv_item_ack_time"
+                android:id="@+id/cv_item_alarm_ack_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Status: Active Unacknowledged"
+                android:text="ACK Time: 0"
                 android:layout_marginStart="10dp" />
         </LinearLayout>
 
         <ImageView
             android:id="@+id/img_alarm_icon"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:layout_centerInParent="true"
             android:layout_marginLeft="4dp"
             android:layout_alignParentRight="true"
