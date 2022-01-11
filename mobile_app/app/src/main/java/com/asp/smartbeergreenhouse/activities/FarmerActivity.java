@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -51,10 +52,6 @@ public class FarmerActivity extends AppCompatActivity {
         binding = ActivityFarmerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //datasetList.init(listHops);
-        //datasetList.get().add(new Hop("Hop1", "Bitter",Hop.GrowingPhase.Vegetative, 40));
-        //datasetList.get().add(new Hop("Hop2", "pi",Hop.GrowingPhase.Flowering, 62));
-        //datasetList.get().add(new Hop("Hop3", "Bitter",Hop.GrowingPhase.Flowering, 100));
 
         Button logoutBtn = binding.farmerLogoutBtn;
         Button alarmsBtn = binding.farmerAlarmsBtn;
@@ -98,16 +95,6 @@ public class FarmerActivity extends AppCompatActivity {
             }
         });
 
-        alarmsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                operation.getAlarmsFromGreenhouseAsset(operation.getTokenAPI(), "GH1_GHR01_Row_01");
-                Intent i = new Intent(FarmerActivity.this, AlarmsActivity.class);
-                startActivity(i);
-                //datasetList.removeAllItemsHops();
-
-            }
-        });
 
         ExecutorService es;
         es = Executors.newSingleThreadExecutor();
@@ -124,6 +111,29 @@ public class FarmerActivity extends AppCompatActivity {
 
         TaskGetTokenFarmer task = new TaskGetTokenFarmer(handler);
         es.execute(task);
+
+        alarmsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ExecutorService esAlarms;
+                esAlarms = Executors.newSingleThreadExecutor();
+                Handler handlerAlarms = new Handler(Looper.getMainLooper()){
+                    @Override
+                    public void handleMessage(@NonNull Message inputMessage) {
+                        super.handleMessage(inputMessage);
+                    }
+                };
+
+                TaskGetAlarmsFarmer task = new TaskGetAlarmsFarmer(handlerAlarms);
+                esAlarms.execute(task);
+                datasetList.removeAllItemsHops();
+                datasetList.removeAllItemsAlarms();
+            }
+        });
+
+
+
+
 
     }
 
@@ -147,9 +157,31 @@ public class FarmerActivity extends AppCompatActivity {
 
             msg = creator.obtainMessage();
             msg_data = msg.getData();
-            operation = new OperationsAPI(datasetList,recyclerViewAdapter);
+            operation = new OperationsAPI(FarmerActivity.this,datasetList,recyclerViewAdapter);
             msg_data.putString("token", operation.getTokenAPI());
             msg.sendToTarget();
+        }
+    }
+
+    public class TaskGetAlarmsFarmer implements Runnable {
+        Handler creator;
+
+        public TaskGetAlarmsFarmer(Handler handler){
+            this.creator = handler;
+        }
+
+        @Override
+        public void run() {
+            Message msg;
+            Bundle msg_data;
+
+            msg = creator.obtainMessage();
+            msg_data = msg.getData();
+            operation.getAlarmsFromGreenhouseAsset(operation.getTokenAPI(),"GH1_GHR01_Row_01");
+
+            //msg_data.putSerializable("dataset", operation.getDatasetList());
+            //msg_data.putString("dataset", operation.getDatasetList().toString());
+            //msg.sendToTarget();
         }
     }
 

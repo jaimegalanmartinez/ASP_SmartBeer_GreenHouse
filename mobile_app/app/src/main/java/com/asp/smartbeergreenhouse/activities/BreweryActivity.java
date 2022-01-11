@@ -123,7 +123,7 @@ public class BreweryActivity extends AppCompatActivity {
 
             msg = creator.obtainMessage();
             msg_data = msg.getData();
-            operation = new OperationsAPI(datasetList,recyclerViewAdapter);
+            operation = new OperationsAPI(BreweryActivity.this,datasetList,recyclerViewAdapter);
             msg_data.putString("token", operation.getTokenAPI());
             msg.sendToTarget();
         }

@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.asp.smartbeergreenhouse.R;
 import com.asp.smartbeergreenhouse.model.Alarm;
-import com.asp.smartbeergreenhouse.model.Hop;
 
 
 public class AlarmViewHolder extends RecyclerView.ViewHolder {
@@ -89,9 +88,13 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
             alarmStatus.setText("Status: Active Acknowledged");
         }
 
+        if(item.getAckTime().equals("0")){
+            ackTime.setText("ACK Time: Not defined");
+        }else{
+            ackTime.setText("ACK Time: "+ item.getAckTime());
+        }
 
-
-
+        image.setImageResource(R.drawable.alarm_green_ic);
 
 
         if(isSelected) {

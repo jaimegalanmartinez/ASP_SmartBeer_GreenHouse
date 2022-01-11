@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -29,13 +30,18 @@ public class AlarmsActivity extends AppCompatActivity {
     private AlarmAdapter recyclerViewAdapter;
     private SelectionTracker tracker;
     private AlarmOnItemActivatedListener onItemActivatedListener;
-    private final Dataset datasetList = new Dataset();
+    private Dataset datasetList = new Dataset();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAlarmsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        Intent i = getIntent();
+        datasetList = (Dataset) i.getSerializableExtra("dataset");
+        //datasetList =  i.getStringExtra("dataset");
+        Log.d("DATASET", String.valueOf(datasetList.sizeAlarmsList()));
         //Button to go back to hops information
         Button hopInfoBtn = binding.alarmHopsBtn;
 
@@ -71,11 +77,14 @@ public class AlarmsActivity extends AppCompatActivity {
         hopInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(AlarmsActivity.this, FarmerActivity.class);
-                startActivity(i);
-                //datasetList.removeAllItems();
-                //finish();
+                onBackPressed();
+
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

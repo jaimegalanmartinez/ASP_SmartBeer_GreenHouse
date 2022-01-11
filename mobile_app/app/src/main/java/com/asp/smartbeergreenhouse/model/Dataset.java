@@ -1,9 +1,10 @@
 package com.asp.smartbeergreenhouse.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Dataset {
+public class Dataset implements Serializable {
 
     // App-specific dataset:
     private static final List<Hop> listOfHops = new ArrayList<>();
