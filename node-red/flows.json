@@ -7,6 +7,125 @@
         "info": ""
     },
     {
+        "id": "ffd3e4bd.4f3788",
+        "type": "tab",
+        "label": "Step 2.1. Attributes P#2",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "3b60db52.2986b4",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "37ae3055.f4eab",
+        "type": "serial-port",
+        "serialport": "/dev/ttyACM0",
+        "serialbaud": "115200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "5b602b43.e7a354",
+        "type": "mqtt-broker",
+        "name": "Colour Plant #2",
+        "broker": "srv-iot.diatel.upm.es",
+        "port": "8883",
+        "tls": "f5dab55.a277848",
+        "clientid": "",
+        "usetls": true,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "a5f83b44.73c758",
+        "type": "mqtt-broker",
+        "name": "Temp&Hum Plant #2",
+        "broker": "srv-iot.diatel.upm.es",
+        "port": "8883",
+        "tls": "f5dab55.a277848",
+        "clientid": "",
+        "usetls": true,
+        "protocolVersion": 4,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "f5dab55.a277848",
+        "type": "tls-config",
+        "name": "No server verification",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": false
+    },
+    {
+        "id": "73d75489.c225cc",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
         "id": "cd5974f0.cae428",
         "type": "mqtt-broker",
         "name": "G7 GH01_GHR01_Row01_TEMP&HUM",
@@ -33,9 +152,9 @@
         "sessionExpiry": ""
     },
     {
-        "id": "8e02fc03.8c38d",
+        "id": "8fe30325.3118b",
         "type": "mqtt-broker",
-        "name": "G7 GH01_GHR01_Row01_pH",
+        "name": "G7 GH01_GHR01_Row01_WATER_TEMP",
         "broker": "srv-iot.diatel.upm.es",
         "port": "8883",
         "tls": "f5dab55.a277848",
@@ -59,9 +178,9 @@
         "sessionExpiry": ""
     },
     {
-        "id": "8fe30325.3118b",
+        "id": "8e02fc03.8c38d",
         "type": "mqtt-broker",
-        "name": "G7 GH01_GHR01_Row01_WATER_TEMP",
+        "name": "G7 GH01_GHR01_Row01_pH",
         "broker": "srv-iot.diatel.upm.es",
         "port": "8883",
         "tls": "f5dab55.a277848",
@@ -137,36 +256,19 @@
         "sessionExpiry": ""
     },
     {
-        "id": "f5dab55.a277848",
-        "type": "tls-config",
-        "name": "No server verification",
-        "cert": "",
-        "key": "",
-        "ca": "",
-        "certname": "",
-        "keyname": "",
-        "caname": "",
-        "servername": "",
-        "verifyservercert": false
-    },
-    {
-        "id": "37ae3055.f4eab",
-        "type": "serial-port",
-        "serialport": "/dev/ttyACM0",
-        "serialbaud": "115200",
-        "databits": "8",
-        "parity": "none",
-        "stopbits": "1",
-        "waitfor": "",
-        "dtr": "none",
-        "rts": "none",
-        "cts": "none",
-        "dsr": "none",
-        "newline": "\\n",
-        "bin": "false",
-        "out": "char",
-        "addchar": "",
-        "responsetimeout": "10000"
+        "id": "c6eb7e65.a8336",
+        "type": "serial in",
+        "z": "94d514ac.36e688",
+        "name": "Microcontroller input",
+        "serial": "37ae3055.f4eab",
+        "x": 230,
+        "y": 720,
+        "wires": [
+            [
+                "52c8d2b0.5260ac",
+                "88bfb360.81fa8"
+            ]
+        ]
     },
     {
         "id": "52c8d2b0.5260ac",
@@ -191,6 +293,16 @@
                 "9f12db3c.5f1208"
             ]
         ]
+    },
+    {
+        "id": "b71d7856.881588",
+        "type": "serial out",
+        "z": "94d514ac.36e688",
+        "name": "Microcontroller output",
+        "serial": "37ae3055.f4eab",
+        "x": 700,
+        "y": 880,
+        "wires": []
     },
     {
         "id": "88bfb360.81fa8",
@@ -231,6 +343,441 @@
         "wires": []
     },
     {
+        "id": "1bddd310.c0ec9d",
+        "type": "mqtt out",
+        "z": "ffd3e4bd.4f3788",
+        "name": "Plant #2 colour telemetry",
+        "topic": "v1/devices/me/telemetry",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "5b602b43.e7a354",
+        "x": 850,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "e76eed8e.cc2fc",
+        "type": "inject",
+        "z": "ffd3e4bd.4f3788",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 160,
+        "wires": [
+            [
+                "4608cf76.31165"
+            ]
+        ]
+    },
+    {
+        "id": "4608cf76.31165",
+        "type": "function",
+        "z": "ffd3e4bd.4f3788",
+        "name": "Generate telemetry in JSON format",
+        "func": "function getRndInteger(min, max) {\n  return Math.floor(Math.random() * (max - min) ) + min;\n}\n\nmsg={};\nmsg.payload={};\nmsg.payload.green=getRndInteger(0, 256);\nmsg.payload.blue=getRndInteger(0, 256);\nmsg.payload.red=getRndInteger(0, 256);\nmsg.payload.clear=getRndInteger(0, 256);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 440,
+        "y": 160,
+        "wires": [
+            [
+                "31863d22.8f18b2",
+                "1bddd310.c0ec9d"
+            ]
+        ]
+    },
+    {
+        "id": "31863d22.8f18b2",
+        "type": "debug",
+        "z": "ffd3e4bd.4f3788",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 810,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "ea7de93b.fbc358",
+        "type": "comment",
+        "z": "ffd3e4bd.4f3788",
+        "name": "Sending colour data of Plant",
+        "info": "",
+        "x": 180,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "e42bdc7f.bc9f6",
+        "type": "comment",
+        "z": "ffd3e4bd.4f3788",
+        "name": "PLANT #2",
+        "info": "",
+        "x": 540,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "ab64d94a.ba7158",
+        "type": "mqtt out",
+        "z": "ffd3e4bd.4f3788",
+        "name": "Plant #2 temp and hum telemetry",
+        "topic": "v1/devices/me/telemetry",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "a5f83b44.73c758",
+        "x": 880,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "c97b990c.9ffbc8",
+        "type": "inject",
+        "z": "ffd3e4bd.4f3788",
+        "name": "",
+        "repeat": "2",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 360,
+        "wires": [
+            [
+                "66198c08.a7e154"
+            ]
+        ]
+    },
+    {
+        "id": "66198c08.a7e154",
+        "type": "function",
+        "z": "ffd3e4bd.4f3788",
+        "name": "Generate telemetry in JSON format",
+        "func": "function getRndInteger(min, max) {\n  return Math.floor(Math.random() * (max - min) ) + min;\n}\n\nmsg={};\nmsg.payload={};\nif ( flow.get(\"mode\")===0 || flow.get(\"mode\")===1){\n    temp=getRndInteger(-500, 500)/10;\n    if ( temp > flow.get(\"maxTemp\"))\n     temp = flow.get(\"maxTemp\");\n    msg.payload.temperature=temp;\n}\nif ( flow.get(\"mode\")===0 || flow.get(\"mode\")===2)\n    msg.payload.humidity=getRndInteger(0, 1000)/10;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 440,
+        "y": 360,
+        "wires": [
+            [
+                "ca15cd0f.3a703",
+                "ab64d94a.ba7158"
+            ]
+        ]
+    },
+    {
+        "id": "ca15cd0f.3a703",
+        "type": "debug",
+        "z": "ffd3e4bd.4f3788",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 810,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "bce14ad2.1f1c48",
+        "type": "comment",
+        "z": "ffd3e4bd.4f3788",
+        "name": "Sending temp&hum data of Plant",
+        "info": "",
+        "x": 190,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "ea24af1.9f4aa5",
+        "type": "mqtt in",
+        "z": "ffd3e4bd.4f3788",
+        "name": "Subscribe to attributes updates",
+        "topic": "v1/devices/me/attributes",
+        "qos": "0",
+        "broker": "a5f83b44.73c758",
+        "x": 210,
+        "y": 600,
+        "wires": [
+            [
+                "aa749830.c50dc8"
+            ]
+        ]
+    },
+    {
+        "id": "aa749830.c50dc8",
+        "type": "json",
+        "z": "ffd3e4bd.4f3788",
+        "name": "String2JSON",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 450,
+        "y": 600,
+        "wires": [
+            [
+                "e0ba4488.f8cdc8",
+                "24a184f.b77f87c"
+            ]
+        ]
+    },
+    {
+        "id": "e0ba4488.f8cdc8",
+        "type": "switch",
+        "z": "ffd3e4bd.4f3788",
+        "name": "New 'mode' attr? (By operator request)",
+        "property": "payload.mode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 710,
+        "y": 600,
+        "wires": [
+            [
+                "9051cdb5.ae16d"
+            ]
+        ]
+    },
+    {
+        "id": "9051cdb5.ae16d",
+        "type": "change",
+        "z": "ffd3e4bd.4f3788",
+        "name": "Update 'mode'",
+        "rules": [
+            {
+                "t": "set",
+                "p": "mode",
+                "pt": "flow",
+                "to": "payload.mode",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 980,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b547238b.a3dea",
+        "type": "comment",
+        "z": "ffd3e4bd.4f3788",
+        "name": "Manage attributes changes",
+        "info": "This section contains the data flows that manage the chnagges in the attributes of some sensors of the plant.\n",
+        "x": 170,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "24a184f.b77f87c",
+        "type": "debug",
+        "z": "ffd3e4bd.4f3788",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 630,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "7eb245e2.13e09c",
+        "type": "comment",
+        "z": "ffd3e4bd.4f3788",
+        "name": "Init device",
+        "info": "This section contains the data flows that let the device get the desired attributes.",
+        "x": 120,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "5774d4f7.0c96ac",
+        "type": "inject",
+        "z": "ffd3e4bd.4f3788",
+        "name": "Init device",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 760,
+        "wires": [
+            [
+                "a6f67bdb.a264f8"
+            ]
+        ]
+    },
+    {
+        "id": "a6f67bdb.a264f8",
+        "type": "function",
+        "z": "ffd3e4bd.4f3788",
+        "name": "Inic variables and prepare request for attributes",
+        "func": "if ( flow.get(\"seed\")=== undefined)\n    flow.set(\"seed\",0);\nflow.set(\"seed\",flow.get(\"seed\")+1);\nmsg.topic=\"v1/devices/me/attributes/request/\".concat(flow.get(\"seed\"));\nmsg.payload={}\nmsg.payload.sharedKeys=\"mode\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 440,
+        "y": 760,
+        "wires": [
+            [
+                "d33468af.456628"
+            ]
+        ]
+    },
+    {
+        "id": "d33468af.456628",
+        "type": "mqtt out",
+        "z": "ffd3e4bd.4f3788",
+        "name": "Send request",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "a5f83b44.73c758",
+        "x": 750,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "7f8a5479.18a27c",
+        "type": "mqtt in",
+        "z": "ffd3e4bd.4f3788",
+        "name": "Subscribe to attributes responses",
+        "topic": "v1/devices/me/attributes/response/+",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "a5f83b44.73c758",
+        "nl": false,
+        "rap": false,
+        "x": 210,
+        "y": 840,
+        "wires": [
+            [
+                "61a00c1d.40ae34"
+            ]
+        ]
+    },
+    {
+        "id": "61a00c1d.40ae34",
+        "type": "json",
+        "z": "ffd3e4bd.4f3788",
+        "name": "String2JSON",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 450,
+        "y": 840,
+        "wires": [
+            [
+                "e2c0bdf9.f3146",
+                "76acc7eb.14f0d8"
+            ]
+        ]
+    },
+    {
+        "id": "e2c0bdf9.f3146",
+        "type": "switch",
+        "z": "ffd3e4bd.4f3788",
+        "name": "New 'mode' attr? (By device request)",
+        "property": "payload.shared.mode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 710,
+        "y": 840,
+        "wires": [
+            [
+                "594b10e.e2ee0f"
+            ]
+        ]
+    },
+    {
+        "id": "594b10e.e2ee0f",
+        "type": "change",
+        "z": "ffd3e4bd.4f3788",
+        "name": "Update 'mode'",
+        "rules": [
+            {
+                "t": "set",
+                "p": "mode",
+                "pt": "flow",
+                "to": "payload.shared.mode",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 980,
+        "y": 840,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "76acc7eb.14f0d8",
+        "type": "debug",
+        "z": "ffd3e4bd.4f3788",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 620,
+        "y": 920,
+        "wires": []
+    },
+    {
         "id": "e62e65b2.e6cf78",
         "type": "mqtt in",
         "z": "94d514ac.36e688",
@@ -241,7 +788,6 @@
         "broker": "cd5974f0.cae428",
         "nl": false,
         "rap": false,
-        "inputs": 0,
         "x": 270,
         "y": 1040,
         "wires": [
@@ -373,7 +919,6 @@
         "broker": "cd5974f0.cae428",
         "nl": false,
         "rap": false,
-        "inputs": 0,
         "x": 270,
         "y": 280,
         "wires": [
@@ -586,7 +1131,7 @@
         "type": "debug",
         "z": "94d514ac.36e688",
         "name": "",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -681,7 +1226,6 @@
         "broker": "1026c339.debe4d",
         "nl": false,
         "rap": false,
-        "inputs": 0,
         "x": 270,
         "y": 1100,
         "wires": [
@@ -701,7 +1245,6 @@
         "broker": "8fe30325.3118b",
         "nl": false,
         "rap": false,
-        "inputs": 0,
         "x": 270,
         "y": 1160,
         "wires": [
@@ -721,7 +1264,6 @@
         "broker": "d6898a3e.a836c8",
         "nl": false,
         "rap": false,
-        "inputs": 0,
         "x": 270,
         "y": 1220,
         "wires": [
@@ -741,7 +1283,6 @@
         "broker": "8e02fc03.8c38d",
         "nl": false,
         "rap": false,
-        "inputs": 0,
         "x": 270,
         "y": 1280,
         "wires": [
@@ -761,7 +1302,6 @@
         "broker": "1026c339.debe4d",
         "nl": false,
         "rap": false,
-        "inputs": 0,
         "x": 270,
         "y": 340,
         "wires": [
@@ -781,7 +1321,6 @@
         "broker": "d6898a3e.a836c8",
         "nl": false,
         "rap": false,
-        "inputs": 0,
         "x": 270,
         "y": 400,
         "wires": [
@@ -801,7 +1340,6 @@
         "broker": "8fe30325.3118b",
         "nl": false,
         "rap": false,
-        "inputs": 0,
         "x": 270,
         "y": 460,
         "wires": [
@@ -821,7 +1359,6 @@
         "broker": "8e02fc03.8c38d",
         "nl": false,
         "rap": false,
-        "inputs": 0,
         "x": 270,
         "y": 520,
         "wires": [
@@ -844,14 +1381,14 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "3",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "{\"timeStamp\":12563,\"greenhouse_id\":1,\"room_id\":1,\"row_id\":1,\"amb_temp\":33.2,\"amb_hum\":90,\"water_temp\":50,\"pH\":8,\"EC\":12000,\"light\":0}",
+        "payload": "{\"timeStamp\":12563,\"greenhouse_id\":1,\"room_id\":1,\"row_id\":1,\"amb_temp\":33.2,\"amb_hum\":90,\"water_temp\":50,\"pH\":8,\"EC\":12000,\"light\":10}",
         "payloadType": "json",
-        "x": 270,
+        "x": 280,
         "y": 800,
         "wires": [
             [
@@ -874,7 +1411,7 @@
                 "vt": "str"
             }
         ],
-        "repeat": "60",
+        "repeat": "4",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
@@ -1122,31 +1659,6 @@
         "info": "This section contains the data flows that manage the messages from teh microcontroller to decide whether to create alarms or not, calculate the average values, and take actions on the hydroponics",
         "x": 250,
         "y": 620,
-        "wires": []
-    },
-    {
-        "id": "c6eb7e65.a8336",
-        "type": "serial in",
-        "z": "94d514ac.36e688",
-        "name": "Microcontroller input",
-        "serial": "37ae3055.f4eab",
-        "x": 230,
-        "y": 720,
-        "wires": [
-            [
-                "52c8d2b0.5260ac",
-                "88bfb360.81fa8"
-            ]
-        ]
-    },
-    {
-        "id": "b71d7856.881588",
-        "type": "serial out",
-        "z": "94d514ac.36e688",
-        "name": "Microcontroller output",
-        "serial": "37ae3055.f4eab",
-        "x": 700,
-        "y": 880,
         "wires": []
     }
 ]
