@@ -8,6 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.asp.smartbeergreenhouse.model.User;
 
+/**
+ * DB Helper class
+ * <p> Helper class to manage the DB operations (writing and reading) of the SQLite DB used.</p>
+ * @author Jaime Galan Martinez, Victor Aranda Lopez, Akos Zsolt Becsey.
+ */
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_ENTRIES =
@@ -20,21 +25,45 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + LoginContract.UsersTable.TABLE_NAME;
 
-
+    /**
+     * Constructor of the DBHelper class
+     * @param context - Needs the context.
+     */
     public DBHelper (Context context){
         super(context, "Login.db", null, 1);
 
     }
+
+    /**
+     * onCreate
+     * Creates the table users in the DB
+     * @param sqLiteDatabase
+     */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES);
     }
 
+    /**
+     * onUpgrade
+     * Deletes the table users
+     * @param sqLiteDatabase
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES);
     }
 
+    /**
+     * insertData
+     * Insert the signup information provided for the user: username, password and type.
+     * @param username
+     * @param password
+     * @param type
+     * @return true - If data was inserted otherwise false
+     */
     public Boolean insertData(String username, String password, User.Type type){
         SQLiteDatabase myDB = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -57,6 +86,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * checkUsername
+     * Check in the DB if the username exists
+     * @param username
+     * @return
+     */
     public Boolean checkUsername(String username){
 
         SQLiteDatabase myDB = this.getWritableDatabase();
@@ -82,6 +117,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * checkUsernamePassword
+     * <p>Check if credentials (username and password) are stored in DB</p>
+     * @param username
+     * @param password
+     * @return
+     */
     public Boolean checkUsernamePassword (String username, String password){
         SQLiteDatabase myDB = this.getWritableDatabase();
         Cursor cursor = null;
@@ -104,6 +146,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * readUserType
+     * Reads the type of a user (Farmer, Brewery) stored in the DB
+     * @param username
+     * @return
+     */
     public String readUserType (String username){
         SQLiteDatabase myDB = this.getWritableDatabase();
         Cursor cursor = null;

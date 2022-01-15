@@ -16,16 +16,56 @@ import android.widget.Toast;
 import com.asp.smartbeergreenhouse.databinding.ActivityLoginBinding;
 import com.asp.smartbeergreenhouse.db.DBHelper;
 
+/**
+ * Login Activity
+ *
+ * Shows the login UI screen
+ *
+ * <p>The user that wants to log in the application needs to fill the following fields:</p>
+ * <p>- Username</p>
+ * <p>- Password</p>
+ *
+ * <p>Once the user finished to enter all the fields,
+ * the login button will be enabled for the login the user in the app.</p>
+ *
+ * <p> If the credentials provided by the user are wrong, it will appear a message in the UI indicating that are invalid -> "Invalid credentials".</p>
+ * @author Jaime Galan Martinez, Victor Aranda Lopez, Akos Zsolt Becsey.
+ */
 public class LoginActivity extends AppCompatActivity {
 
+    /**
+     * Represents the View binding of the Login Activity
+     */
     private ActivityLoginBinding binding;
+    /**
+     *  Represents the DB Helper for manage DB operations (reading and writing in the DB)
+     */
     private DBHelper myDB;
+    /**
+     * TextWatcher used to detect if the login fields are empty.
+     * <p>If all fields are filled, the variables (username and password) will be updated, and enable the login button</p>
+     */
     private TextWatcherLogin textWatcherLogin;
+    /**
+     * Represents the EditText for entering the username for login a user
+     */
     private EditText editUsername;
+    /**
+     * Represents the EditText for entering the password for login a user
+     */
     private EditText editPassword;
+    /**
+     * Represents the Button used for login a user
+     */
     private Button loginBtn;
-
+    //Variables
+    /**
+     * Username selected for the user login
+     */
     private String username;
+    /**
+     * Password selected for the user login
+     */
     private String password;
 
     @Override
@@ -59,14 +99,14 @@ public class LoginActivity extends AppCompatActivity {
                     String userType = myDB.readUserType(username);
 
                     if(userType != null){
-                        Log.d("LOGININFO","User type read from DB: "+userType);
+                        Log.d("LOGIN_INFO","User type read from DB: "+userType);
                         if (userType.equals("Farmer")){
-                            Log.d("LOGININFO","User type DB: "+userType);
+                            Log.d("LOGIN_INFO","User type DB: "+userType);
                             Intent i = new Intent(LoginActivity.this, FarmerActivity.class);
                             startActivity(i);
                             finish();
                         }else if(userType.equals("Brewery")){
-                            Log.d("LOGININFO","User type DB: "+userType);
+                            Log.d("LOGIN_INFO","User type DB: "+userType);
                             Intent i = new Intent(LoginActivity.this, BreweryActivity.class);
                             startActivity(i);
                             finish();
@@ -118,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     //Trim to remove leading and trailing spaces
                     username = editUsername.getText().toString().trim();
-                    Log.d("LOGININFO", username);
+                    Log.d("LOGIN_INFO", username);
                 }
 
             } else if (editable == editPassword.getEditableText()) {
@@ -126,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
                     editPassword.setError("Enter your password");
                 } else {
                     password = editPassword.getText().toString().trim();
-                    Log.d("LOGININFO", password);
+                    Log.d("LOGIN_INFO", password);
                 }
 
             }

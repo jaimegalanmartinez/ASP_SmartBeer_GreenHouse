@@ -5,6 +5,12 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * ThingsboardApiAdapter
+ * <p>Class that uses singleton pattern, to have an only instance for the API Service</p>
+ * @see ThingsboardService
+ * @author Jaime Galan Martinez, Victor Aranda Lopez, Akos Zsolt Becsey.
+ */
 public class ThingsboardApiAdapter {
 
     private static final String BASE_URL = "https://srv-iot.diatel.upm.es/api/";

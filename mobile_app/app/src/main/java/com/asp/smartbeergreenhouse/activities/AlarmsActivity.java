@@ -23,13 +23,40 @@ import com.asp.smartbeergreenhouse.utils.alarms.AlarmItemDetailsLookup;
 import com.asp.smartbeergreenhouse.utils.alarms.AlarmItemKeyProvider;
 import com.asp.smartbeergreenhouse.utils.alarms.AlarmOnItemActivatedListener;
 
+/**
+ * Alarms Activity
+ *
+ * Shows the Alarms UI screen
+ *
+ * <p>The farmer can visualize the active alarms (acknowledged and not acknowledged) retrieved from Thingsboard</p>
+ *
+ * @author Jaime Galan Martinez, Victor Aranda Lopez, Akos Zsolt Becsey.
+ */
 public class AlarmsActivity extends AppCompatActivity {
 
+    /**
+     * Represents the View binding of the Alarms Activity
+     */
     private ActivityAlarmsBinding binding;
+    /**
+     * Represents the recycler view used to show the active alarms
+     */
     private RecyclerView recyclerView;
+    /**
+     * Represents the recycler view adapter used for alarms
+     */
     private AlarmAdapter recyclerViewAdapter;
+    /**
+     * Represents the tracker for recycler view
+     */
     private SelectionTracker tracker;
+    /**
+     * Represents the onItemActivated listener associated to the recycler view used for alarms
+     */
     private AlarmOnItemActivatedListener onItemActivatedListener;
+    /**
+     * Dataset that has the alarms information.
+     */
     private Dataset datasetList = new Dataset();
 
     @Override

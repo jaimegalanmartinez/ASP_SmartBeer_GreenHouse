@@ -15,6 +15,10 @@ import com.asp.smartbeergreenhouse.model.Hop;
 
 import java.util.List;
 
+/**
+ * Recycler view class adapter for Alarms elements
+ * @see RecyclerView.Adapter
+ */
 public class AlarmAdapter extends RecyclerView.Adapter<AlarmViewHolder> {
 
     private static final String TAG = "ListOfItems, MyAdapter";

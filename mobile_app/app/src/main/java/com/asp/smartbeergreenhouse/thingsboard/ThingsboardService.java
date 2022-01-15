@@ -12,7 +12,24 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+/**
+ * ThingsboardService interface
+ *
+ * <p>Defines the calls to the Thingsboard REST API</p>
+ * <p>GET operations:</p>
+ * <p>- Call<JsonArray> getAssetServerAttributes (@Header("X-Authorization") String token,@Path("assetID") String id);</p>
+ * <p>- Call<JsonObject> getInfoFromAsset (@Header("X-Authorization") String token, @Query("assetName") String name)</p>
+ * <p>- Call<JsonObject> getInfoFromDevice (@Header("X-Authorization") String token, @Query("deviceName") String name);</p>
+ * <p>- Call<JsonObject> getAlarmsFromDevice (@Header("X-Authorization") String token,</p>
+ * <p>  @Path("deviceId") String deviceId, @Query("pageSize") String pageSize, @Query("page") String pageNumber);</p>
+ * <p>- Call<JsonObject> getAlarmsFromAsset (@Header("X-Authorization") String token,</p>
+ * <p>  @Path("assetId") String assetId, @Query("pageSize") String pageSize, @Query("page") String pageNumber)</p>
+ * <p>POST operations:</p>
+ * <p>- Call<JsonObject> getToken (@Body JsonObject credentials)</p>
+ * @author Jaime Galan Martinez, Victor Aranda Lopez, Akos Zsolt Becsey.
+ */
 public interface ThingsboardService {
+
 
     @Headers({"Accept: application/json", "Content-type: application/json"})
     @POST("auth/login")
@@ -46,9 +63,5 @@ public interface ThingsboardService {
     @GET("alarm/ASSET/{assetId}?fetchOriginator=true")
     Call<JsonObject> getAlarmsFromAsset (@Header("X-Authorization") String token,
                                           @Path("assetId") String assetId, @Query("pageSize") String pageSize, @Query("page") String pageNumber);
-
-    //asset id: b0855880-6c82-11ec-9a04-591db17ccd5b - GH01_Room_01
-    //asset id: d61abbe0-6c81-11ec-9a04-591db17ccd5b - GH1_GHR01_Row_01
-    //asset id: f83df100-6c82-11ec-9a04-591db17ccd5b - Greenhouse_01
 
 }

@@ -14,6 +14,11 @@ import java.util.List;
 
 import com.asp.smartbeergreenhouse.model.Hop;
 
+/**
+ * MyOnItemActivatedListener
+ * <p>Needed for hops recycler view</p>
+ * @implSpec  onItemActivatedListener
+ */
 public class MyOnItemActivatedListener implements OnItemActivatedListener {
 
     private static final String TAG = "ListOfItems, MyOnItemActivatedListener";

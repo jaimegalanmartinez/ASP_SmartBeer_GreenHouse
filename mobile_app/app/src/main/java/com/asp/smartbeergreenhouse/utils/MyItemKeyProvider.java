@@ -7,7 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.selection.ItemKeyProvider;
 
-
+/**
+ * MyItemKeyProvider for hops recycler view
+ * @see ItemKeyProvider
+ */
 public class MyItemKeyProvider extends ItemKeyProvider<Long> {
     // We decide that out Keys will be of type Long
     // Options are:  Parcelable (and all subclasses like Uri), String, and Long

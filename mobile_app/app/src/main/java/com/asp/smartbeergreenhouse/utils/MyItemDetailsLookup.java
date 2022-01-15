@@ -10,6 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * MyItemDetailsLookup class for hops recycler view
+ * @see ItemDetailsLookup
+ */
 public final class MyItemDetailsLookup extends ItemDetailsLookup<Long> {
 
     private static final String TAG = "ListOfItems, MyItemDetailsLookup";

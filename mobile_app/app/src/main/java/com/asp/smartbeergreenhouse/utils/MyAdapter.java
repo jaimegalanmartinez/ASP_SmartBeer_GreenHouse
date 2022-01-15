@@ -14,6 +14,10 @@ import java.util.List;
 import com.asp.smartbeergreenhouse.R;
 import com.asp.smartbeergreenhouse.model.Hop;
 
+/**
+ * Recycler view class adapter for Hops elements
+ * @see RecyclerView.Adapter
+ */
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     private static final String TAG = "ListOfItems, MyAdapter";

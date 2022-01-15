@@ -14,8 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.os.Parcelable;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
 
@@ -26,8 +25,6 @@ import com.asp.smartbeergreenhouse.utils.MyAdapter;
 import com.asp.smartbeergreenhouse.utils.MyItemDetailsLookup;
 import com.asp.smartbeergreenhouse.utils.MyItemKeyProvider;
 import com.asp.smartbeergreenhouse.utils.MyOnItemActivatedListener;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,15 +32,45 @@ import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Farmer Activity
+ *
+ * Shows the Farmer UI screen
+ *
+ * <p>The farmer can visualize the hops status</p>
+ *
+ * <p>Also the farmer has two buttons: one for logout and one for checking alarms generated in Thingsboard</p>
+ *
+ * @author Jaime Galan Martinez, Victor Aranda Lopez, Akos Zsolt Becsey.
+ */
 public class FarmerActivity extends AppCompatActivity {
-
-    private static final String TAG = "ListOfItems, MainActivity";
+    /**
+     * Dataset that has the hops information. Used with hops for recycler view.
+     */
     private final Dataset datasetList = new Dataset();
+    /**
+     * Represents the View binding of the Farmer Activity
+     */
     private ActivityFarmerBinding binding;
+    /**
+     * Represents the recycler view used to show the hops status
+     */
     private RecyclerView recyclerView;
+    /**
+     * Represents the recycler view adapter used for hops status
+     */
     private MyAdapter recyclerViewAdapter;
+    /**
+     * Represents the tracker for recycler view
+     */
     private SelectionTracker tracker;
+    /**
+     * Represents the onItemActivated listener associated to the recycler view used for hops status
+     */
     private MyOnItemActivatedListener onItemActivatedListener;
+    /**
+     * OperationsAPI, class to use the methods that retrieve information from Thingsboard using a REST API
+     */
     private OperationsAPI operation;
 
     @Override
@@ -130,10 +157,6 @@ public class FarmerActivity extends AppCompatActivity {
                 datasetList.removeAllItemsAlarms();
             }
         });
-
-
-
-
 
     }
 

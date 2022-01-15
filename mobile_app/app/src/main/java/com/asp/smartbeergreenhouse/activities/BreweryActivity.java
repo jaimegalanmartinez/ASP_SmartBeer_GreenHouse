@@ -29,13 +29,46 @@ import com.asp.smartbeergreenhouse.utils.MyOnItemActivatedListener;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Brewery Activity
+ *
+ * Shows the Brewery UI screen
+ *
+ * <p>The brewery can visualize the hops status</p>
+ *
+ * <p>Also the brewery has two buttons: one for logout and one for checking more information
+ * (not implemented already) generated in Thingsboard</p>
+ *
+ * @author Jaime Galan Martinez, Victor Aranda Lopez, Akos Zsolt Becsey.
+ */
 public class BreweryActivity extends AppCompatActivity {
+    /**
+     * Represents the View binding of the Brewery Activity
+     */
     private ActivityBreweryBinding binding;
+    /**
+     * Dataset that has the hops information. Used with hops for recycler view.
+     */
     private final Dataset datasetList = new Dataset();
+    /**
+     * Represents the recycler view used to show the hops status
+     */
     private RecyclerView recyclerView;
+    /**
+     * Represents the recycler view adapter used for hops status
+     */
     private MyAdapter recyclerViewAdapter;
+    /**
+     * Represents the tracker for recycler view
+     */
     private SelectionTracker tracker;
+    /**
+     * Represents the onItemActivated listener associated to the recycler view used for hops status
+     */
     private MyOnItemActivatedListener onItemActivatedListener;
+    /**
+     * OperationsAPI, class to use the methods that retrieve information from Thingsboard using a REST API
+     */
     private OperationsAPI operation;
 
     @Override
@@ -107,7 +140,6 @@ public class BreweryActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         tracker.onSaveInstanceState(outState); // Save state about selections.
     }
-
 
     public class TaskGetTokenBrewery implements Runnable {
         Handler creator;

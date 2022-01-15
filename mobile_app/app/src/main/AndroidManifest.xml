@@ -13,9 +13,11 @@
         android:theme="@style/Theme.SmartBeerGreenHouse">
         <activity
             android:name=".activities.AlarmsActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".activities.WelcomeActivity"
+            android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/Theme.SmartBeerGreenHouseWelcome">
             <intent-filter>
@@ -26,15 +28,19 @@
         </activity>
         <activity
             android:name=".activities.SignUpActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".activities.LoginActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".activities.FarmerActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".activities.BreweryActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
     </application>
 

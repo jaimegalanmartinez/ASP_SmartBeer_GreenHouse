@@ -18,7 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.asp.smartbeergreenhouse.R;
 import com.asp.smartbeergreenhouse.model.Alarm;
 
-
+/**
+ * AlarmViewHolder class
+ * <p>Viewholder specific for alarms recycler view</p>
+ * @see RecyclerView.ViewHolder
+ * @author Jaime Galan Martinez, Victor Aranda Lopez, Akos Zsolt Becsey.
+ */
 public class AlarmViewHolder extends RecyclerView.ViewHolder {
 
     // Holds references to individual item views

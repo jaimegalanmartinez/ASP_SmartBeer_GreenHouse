@@ -10,6 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * AlarmItemDetailsLookup class for alarms recycler view
+ * @see ItemDetailsLookup
+ */
 public final class AlarmItemDetailsLookup extends ItemDetailsLookup<Long> {
 
     private static final String TAG = "ListOfItems, MyItemDetailsLookup";

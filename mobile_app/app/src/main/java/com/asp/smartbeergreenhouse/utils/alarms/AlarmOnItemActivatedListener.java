@@ -13,6 +13,11 @@ import com.asp.smartbeergreenhouse.model.Alarm;
 
 import java.util.List;
 
+/**
+ * AlarmOnItemActivatedListener
+ * <p>Needed for alarms recycler view</p>
+ * @implSpec  onItemActivatedListener
+ */
 public class AlarmOnItemActivatedListener implements OnItemActivatedListener {
 
     private static final String TAG = "ListOfItems, MyOnItemActivatedListener";

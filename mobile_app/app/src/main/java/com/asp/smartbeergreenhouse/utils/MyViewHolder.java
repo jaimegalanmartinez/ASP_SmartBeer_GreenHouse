@@ -15,7 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.asp.smartbeergreenhouse.R;
 import com.asp.smartbeergreenhouse.model.Hop;
 
-
+/**
+ * MyViewHolder class
+ * <p>Viewholder specific for hops recycler view</p>
+ * @see RecyclerView.ViewHolder
+ * @author Jaime Galan Martinez, Victor Aranda Lopez, Akos Zsolt Becsey.
+ */
 public class MyViewHolder extends RecyclerView.ViewHolder {
 
     // Holds references to individual item views
@@ -41,7 +46,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     void bindValues(Hop item, Boolean isSelected) {
         // give values to the elements contained in the item view
         hopName.setText(item.getName());
-        hopType.setText(item.getType());
+        hopType.setText(item.getLocation());
         hopGrowingPhase.setText("Growing phase: "+item.getGrowingPhase()+"\n"+item.getGrowingStatus()+"%");
         if(item.getGrowingPhase().equals("Vegetative")){
             image.setImageResource(R.drawable.growing_plant);

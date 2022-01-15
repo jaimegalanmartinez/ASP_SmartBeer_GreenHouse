@@ -1,12 +1,10 @@
 package com.asp.smartbeergreenhouse.thingsboard;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
 import com.asp.smartbeergreenhouse.activities.AlarmsActivity;
-import com.asp.smartbeergreenhouse.activities.FarmerActivity;
 import com.asp.smartbeergreenhouse.model.Alarm;
 import com.asp.smartbeergreenhouse.model.Dataset;
 import com.asp.smartbeergreenhouse.model.Hop;
@@ -24,14 +22,47 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * OperationsAPI class
+ *
+ * <p>It provides the methods to interact with REST API using methods defined in ThingsboardService interface</p>
+ * <p>It is used to get Thingsboard token and retrieved information from Thingsboard</p>
+ * @see ThingsboardService
+ * @see ThingsboardApiAdapter
+ * @author Jaime Galan Martinez, Victor Aranda Lopez, Akos Zsolt Becsey.
+ */
 public class OperationsAPI {
 
+    /**
+     * Represents the tokenAPI retrieved from Thingsboard in order to use the Thingsboard REST API
+     */
     private String tokenAPI;
+    /**
+     * Represents a JSON Object with the API credentials (username, password)
+     */
     private final JsonObject credentialsAPI;
+    /**
+     * Represents a Dataset
+     * @see Dataset
+     */
     private Dataset datasetList;
+    /**
+     * Represents a recyclerViewAdapter
+     * @see MyAdapter
+     */
     private MyAdapter recyclerViewAdapter;
+    /**
+     * Represents the activity context where the class is used
+     * @see Context
+     */
     private Context context;
 
+    /**
+     * Operations API class constructor
+     * @param context Activity context
+     * @param datasetList Dataset
+     * @param recyclerViewAdapter recyclerViewAdapter
+     */
     public OperationsAPI(Context context, Dataset datasetList, MyAdapter recyclerViewAdapter) {
         this.datasetList = datasetList;
         this.credentialsAPI = setCredentialsAPI("jaime.galan.martinez@alumnos.upm.es", "134things!A");
@@ -54,6 +85,13 @@ public class OperationsAPI {
         return userAPIcredentials;
     }
 
+    /**
+     * getToken
+     *
+     * <p>Retrieve synchronously the token API using a post request to Thingsboard. Used this method in a background thread</p>
+     * @param credentials
+     * @return Token API from Thingsboard associated to the credentials provided
+     */
     private String getToken(JsonObject credentials) {
         ThingsboardService tbs = ThingsboardApiAdapter.getApiService();
         Call<JsonObject> resp = tbs.getToken(credentials);
@@ -77,38 +115,28 @@ public class OperationsAPI {
             e.printStackTrace();
         }
 
-
         return token;
-        /*resp.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.code() == 200) {
-                    try {
-                        //here we get the token from the response
-                        tokenAPI = "Bearer " + (new JSONObject((response.body().toString())).getString("token"));
-
-                        Log.d("RESPONSE::", "Token retrieved:" + tokenAPI);
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                } else Log.d("RESPONSE:ERROR code: ", String.valueOf(response.code()));
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d("RESPONSE:ERROR", "Error, not working");
-            }
-        });
-        */
 
     }
 
+    /**
+     * getTokenAPI
+     * <p>Gets the token attribute to use Thingsboard REST API </p>
+     * @return API's token
+     */
     public String getTokenAPI() {
         return tokenAPI;
     }
 
-    public void getAttributesFromGreenhouseRoom(String token, String assetId) {
+    /**
+     * getAttributesFromGreenhouseRoom
+     *
+     * Get the attributes (growing phase and hop's name) from the asset id specified (greenhouse room)
+     * @param token token API
+     * @param assetId asset id
+     * @param nameRoom greenhouse room name
+     */
+    public void getAttributesFromGreenhouseRoom(String token, String assetId, String nameRoom) {
         ThingsboardService tbs = ThingsboardApiAdapter.getApiService();
         Call<JsonArray> respAttributes = tbs.getAssetServerAttributes(token, assetId);
         respAttributes.enqueue(new Callback<JsonArray>() {
@@ -136,9 +164,8 @@ public class OperationsAPI {
                             hopName = hopTypeObj.getString("value");
                         }
 
-                        datasetList.getHops().add(new Hop(hopName, "GH01_Room_01", phase, 40));
+                        datasetList.getHops().add(new Hop(hopName, nameRoom, phase, 40));
                         recyclerViewAdapter.notifyDataSetChanged();
-
 
                         Log.d("RESPONSE::", "Room Attributes retrieved:" + response.body().getAsJsonArray().toString() + " Hop: " + hopName + " phase:" + phase.name());
 
@@ -155,6 +182,13 @@ public class OperationsAPI {
         });
     }
 
+    /**
+     * getAssetAttributes
+     *
+     * <p>Gets the asset id from Thingsboard, and use it to call the getAttributesFromGreenhouseRoom</p>
+     * @param token token API
+     * @param assetName assetName
+     */
     public void getAssetAttributes(String token, String assetName) {
         ThingsboardService tbs = ThingsboardApiAdapter.getApiService();
         Call<JsonObject> resp = tbs.getInfoFromAsset(token, assetName);
@@ -165,11 +199,12 @@ public class OperationsAPI {
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.code() == 200) {
                     try {
-                        //here we get the asset id from the response
+                        //here we get the asset id and name from the response
                         String assetId = (new JSONObject((response.body().get("id").toString())).getString("id"));
-                        //String assetName =  response.body().get("name").toString();
+                        String name = response.body().get("name").getAsString();
+
                         Log.d("RESPONSE::", "Asset id retrieved:" + assetId);
-                        getAttributesFromGreenhouseRoom(tokenAPI, assetId);
+                        getAttributesFromGreenhouseRoom(tokenAPI, assetId, name);
 
 
                     } catch (Exception ex) {
@@ -186,6 +221,15 @@ public class OperationsAPI {
 
     }
 
+    /**
+     * getAlarmsFromDeviceId
+     *
+     * Get all alarms from device id, and stores the active alarms in dataset's alarms list
+     * @param token token API
+     * @param deviceId device ID
+     * @param pageSize pageSize
+     * @param pageNumber pageNumber
+     */
     private void getAlarmsFromDeviceId(String token, String deviceId, String pageSize, String pageNumber ){
         ThingsboardService tbs = ThingsboardApiAdapter.getApiService();
         Call<JsonObject> resp = tbs.getAlarmsFromDevice(token, deviceId, pageSize, pageNumber);
@@ -229,7 +273,6 @@ public class OperationsAPI {
                             Log.d("RESPONSE::", "status: " + status);
 
                         }
-                        Log.d("RESPONSE::", "Alarm 0, created time " + listAlarms.get(0).getCreatedTime());
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -244,6 +287,15 @@ public class OperationsAPI {
         });
     }
 
+    /**
+     * getAlarmsFromAssetId
+     *
+     * Get all alarms from asset id, and stores the active alarms in dataset's alarms list
+     * @param token token API
+     * @param assetId asset ID
+     * @param pageSize pageSize
+     * @param pageNumber pageNumber
+     */
     private void getAlarmsFromAssetId(String token, String assetId, String pageSize, String pageNumber){
         ThingsboardService tbs = ThingsboardApiAdapter.getApiService();
         Call<JsonObject> resp = tbs.getAlarmsFromAsset(token, assetId, pageSize, pageNumber);
@@ -292,8 +344,6 @@ public class OperationsAPI {
                         i.putExtra("dataset", datasetList);
                         context.startActivity(i);
 
-
-
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -307,6 +357,12 @@ public class OperationsAPI {
         });
     }
 
+    /**
+     * getAlarmsFromGreenhouseAsset
+     * Get asset id, and call the getAlarmsFromAssetId()
+     * @param token token APIA
+     * @param assetName asset name
+     */
     public void getAlarmsFromGreenhouseAsset(String token, String assetName) {
         ThingsboardService tbs = ThingsboardApiAdapter.getApiService();
         Call<JsonObject> resp = tbs.getInfoFromAsset(token, assetName);
@@ -336,7 +392,13 @@ public class OperationsAPI {
         });
 
     }
-    
+
+    /**
+     * getAlarmsFromDevice
+     * Get device id, and call the getAlarmsFromDeviceId()
+     * @param token token APIA
+     * @param deviceName device name
+     */
     public void getAlarmsFromDevice(String token, String deviceName) {
         ThingsboardService tbs = ThingsboardApiAdapter.getApiService();
         Call<JsonObject> resp = tbs.getInfoFromDevice(token, deviceName);
@@ -369,6 +431,10 @@ public class OperationsAPI {
 
     }
 
+    /**
+     * getDatasetList
+     * @return dataset
+     */
     public Dataset getDatasetList() {
         return datasetList;
     }
