@@ -1,0 +1,4 @@
+[submodule "SmartPlant"]
+	path = SmartPlant
+	url = https://github.com/becseya/SmartPlant
+	branch = asp_smart_beer
