@@ -1,1 +1,1160 @@
-[{"id":"94d514ac.36e688","type":"tab","label":"Flow 1","disabled":false,"info":""},{"id":"ffd3e4bd.4f3788","type":"tab","label":"Step 2.1. Attributes P#2","disabled":false,"info":""},{"id":"3b60db52.2986b4","type":"tab","label":"Flow 2","disabled":false,"info":""},{"id":"37ae3055.f4eab","type":"serial-port","serialport":"/dev/ttyACM0","serialbaud":"115200","databits":"8","parity":"none","stopbits":"1","waitfor":"","dtr":"none","rts":"none","cts":"none","dsr":"none","newline":"\\n","bin":"false","out":"char","addchar":"","responsetimeout":"10000"},{"id":"5b602b43.e7a354","type":"mqtt-broker","name":"Colour Plant #2","broker":"srv-iot.diatel.upm.es","port":"8883","tls":"f5dab55.a277848","clientid":"","usetls":true,"protocolVersion":"4","keepalive":"60","cleansession":true,"birthTopic":"","birthQos":"0","birthPayload":"","birthMsg":{},"closeTopic":"","closeQos":"0","closePayload":"","closeMsg":{},"willTopic":"","willQos":"0","willPayload":"","willMsg":{},"sessionExpiry":""},{"id":"a5f83b44.73c758","type":"mqtt-broker","name":"Temp&Hum Plant #2","broker":"srv-iot.diatel.upm.es","port":"8883","tls":"f5dab55.a277848","clientid":"","usetls":true,"protocolVersion":4,"keepalive":"60","cleansession":true,"birthTopic":"","birthQos":"0","birthPayload":"","closeTopic":"","closeQos":"0","closePayload":"","willTopic":"","willQos":"0","willPayload":""},{"id":"f5dab55.a277848","type":"tls-config","name":"No server verification","cert":"","key":"","ca":"","certname":"","keyname":"","caname":"","servername":"","verifyservercert":false},{"id":"73d75489.c225cc","type":"mqtt-broker","name":"","broker":"","port":"1883","clientid":"","usetls":false,"protocolVersion":"4","keepalive":"60","cleansession":true,"birthTopic":"","birthQos":"0","birthPayload":"","birthMsg":{},"closeTopic":"","closeQos":"0","closePayload":"","closeMsg":{},"willTopic":"","willQos":"0","willPayload":"","willMsg":{},"sessionExpiry":""},{"id":"cd5974f0.cae428","type":"mqtt-broker","name":"G7 GH01_GHR01_Row01_TEMP&HUM","broker":"srv-iot.diatel.upm.es","port":"8883","tls":"f5dab55.a277848","clientid":"","usetls":true,"protocolVersion":"3","keepalive":"60","cleansession":true,"birthTopic":"","birthQos":"0","birthPayload":"","birthMsg":{},"closeTopic":"","closeQos":"0","closePayload":"","closeMsg":{},"willTopic":"","willQos":"0","willPayload":"","willMsg":{},"sessionExpiry":""},{"id":"8fe30325.3118b","type":"mqtt-broker","name":"G7 GH01_GHR01_Row01_WATER_TEMP","broker":"srv-iot.diatel.upm.es","port":"8883","tls":"f5dab55.a277848","clientid":"","usetls":true,"protocolVersion":"3","keepalive":"60","cleansession":true,"birthTopic":"","birthQos":"0","birthPayload":"","birthMsg":{},"closeTopic":"","closeQos":"0","closePayload":"","closeMsg":{},"willTopic":"","willQos":"0","willPayload":"","willMsg":{},"sessionExpiry":""},{"id":"8e02fc03.8c38d","type":"mqtt-broker","name":"G7 GH01_GHR01_Row01_pH","broker":"srv-iot.diatel.upm.es","port":"8883","tls":"f5dab55.a277848","clientid":"","usetls":true,"protocolVersion":"3","keepalive":"60","cleansession":true,"birthTopic":"","birthQos":"0","birthPayload":"","birthMsg":{},"closeTopic":"","closeQos":"0","closePayload":"","closeMsg":{},"willTopic":"","willQos":"0","willPayload":"","willMsg":{},"sessionExpiry":""},{"id":"1026c339.debe4d","type":"mqtt-broker","name":"G7 GH01_GHR01_Row01_EC","broker":"srv-iot.diatel.upm.es","port":"8883","tls":"f5dab55.a277848","clientid":"","usetls":true,"protocolVersion":"3","keepalive":"60","cleansession":true,"birthTopic":"","birthQos":"0","birthPayload":"","birthMsg":{},"closeTopic":"","closeQos":"0","closePayload":"","closeMsg":{},"willTopic":"","willQos":"0","willPayload":"","willMsg":{},"sessionExpiry":""},{"id":"d6898a3e.a836c8","type":"mqtt-broker","name":"G7 GH01_GHR01_Row01_LIGHT","broker":"srv-iot.diatel.upm.es","port":"8883","tls":"f5dab55.a277848","clientid":"","usetls":true,"protocolVersion":"3","keepalive":"60","cleansession":true,"birthTopic":"","birthQos":"0","birthPayload":"","birthMsg":{},"closeTopic":"","closeQos":"0","closePayload":"","closeMsg":{},"willTopic":"","willQos":"0","willPayload":"","willMsg":{},"sessionExpiry":""},{"id":"c6eb7e65.a8336","type":"serial in","z":"94d514ac.36e688","name":"Microcontroller input","serial":"37ae3055.f4eab","x":230,"y":720,"wires":[["52c8d2b0.5260ac","88bfb360.81fa8"]]},{"id":"52c8d2b0.5260ac","type":"function","z":"94d514ac.36e688","name":"Average values calculation","func":"//Average calculation\nflow.set(\"amb_temp\",flow.get(\"amb_temp\")+msg.payload.amb_temp);\nflow.set(\"amb_hum\",flow.get(\"amb_hum\")+msg.payload.amb_hum);\nflow.set(\"water_temp\",flow.get(\"water_temp\")+msg.payload.water_temp);\nflow.set(\"pH\",flow.get(\"pH\")+msg.payload.pH);\nflow.set(\"EC\",flow.get(\"EC\")+msg.payload.EC);\nflow.set(\"light\",flow.get(\"light\")+msg.payload.light);\nflow.set(\"num_measures\",flow.get(\"num_measures\")+1);\n\n\nreturn msg;\n/*\n{\"timeStamp\":12563,\n \"greenhouse_id\":515,\n \"room_id\":5,\n \"row_id\":1,\n \"amb_temp\":20.1,\n \"amb_hum\":63.1,\n \"water_temp\":23.2,\n \"pH\":6.3,\n \"EC\":120.3,\n \"light\":62.8\n}\n*/","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":560,"y":720,"wires":[["24ac4b01.b56984","cb85ab60.2c18c8","55272bc.dbb77d4","92ab58b9.672108","1a8130fd.df084f","9f12db3c.5f1208"]]},{"id":"b71d7856.881588","type":"serial out","z":"94d514ac.36e688","name":"Microcontroller output","serial":"37ae3055.f4eab","x":700,"y":880,"wires":[]},{"id":"88bfb360.81fa8","type":"function","z":"94d514ac.36e688","name":"Response action","func":"// Desired range for electrical conductivity\nvar range_ec_high = (flow.get(\"max_EC\")-flow.get(\"min_EC\"))*0.75+flow.get(\"min_EC\");\nvar range_ec_low = (flow.get(\"max_EC\")-flow.get(\"min_EC\"))*0.25+flow.get(\"min_EC\");\n// Desired range for pH\nvar range_ph_high = (flow.get(\"max_pH\")-flow.get(\"min_pH\"))*0.75+flow.get(\"min_pH\");\nvar range_ph_low = (flow.get(\"max_pH\")-flow.get(\"min_pH\"))*0.25+flow.get(\"min_pH\");\n// pH range that will immediately cause a pH correction\nvar range_ph_high_danger = flow.get(\"max_pH\");\nvar range_ph_low_danger = flow.get(\"min_pH\");\n//Light\nvar range_light_high = (flow.get(\"max_light\")-flow.get(\"min_light\"))*1+flow.get(\"min_light\");\nvar range_light_low = (flow.get(\"max_light\")-flow.get(\"min_light\"))*0.0+flow.get(\"min_light\");\n//water temperature ranges\nvar range_water_temp_high = (flow.get(\"max_water_temp\")-flow.get(\"min_water_temp\"))*0.75+flow.get(\"min_water_temp\");\nvar range_water_temp_low = (flow.get(\"max_water_temp\")-flow.get(\"min_water_temp\"))*0.25+flow.get(\"min_water_temp\");\n\nvar msg2={};\nmsg2.payload={}\n// First check if pH is dangerously low or high, and adjust if it is\nif (msg.payload.pH < range_ph_low_danger){  // pH dangerously low, add base (pH up)\n    //msg = \"pH is dangerously low: {}. Should be > {}. Dispensing 1 ml base\".format(measure_ph, range_ph_low_danger)\n    //self.logger.debug(msg)\n    //self.message += msg\n    msg2.payload.pumpBase=1;\n    //self.run_action(action_id_pump_2_base)  # Dispense 1 ml base (pH up)\n    /*if self.variables['notify_ph'] < time.time():  # Only notify every 12 hours\n        self.variables['notify_ph'] = time.time() + 43200  # 12 hours\n        self.run_action(action_id_email_notification, message=self.message)  # Email alert*/\n}else if( msg.payload.pH > range_ph_high_danger){//  # pH dangerously high, add acid (pH down)\n    //msg = \"pH is dangerously high: {}. Should be < {}. Dispensing 1 ml acid\".format(measure_ph, range_ph_high_danger)\n    //self.logger.debug(msg)\n    //self.message += msg\n    msg2.payload.pumpAcid=1;\n    //self.run_action(action_id_pump_1_acid)  # Dispense 1 ml acid (pH down)\n    /*if self.variables['notify_ph'] < time.time():  # Only notify every 12 hours\n        self.variables['notify_ph'] = time.time() + 43200  # 12 hours\n        self.run_action(action_id_email_notification, message=self.message)  # Email alert*/\n// If pH isn't dangerously low or high, check if EC is within range\n}else if( msg.payload.EC < range_ec_low){ //  # EC too low, add nutrient\n    //self.logger.debug(\"EC: {}. Should be > {}. Dosing 3 ml Nut A, 3 ml Nut B\".format(measure_ec, range_ec_low))\n    msg2.payload.pumpFertilizerA=3;\n    msg2.payload.pumpFertilizerB=3;\n    //self.run_action(action_id_pump_3_nutrient_a)  # Dispense 3 ml nutrient A\n    //self.run_action(action_id_pump_4_nutrient_b)  # Dispense 3 ml nutrient B\n}else if( msg.payload.EC > range_ec_high){//  # EC too high, add water to dilute\n    //msg = \"EC: {}. Should be < {}. Need to add water to dilute!\".format(measure_ec, range_ec_high)\n    //self.logger.debug(msg)\n   /* if self.variables['notify_ec'] < time.time():  # Only notify every 12 hours\n        self.variables['notify_ec'] = time.time() + 43200  # 12 hours\n        self.message += msg\n        self.run_action(action_id_email_notification, message=self.message)  # Email alert*/\n// If EC is in range, make sure pH is within range\n}else if( msg.payload.pH < range_ph_low){  //# pH too low, add base (pH up)\n    msg2.payload.pumpBase=1;\n    //self.logger.debug(\"pH is {}. Should be > {}. Dispensing 1 ml base\".format(measure_ph, range_ph_low))\n    //self.run_action(action_id_pump_2_base)  # Dispense 1 ml base (pH up)\n}else if( msg.payload.pH > range_ph_high){   //# pH too high, add acid (pH down)\n    msg2.payload.pumpAcid=1;\n    //self.logger.debug(\"pH is {}. Should be < {}. Dispensing 1 ml acid\".format(measure_ph, range_ph_high))\n    //self.run_action(action_id_pump_1_acid)  # Dispense 1 ml acid (pH down)\n}\n//Light control\nif (msg.payload.light < range_light_low){\n    msg2.payload.led=true;\n}else if (msg.payload.light > range_light_high){\n    msg2.payload.led=false; \n}\n//water temperaure control\nif (msg.payload.water_temp < range_water_temp_low){\n    msg2.payload.waterBoiler=30;\n}else if (msg.payload.water_temp > range_water_temp_high){\n    msg2.payload.waterCooler=30;\n}\n\n//If there is something to send\nif(msg2.payload !={}){\n    msg2.payload.timeStamp=123;\n    msg2.payload.greenhouse_id=1;\n    msg2.payload.room_id=1;\n    msg2.payload.row_id=1;\n    return msg2;\n}","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":510,"y":780,"wires":[["b71d7856.881588","9859a23f.21232"]]},{"id":"cf0c8b43.9a6228","type":"mqtt out","z":"94d514ac.36e688","name":"","topic":"v1/devices/me/telemetry","qos":"0","retain":"","respTopic":"","contentType":"","userProps":"","correl":"","expiry":"","broker":"cd5974f0.cae428","x":1230,"y":620,"wires":[]},{"id":"1bddd310.c0ec9d","type":"mqtt out","z":"ffd3e4bd.4f3788","name":"Plant #2 colour telemetry","topic":"v1/devices/me/telemetry","qos":"0","retain":"false","respTopic":"","contentType":"","userProps":"","correl":"","expiry":"","broker":"5b602b43.e7a354","x":850,"y":160,"wires":[]},{"id":"e76eed8e.cc2fc","type":"inject","z":"ffd3e4bd.4f3788","name":"","repeat":"","crontab":"","once":true,"onceDelay":0.1,"topic":"","payload":"","payloadType":"date","x":170,"y":160,"wires":[["4608cf76.31165"]]},{"id":"4608cf76.31165","type":"function","z":"ffd3e4bd.4f3788","name":"Generate telemetry in JSON format","func":"function getRndInteger(min, max) {\n  return Math.floor(Math.random() * (max - min) ) + min;\n}\n\nmsg={};\nmsg.payload={};\nmsg.payload.green=getRndInteger(0, 256);\nmsg.payload.blue=getRndInteger(0, 256);\nmsg.payload.red=getRndInteger(0, 256);\nmsg.payload.clear=getRndInteger(0, 256);\nreturn msg;","outputs":1,"noerr":0,"x":440,"y":160,"wires":[["31863d22.8f18b2","1bddd310.c0ec9d"]]},{"id":"31863d22.8f18b2","type":"debug","z":"ffd3e4bd.4f3788","name":"","active":false,"tosidebar":true,"console":false,"tostatus":false,"complete":"false","x":810,"y":240,"wires":[]},{"id":"ea7de93b.fbc358","type":"comment","z":"ffd3e4bd.4f3788","name":"Sending colour data of Plant","info":"","x":180,"y":100,"wires":[]},{"id":"e42bdc7f.bc9f6","type":"comment","z":"ffd3e4bd.4f3788","name":"PLANT #2","info":"","x":540,"y":40,"wires":[]},{"id":"ab64d94a.ba7158","type":"mqtt out","z":"ffd3e4bd.4f3788","name":"Plant #2 temp and hum telemetry","topic":"v1/devices/me/telemetry","qos":"0","retain":"false","respTopic":"","contentType":"","userProps":"","correl":"","expiry":"","broker":"a5f83b44.73c758","x":880,"y":360,"wires":[]},{"id":"c97b990c.9ffbc8","type":"inject","z":"ffd3e4bd.4f3788","name":"","repeat":"2","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"","payloadType":"date","x":170,"y":360,"wires":[["66198c08.a7e154"]]},{"id":"66198c08.a7e154","type":"function","z":"ffd3e4bd.4f3788","name":"Generate telemetry in JSON format","func":"function getRndInteger(min, max) {\n  return Math.floor(Math.random() * (max - min) ) + min;\n}\n\nmsg={};\nmsg.payload={};\nif ( flow.get(\"mode\")===0 || flow.get(\"mode\")===1){\n    temp=getRndInteger(-500, 500)/10;\n    if ( temp > flow.get(\"maxTemp\"))\n     temp = flow.get(\"maxTemp\");\n    msg.payload.temperature=temp;\n}\nif ( flow.get(\"mode\")===0 || flow.get(\"mode\")===2)\n    msg.payload.humidity=getRndInteger(0, 1000)/10;\nreturn msg;","outputs":1,"noerr":0,"x":440,"y":360,"wires":[["ca15cd0f.3a703","ab64d94a.ba7158"]]},{"id":"ca15cd0f.3a703","type":"debug","z":"ffd3e4bd.4f3788","name":"","active":false,"tosidebar":true,"console":false,"tostatus":false,"complete":"false","x":810,"y":440,"wires":[]},{"id":"bce14ad2.1f1c48","type":"comment","z":"ffd3e4bd.4f3788","name":"Sending temp&hum data of Plant","info":"","x":190,"y":300,"wires":[]},{"id":"ea24af1.9f4aa5","type":"mqtt in","z":"ffd3e4bd.4f3788","name":"Subscribe to attributes updates","topic":"v1/devices/me/attributes","qos":"0","broker":"a5f83b44.73c758","x":210,"y":600,"wires":[["aa749830.c50dc8"]]},{"id":"aa749830.c50dc8","type":"json","z":"ffd3e4bd.4f3788","name":"String2JSON","property":"payload","action":"obj","pretty":false,"x":450,"y":600,"wires":[["e0ba4488.f8cdc8","24a184f.b77f87c"]]},{"id":"e0ba4488.f8cdc8","type":"switch","z":"ffd3e4bd.4f3788","name":"New 'mode' attr? (By operator request)","property":"payload.mode","propertyType":"msg","rules":[{"t":"nnull"}],"checkall":"true","repair":false,"outputs":1,"x":710,"y":600,"wires":[["9051cdb5.ae16d"]]},{"id":"9051cdb5.ae16d","type":"change","z":"ffd3e4bd.4f3788","name":"Update 'mode'","rules":[{"t":"set","p":"mode","pt":"flow","to":"payload.mode","tot":"msg"}],"action":"","property":"","from":"","to":"","reg":false,"x":980,"y":600,"wires":[[]]},{"id":"b547238b.a3dea","type":"comment","z":"ffd3e4bd.4f3788","name":"Manage attributes changes","info":"This section contains the data flows that manage the chnagges in the attributes of some sensors of the plant.\n","x":170,"y":520,"wires":[]},{"id":"24a184f.b77f87c","type":"debug","z":"ffd3e4bd.4f3788","name":"","active":false,"tosidebar":true,"console":false,"tostatus":false,"complete":"false","x":630,"y":540,"wires":[]},{"id":"7eb245e2.13e09c","type":"comment","z":"ffd3e4bd.4f3788","name":"Init device","info":"This section contains the data flows that let the device get the desired attributes.","x":120,"y":700,"wires":[]},{"id":"5774d4f7.0c96ac","type":"inject","z":"ffd3e4bd.4f3788","name":"Init device","repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"","payloadType":"date","x":160,"y":760,"wires":[["a6f67bdb.a264f8"]]},{"id":"a6f67bdb.a264f8","type":"function","z":"ffd3e4bd.4f3788","name":"Inic variables and prepare request for attributes","func":"if ( flow.get(\"seed\")=== undefined)\n    flow.set(\"seed\",0);\nflow.set(\"seed\",flow.get(\"seed\")+1);\nmsg.topic=\"v1/devices/me/attributes/request/\".concat(flow.get(\"seed\"));\nmsg.payload={}\nmsg.payload.sharedKeys=\"mode\";\n\nreturn msg;","outputs":1,"noerr":0,"x":440,"y":760,"wires":[["d33468af.456628"]]},{"id":"d33468af.456628","type":"mqtt out","z":"ffd3e4bd.4f3788","name":"Send request","topic":"","qos":"0","retain":"false","respTopic":"","contentType":"","userProps":"","correl":"","expiry":"","broker":"a5f83b44.73c758","x":750,"y":760,"wires":[]},{"id":"7f8a5479.18a27c","type":"mqtt in","z":"ffd3e4bd.4f3788","name":"Subscribe to attributes responses","topic":"v1/devices/me/attributes/response/+","qos":"0","datatype":"auto","broker":"a5f83b44.73c758","nl":false,"rap":false,"x":210,"y":840,"wires":[["61a00c1d.40ae34"]]},{"id":"61a00c1d.40ae34","type":"json","z":"ffd3e4bd.4f3788","name":"String2JSON","property":"payload","action":"obj","pretty":false,"x":450,"y":840,"wires":[["e2c0bdf9.f3146","76acc7eb.14f0d8"]]},{"id":"e2c0bdf9.f3146","type":"switch","z":"ffd3e4bd.4f3788","name":"New 'mode' attr? (By device request)","property":"payload.shared.mode","propertyType":"msg","rules":[{"t":"nnull"}],"checkall":"true","repair":false,"outputs":1,"x":710,"y":840,"wires":[["594b10e.e2ee0f"]]},{"id":"594b10e.e2ee0f","type":"change","z":"ffd3e4bd.4f3788","name":"Update 'mode'","rules":[{"t":"set","p":"mode","pt":"flow","to":"payload.shared.mode","tot":"msg"}],"action":"","property":"","from":"","to":"","reg":false,"x":980,"y":840,"wires":[[]]},{"id":"76acc7eb.14f0d8","type":"debug","z":"ffd3e4bd.4f3788","name":"","active":false,"tosidebar":true,"console":false,"tostatus":false,"complete":"false","x":620,"y":920,"wires":[]},{"id":"e62e65b2.e6cf78","type":"mqtt in","z":"94d514ac.36e688","name":"Subscribe to attributes updates","topic":"v1/devices/me/attributes","qos":"0","datatype":"auto","broker":"cd5974f0.cae428","nl":false,"rap":false,"x":270,"y":1040,"wires":[["ffd7de34.6dca5"]]},{"id":"ffd7de34.6dca5","type":"json","z":"94d514ac.36e688","name":"String2JSON","property":"payload","action":"obj","pretty":false,"x":530,"y":1060,"wires":[["f42f3e9c.64bfd","abc74ed6.91c7f"]]},{"id":"ea63194c.769d18","type":"comment","z":"94d514ac.36e688","name":"Manage attributes changes","info":"This section contains the data flows that manage the chnagges in the attributes of some sensors of the plant.\n","x":250,"y":980,"wires":[]},{"id":"f42f3e9c.64bfd","type":"debug","z":"94d514ac.36e688","name":"","active":false,"tosidebar":true,"console":false,"tostatus":false,"complete":"false","x":830,"y":1000,"wires":[]},{"id":"3e400a40.da0506","type":"comment","z":"94d514ac.36e688","name":"Init device","info":"This section contains the data flows that let the device get the desired attributes.","x":200,"y":120,"wires":[]},{"id":"90c07cb5.cd9a2","type":"inject","z":"94d514ac.36e688","name":"Init device","repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"","payloadType":"date","x":220,"y":200,"wires":[["6cb38584.fa949c"]]},{"id":"6cb38584.fa949c","type":"function","z":"94d514ac.36e688","name":"Inic variables and prepare request for attributes","func":"flow.set(\"seed\",0);\nflow.set(\"amb_hum\",0);\nflow.set(\"amb_temp\",0);\nflow.set(\"light\",0);\nflow.set(\"pH\",0);\nflow.set(\"EC\",0);\nflow.set(\"water_temp\",0);\nflow.set(\"num_measures\",0);\n\nflow.set(\"seed\",flow.get(\"seed\")+1);\n\n\nreturn msg;","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":500,"y":200,"wires":[["6242c47.6cea13c","b0c40996.2d8978","cb4d2bb8.387808","b070e8be.374198","a77835b8.e41dd8"]]},{"id":"f5027a12.eef788","type":"mqtt out","z":"94d514ac.36e688","name":"Send request","topic":"","qos":"0","retain":"false","respTopic":"","contentType":"","userProps":"","correl":"","expiry":"","broker":"8e02fc03.8c38d","x":1170,"y":200,"wires":[]},{"id":"68b9f9e2.a7db28","type":"mqtt in","z":"94d514ac.36e688","name":"Subscribe to attributes responses","topic":"v1/devices/me/attributes/response/+","qos":"0","datatype":"auto","broker":"cd5974f0.cae428","nl":false,"rap":false,"x":270,"y":280,"wires":[["b76a0855.ec20b8"]]},{"id":"b76a0855.ec20b8","type":"json","z":"94d514ac.36e688","name":"String2JSON","property":"payload","action":"obj","pretty":false,"x":510,"y":280,"wires":[["abcfbff3.29bef"]]},{"id":"d332ba36.e4f268","type":"debug","z":"94d514ac.36e688","name":"","active":false,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":1090,"y":280,"wires":[]},{"id":"59828d91.e86c44","type":"inject","z":"94d514ac.36e688","name":"Test update","props":[{"p":"payload"},{"p":"topic","vt":"str"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"{\"growthPhase\":\"Vegetative\",  \"min_amb_temp\":32.4,  \"max_amb_temp\":40.0,  \"min_amb_hum\":30.0,  \"max_amb_hum\":90.0,  \"min_water_temp\":20.4,  \"max_water_temp\":30.0,  \"min_pH\":6,  \"max_pH\":7,  \"min_EC\":120,  \"max_EC\":150,  \"min_light\":32.4,  \"max_light\":80.0 }","payloadType":"json","x":470,"y":980,"wires":[["ffd7de34.6dca5"]]},{"id":"abc74ed6.91c7f","type":"function","z":"94d514ac.36e688","name":"Update attributes","func":"if (msg.payload.min_amb_temp != undefined)\n    flow.set(\"min_amb_temp\",msg.payload.min_amb_temp);\nif (msg.payload.max_amb_temp != undefined)\n    flow.set(\"max_amb_temp\",msg.payload.max_amb_temp);\nif (msg.payload.min_amb_hum != undefined)\n    flow.set(\"min_amb_hum\",msg.payload.min_amb_hum);\nif (msg.payload.max_amb_hum != undefined)\n    flow.set(\"max_amb_hum\",msg.payload.max_amb_hum);\nif (msg.payload.min_water_temp != undefined)\n    flow.set(\"min_water_temp\",msg.payload.min_water_temp);\nif (msg.payload.max_water_temp != undefined)\n    flow.set(\"max_water_temp\",msg.payload.max_water_temp);\nif (msg.payload.min_pH != undefined)\n    flow.set(\"min_pH\",msg.payload.min_pH);\nif (msg.payload.max_pH != undefined)\n    flow.set(\"max_pH\",msg.payload.max_pH);\nif (msg.payload.min_EC != undefined)\n    flow.set(\"min_EC\",msg.payload.min_EC);\nif (msg.payload.max_EC != undefined)\n    flow.set(\"max_EC\",msg.payload.max_EC);\nif (msg.payload.min_light != undefined)\n    flow.set(\"min_light\",msg.payload.min_light);\nif (msg.payload.max_light != undefined)\n    flow.set(\"max_light\",msg.payload.max_light);\n\n\n\n\n\nreturn msg;\n/*\n{\"growthPhase\":\"Vegetative\",\n \"min_amb_temp\":32.4,\n \"max_amb_temp\":40.0,\n \"min_amb_hum\":30.0,\n \"max_amb_hum\":90.0,\n \"min_water_temp\":20.4,\n \"max_water_temp\":30.0,\n \"min_pH\":6,\n \"max_pH\":7,\n \"min_EC\":120,\n \"max_EC\":150,\n \"min_light\":32.4,\n \"max_light\":80.0\n}*/\n","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":770,"y":1060,"wires":[[]]},{"id":"24ac4b01.b56984","type":"function","z":"94d514ac.36e688","name":"Temp alert check","func":"\nif(msg.payload.amb_temp<flow.get(\"min_amb_temp\") || msg.payload.amb_temp>flow.get(\"max_amb_temp\")){\n    msg.payload={\"timeStamp\":12563,\n     \"greenhouse_id\":515,\n     \"room_id\":5,\n     \"row_id\":1,\n     \"alert\":\"amb_temp\",\n     \"alarming_value\":msg.payload.amb_temp\n    };\n    return msg;\n}\n//return msg;\n/*}\n{\"timeStamp\":12563,\n \"greenhouse_id\":515,\n \"room_id\":5,\n \"row_id\":1,\n \"amb_temp\":20.1,\n \"amb_hum\":63.1,\n \"water_temp\":23.2,\n \"pH\":6.3,\n \"EC\":120.3,\n \"light\":62.8\n}\n*/","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":870,"y":620,"wires":[["cf0c8b43.9a6228","a263703c.34d22"]]},{"id":"cb85ab60.2c18c8","type":"function","z":"94d514ac.36e688","name":"Humidity alert check","func":"if(msg.payload.amb_hum<flow.get(\"min_amb_hum\") || msg.payload.amb_hum>flow.get(\"max_amb_hum\")){\n        msg.payload={\"timeStamp\":12563,\n     \"greenhouse_id\":515,\n     \"room_id\":5,\n     \"row_id\":1,\n     \"alert\":\"amb_hum\",\n     \"alarming_value\":msg.payload.amb_hum\n    };\n    return msg;\n}\n\n/*\n{\"timeStamp\":12563,\n \"greenhouse_id\":515,\n \"room_id\":5,\n \"row_id\":1,\n \"amb_temp\":20.1,\n \"amb_hum\":63.1,\n \"water_temp\":23.2,\n \"pH\":6.3,\n \"EC\":120.3,\n \"light\":62.8\n}\n*/","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":880,"y":660,"wires":[["cf0c8b43.9a6228","a263703c.34d22"]]},{"id":"55272bc.dbb77d4","type":"function","z":"94d514ac.36e688","name":"Water temp check","func":"if(msg.payload.water_temp<flow.get(\"min_water_temp\") || msg.payload.water_temp>flow.get(\"max_water_temp\")){\n        msg.payload={\"timeStamp\":12563,\n     \"greenhouse_id\":515,\n     \"room_id\":5,\n     \"row_id\":1,\n     \"alert\":\"water_temp\",\n     \"alarming_value\":msg.payload.water_temp\n    };\n    return msg;\n}\n\n/*\n{\"timeStamp\":12563,\n \"greenhouse_id\":515,\n \"room_id\":5,\n \"row_id\":1,\n \"amb_temp\":20.1,\n \"amb_hum\":63.1,\n \"water_temp\":23.2,\n \"pH\":6.3,\n \"EC\":120.3,\n \"light\":62.8\n}\n*/","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":870,"y":700,"wires":[["8b7521f0.223d2","a263703c.34d22"]]},{"id":"92ab58b9.672108","type":"function","z":"94d514ac.36e688","name":"pH alert check","func":"if(msg.payload.pH<flow.get(\"min_pH\") || msg.payload.pH>flow.get(\"max_pH\")){\n        msg.payload={\"timeStamp\":12563,\n     \"greenhouse_id\":515,\n     \"room_id\":5,\n     \"row_id\":1,\n     \"alert\":\"pH\",\n     \"alarming_value\":msg.payload.pH\n    };\n    return msg;\n}\n\n/*\n{\"timeStamp\":12563,\n \"greenhouse_id\":515,\n \"room_id\":5,\n \"row_id\":1,\n \"amb_temp\":20.1,\n \"amb_hum\":63.1,\n \"water_temp\":23.2,\n \"pH\":6.3,\n \"EC\":120.3,\n \"light\":62.8\n}\n*/","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":860,"y":740,"wires":[["52b4e59c.ca750c","a263703c.34d22"]]},{"id":"1a8130fd.df084f","type":"function","z":"94d514ac.36e688","name":"EC alert check","func":"if(msg.payload.EC<flow.get(\"min_EC\") || msg.payload.EC>flow.get(\"max_EC\")){\n        msg.payload={\"timeStamp\":12563,\n     \"greenhouse_id\":515,\n     \"room_id\":5,\n     \"row_id\":1,\n     \"alert\":\"EC\",\n     \"alarming_value\":msg.payload.EC\n    };\n    return msg;\n}\n\n/*\n{\"timeStamp\":12563,\n \"greenhouse_id\":515,\n \"room_id\":5,\n \"row_id\":1,\n \"amb_temp\":20.1,\n \"amb_hum\":63.1,\n \"water_temp\":23.2,\n \"pH\":6.3,\n \"EC\":120.3,\n \"light\":62.8\n}\n*/","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":860,"y":780,"wires":[["d404df23.2a08a","a263703c.34d22"]]},{"id":"9f12db3c.5f1208","type":"function","z":"94d514ac.36e688","name":"light alert check","func":"if(msg.payload.light<flow.get(\"min_light\") || msg.payload.light>flow.get(\"max_light\")){\n        msg.payload={\"timeStamp\":12563,\n     \"greenhouse_id\":515,\n     \"room_id\":5,\n     \"row_id\":1,\n     \"alert\":\"light\",\n     \"alarming_value\":msg.payload.light\n    };\n    return msg;\n}\n\n/*\n{\"timeStamp\":12563,\n \"greenhouse_id\":515,\n \"room_id\":5,\n \"row_id\":1,\n \"amb_temp\":20.1,\n \"amb_hum\":63.1,\n \"water_temp\":23.2,\n \"pH\":6.3,\n \"EC\":120.3,\n \"light\":62.8\n}\n*/","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":860,"y":820,"wires":[["f8c304fc.ee3748","a263703c.34d22"]]},{"id":"a263703c.34d22","type":"debug","z":"94d514ac.36e688","name":"","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":1190,"y":920,"wires":[]},{"id":"8b7521f0.223d2","type":"mqtt out","z":"94d514ac.36e688","name":"","topic":"v1/devices/me/telemetry","qos":"0","retain":"","respTopic":"","contentType":"","userProps":"","correl":"","expiry":"","broker":"8fe30325.3118b","x":1230,"y":680,"wires":[]},{"id":"52b4e59c.ca750c","type":"mqtt out","z":"94d514ac.36e688","name":"","topic":"v1/devices/me/telemetry","qos":"0","retain":"","respTopic":"","contentType":"","userProps":"","correl":"","expiry":"","broker":"8e02fc03.8c38d","x":1230,"y":720,"wires":[]},{"id":"d404df23.2a08a","type":"mqtt out","z":"94d514ac.36e688","name":"","topic":"v1/devices/me/telemetry","qos":"0","retain":"","respTopic":"","contentType":"","userProps":"","correl":"","expiry":"","broker":"1026c339.debe4d","x":1230,"y":760,"wires":[]},{"id":"f8c304fc.ee3748","type":"mqtt out","z":"94d514ac.36e688","name":"","topic":"v1/devices/me/telemetry","qos":"0","retain":"","respTopic":"","contentType":"","userProps":"","correl":"","expiry":"","broker":"d6898a3e.a836c8","x":1230,"y":800,"wires":[]},{"id":"de65ad2e.88789","type":"mqtt in","z":"94d514ac.36e688","name":"Subscribe to attributes updates","topic":"v1/devices/me/attributes","qos":"0","datatype":"auto","broker":"1026c339.debe4d","nl":false,"rap":false,"x":270,"y":1100,"wires":[["ffd7de34.6dca5"]]},{"id":"67fb0768.344138","type":"mqtt in","z":"94d514ac.36e688","name":"Subscribe to attributes updates","topic":"v1/devices/me/attributes","qos":"0","datatype":"auto","broker":"8fe30325.3118b","nl":false,"rap":false,"x":270,"y":1160,"wires":[["ffd7de34.6dca5"]]},{"id":"efb040ac.6dbc2","type":"mqtt in","z":"94d514ac.36e688","name":"Subscribe to attributes updates","topic":"v1/devices/me/attributes","qos":"0","datatype":"auto","broker":"d6898a3e.a836c8","nl":false,"rap":false,"x":270,"y":1220,"wires":[["ffd7de34.6dca5"]]},{"id":"dcb91fce.d1ef1","type":"mqtt in","z":"94d514ac.36e688","name":"Subscribe to attributes updates","topic":"v1/devices/me/attributes","qos":"0","datatype":"auto","broker":"8e02fc03.8c38d","nl":false,"rap":false,"x":270,"y":1280,"wires":[["ffd7de34.6dca5"]]},{"id":"6b47fb01.b5ae44","type":"mqtt in","z":"94d514ac.36e688","name":"Subscribe to attributes responses","topic":"v1/devices/me/attributes/response/+","qos":"0","datatype":"auto","broker":"1026c339.debe4d","nl":false,"rap":false,"x":270,"y":340,"wires":[["b76a0855.ec20b8"]]},{"id":"4f8aa7e4.0999f8","type":"mqtt in","z":"94d514ac.36e688","name":"Subscribe to attributes responses","topic":"v1/devices/me/attributes/response/+","qos":"0","datatype":"auto","broker":"d6898a3e.a836c8","nl":false,"rap":false,"x":270,"y":400,"wires":[["b76a0855.ec20b8"]]},{"id":"5a211eb1.533c3","type":"mqtt in","z":"94d514ac.36e688","name":"Subscribe to attributes responses","topic":"v1/devices/me/attributes/response/+","qos":"0","datatype":"auto","broker":"8fe30325.3118b","nl":false,"rap":false,"x":270,"y":460,"wires":[["b76a0855.ec20b8"]]},{"id":"f4fb032.1817a","type":"mqtt in","z":"94d514ac.36e688","name":"Subscribe to attributes responses","topic":"v1/devices/me/attributes/response/+","qos":"0","datatype":"auto","broker":"8e02fc03.8c38d","nl":false,"rap":false,"x":270,"y":520,"wires":[["b76a0855.ec20b8"]]},{"id":"750ae441.45c84c","type":"inject","z":"94d514ac.36e688","name":"Test message","props":[{"p":"payload"},{"p":"topic","vt":"str"}],"repeat":"3","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"{\"timeStamp\":12563,\"greenhouse_id\":1,\"room_id\":1,\"row_id\":1,\"amb_temp\":33.2,\"amb_hum\":90,\"water_temp\":50,\"pH\":8,\"EC\":12000,\"light\":10}","payloadType":"json","x":280,"y":800,"wires":[["88bfb360.81fa8","52c8d2b0.5260ac"]]},{"id":"df33d894.4bbe28","type":"inject","z":"94d514ac.36e688","name":"Calculate average","props":[{"p":"payload"},{"p":"topic","vt":"str"}],"repeat":"4","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"","payloadType":"date","x":250,"y":940,"wires":[["e0dc9a34.470818"]]},{"id":"e0dc9a34.470818","type":"function","z":"94d514ac.36e688","name":"Calculate average","func":"var num_measures = flow.get(\"num_measures\");\nvar amb_temp= flow.get(\"amb_temp\")/num_measures;\nvar amb_hum = flow.get(\"amb_hum\")/num_measures;\nvar water_temp=flow.get(\"water_temp\")/num_measures;\nvar pH= flow.get(\"pH\")/num_measures;\nvar EC = flow.get(\"EC\")/num_measures;\nvar light = flow.get(\"light\")/num_measures;\n\n\n\nmsg.payload={\n    \"timeStamp\": 12563,\n    \"greenhouse_id\": 1,\n    \"room_id\": 1,\n    \"row_id\": 1,\n    \"amb_temp\": amb_temp,\n    \"amb_hum\": amb_hum,\n    \"water_temp\": water_temp,\n    \"pH\": pH,\n    \"EC\": EC,\n    \"light\": light\n}\n//Reset values for next 30 min\nflow.set(\"seed\",0);\nflow.set(\"amb_hum\",0);\nflow.set(\"amb_temp\",0);\nflow.set(\"light\",0);\nflow.set(\"pH\",0);\nflow.set(\"EC\",0);\nflow.set(\"water_temp\",0);\nflow.set(\"num_measures\",0);\n\nreturn msg;","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":870,"y":940,"wires":[["cf0c8b43.9a6228","8b7521f0.223d2","52b4e59c.ca750c","d404df23.2a08a","f8c304fc.ee3748"]]},{"id":"8c1ef462.dbeb08","type":"mqtt out","z":"94d514ac.36e688","name":"Send request","topic":"","qos":"0","retain":"false","respTopic":"","contentType":"","userProps":"","correl":"","expiry":"","broker":"8fe30325.3118b","x":1170,"y":160,"wires":[]},{"id":"9c5bb7a6.750708","type":"mqtt out","z":"94d514ac.36e688","name":"Send request","topic":"","qos":"0","retain":"false","respTopic":"","contentType":"","userProps":"","correl":"","expiry":"","broker":"d6898a3e.a836c8","x":1170,"y":120,"wires":[]},{"id":"45558cb6.f544d4","type":"mqtt out","z":"94d514ac.36e688","name":"Send request","topic":"","qos":"0","retain":"false","respTopic":"","contentType":"","userProps":"","correl":"","expiry":"","broker":"1026c339.debe4d","x":1170,"y":80,"wires":[]},{"id":"e7f21041.811ab","type":"mqtt out","z":"94d514ac.36e688","name":"Send request","topic":"","qos":"0","retain":"false","respTopic":"","contentType":"","userProps":"","correl":"","expiry":"","broker":"cd5974f0.cae428","x":1170,"y":40,"wires":[]},{"id":"6242c47.6cea13c","type":"function","z":"94d514ac.36e688","name":"Prepare payload","func":"\nmsg.topic=\"v1/devices/me/attributes/request/\".concat(flow.get(\"seed\"));\nmsg.payload={}\nmsg.payload.sharedKeys=\"max_amb_temp,min_amb_temp,max_amb_hum,min_amb_hum\";\n\nreturn msg;\n","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":960,"y":40,"wires":[["e7f21041.811ab"]]},{"id":"b0c40996.2d8978","type":"function","z":"94d514ac.36e688","name":"Prepare payload","func":"\nmsg.topic=\"v1/devices/me/attributes/request/\".concat(flow.get(\"seed\"));\nmsg.payload={}\nmsg.payload.sharedKeys=\"max_EC,min_EC\";\n\nreturn msg;\n","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":960,"y":80,"wires":[["45558cb6.f544d4"]]},{"id":"cb4d2bb8.387808","type":"function","z":"94d514ac.36e688","name":"Prepare payload","func":"\nmsg.topic=\"v1/devices/me/attributes/request/\".concat(flow.get(\"seed\"));\nmsg.payload={}\nmsg.payload.sharedKeys=\"max_light,min_light\";\n\nreturn msg;\n","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":960,"y":120,"wires":[["9c5bb7a6.750708"]]},{"id":"b070e8be.374198","type":"function","z":"94d514ac.36e688","name":"Prepare payload","func":"\nmsg.topic=\"v1/devices/me/attributes/request/\".concat(flow.get(\"seed\"));\nmsg.payload={}\nmsg.payload.sharedKeys=\"max_water_temp,min_water_temp\";\n\nreturn msg;\n","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":960,"y":160,"wires":[["8c1ef462.dbeb08"]]},{"id":"a77835b8.e41dd8","type":"function","z":"94d514ac.36e688","name":"Prepare payload","func":"\nmsg.topic=\"v1/devices/me/attributes/request/\".concat(flow.get(\"seed\"));\nmsg.payload={}\nmsg.payload.sharedKeys=\"max_pH,min_pH\";\n\nreturn msg;\n","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":960,"y":200,"wires":[["f5027a12.eef788"]]},{"id":"abcfbff3.29bef","type":"function","z":"94d514ac.36e688","name":"Update attributes","func":"if(msg.payload.shared.hasOwnProperty('min_amb_temp'))\nflow.set(\"min_amb_temp\",msg.payload.shared.min_amb_temp);\nif(msg.payload.shared.hasOwnProperty('max_amb_temp'))\nflow.set(\"max_amb_temp\",msg.payload.shared.max_amb_temp);\nif(msg.payload.shared.hasOwnProperty('min_amb_hum'))\nflow.set(\"min_amb_hum\",msg.payload.shared.min_amb_hum);\nif(msg.payload.shared.hasOwnProperty('max_amb_hum'))\nflow.set(\"max_amb_hum\",msg.payload.shared.max_amb_hum);\nif(msg.payload.shared.hasOwnProperty('min_water_temp'))\nflow.set(\"min_water_temp\",msg.payload.shared.min_water_temp);\nif(msg.payload.shared.hasOwnProperty('max_water_temp'))\nflow.set(\"max_water_temp\",msg.payload.shared.max_water_temp);\nif(msg.payload.shared.hasOwnProperty('min_pH'))\nflow.set(\"min_pH\",msg.payload.shared.min_pH);\nif(msg.payload.shared.hasOwnProperty('max_pH'))\nflow.set(\"max_pH\",msg.payload.shared.max_pH);\nif(msg.payload.shared.hasOwnProperty('min_EC'))\nflow.set(\"min_EC\",msg.payload.shared.min_EC);\nif(msg.payload.shared.hasOwnProperty('max_EC'))\nflow.set(\"max_EC\",msg.payload.shared.max_EC);\nif(msg.payload.shared.hasOwnProperty('min_light'))\nflow.set(\"min_light\",msg.payload.shared.min_light);\nif(msg.payload.shared.hasOwnProperty('max_light'))\nflow.set(\"max_light\",msg.payload.shared.max_light);\n\nreturn msg;\n/*\n{\"growthPhase\":\"Vegetative\",\n \"min_amb_temp\":32.4,\n \"max_amb_temp\":40.0,\n \"min_amb_hum\":30.0,\n \"max_amb_hum\":90.0,\n \"min_water_temp\":20.4,\n \"max_water_temp\":30.0,\n \"min_pH\":6,\n \"max_pH\":7,\n \"min_EC\":120,\n \"max_EC\":150,\n \"min_light\":32.4,\n \"max_light\":80.0\n}*/\n","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":810,"y":280,"wires":[["d332ba36.e4f268"]]},{"id":"9859a23f.21232","type":"debug","z":"94d514ac.36e688","name":"","active":false,"tosidebar":true,"console":false,"tostatus":false,"complete":"false","statusVal":"","statusType":"auto","x":1190,"y":980,"wires":[]},{"id":"4e863037.1e9d8","type":"comment","z":"94d514ac.36e688","name":"Microcontroller manager","info":"This section contains the data flows that manage the messages from teh microcontroller to decide whether to create alarms or not, calculate the average values, and take actions on the hydroponics","x":250,"y":620,"wires":[]}]
+[
+    {
+        "id": "94d514ac.36e688",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "c6eb7e65.a8336",
+        "type": "serial in",
+        "z": "94d514ac.36e688",
+        "name": "Microcontroller input",
+        "serial": "37ae3055.f4eab",
+        "x": 230,
+        "y": 720,
+        "wires": [
+            [
+                "64c0fbeb.37ea64"
+            ]
+        ]
+    },
+    {
+        "id": "52c8d2b0.5260ac",
+        "type": "function",
+        "z": "94d514ac.36e688",
+        "name": "Average values calculation",
+        "func": "//Average calculation\nflow.set(\"amb_temp\",flow.get(\"amb_temp\")+msg.payload.amb_temp);\nflow.set(\"amb_hum\",flow.get(\"amb_hum\")+msg.payload.amb_hum);\nflow.set(\"water_temp\",flow.get(\"water_temp\")+msg.payload.water_temp);\nflow.set(\"pH\",flow.get(\"pH\")+msg.payload.pH);\nflow.set(\"EC\",flow.get(\"EC\")+msg.payload.EC);\nflow.set(\"light\",flow.get(\"light\")+msg.payload.light);\nflow.set(\"num_measures\",flow.get(\"num_measures\")+1);\n\n\nreturn msg;\n/*\n{\"timeStamp\":12563,\n \"greenhouse_id\":515,\n \"room_id\":5,\n \"row_id\":1,\n \"amb_temp\":20.1,\n \"amb_hum\":63.1,\n \"water_temp\":23.2,\n \"pH\":6.3,\n \"EC\":120.3,\n \"light\":62.8\n}\n*/",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 720,
+        "wires": [
+            [
+                "24ac4b01.b56984",
+                "cb85ab60.2c18c8",
+                "55272bc.dbb77d4",
+                "92ab58b9.672108",
+                "1a8130fd.df084f",
+                "9f12db3c.5f1208"
+            ]
+        ]
+    },
+    {
+        "id": "b71d7856.881588",
+        "type": "serial out",
+        "z": "94d514ac.36e688",
+        "name": "Microcontroller output",
+        "serial": "37ae3055.f4eab",
+        "x": 700,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "88bfb360.81fa8",
+        "type": "function",
+        "z": "94d514ac.36e688",
+        "name": "Response action",
+        "func": "// Desired range for electrical conductivity\nvar range_ec_high = (flow.get(\"max_EC\")-flow.get(\"min_EC\"))*0.75+flow.get(\"min_EC\");\nvar range_ec_low = (flow.get(\"max_EC\")-flow.get(\"min_EC\"))*0.25+flow.get(\"min_EC\");\n// Desired range for pH\nvar range_ph_high = (flow.get(\"max_pH\")-flow.get(\"min_pH\"))*0.75+flow.get(\"min_pH\");\nvar range_ph_low = (flow.get(\"max_pH\")-flow.get(\"min_pH\"))*0.25+flow.get(\"min_pH\");\n// pH range that will immediately cause a pH correction\nvar range_ph_high_danger = flow.get(\"max_pH\");\nvar range_ph_low_danger = flow.get(\"min_pH\");\n//Light\nvar range_light_high = (flow.get(\"max_light\")-flow.get(\"min_light\"))*1+flow.get(\"min_light\");\nvar range_light_low = (flow.get(\"max_light\")-flow.get(\"min_light\"))*0.0+flow.get(\"min_light\");\n//water temperature ranges\nvar range_water_temp_high = (flow.get(\"max_water_temp\")-flow.get(\"min_water_temp\"))*0.75+flow.get(\"min_water_temp\");\nvar range_water_temp_low = (flow.get(\"max_water_temp\")-flow.get(\"min_water_temp\"))*0.25+flow.get(\"min_water_temp\");\n\nvar msg2={};\nmsg2.payload={}\n// First check if pH is dangerously low or high, and adjust if it is\nif (msg.payload.pH < range_ph_low_danger){  // pH dangerously low, add base (pH up)\n    //msg = \"pH is dangerously low: {}. Should be > {}. Dispensing 1 ml base\".format(measure_ph, range_ph_low_danger)\n    //self.logger.debug(msg)\n    //self.message += msg\n    msg2.payload.pumpBase=1;\n    //self.run_action(action_id_pump_2_base)  # Dispense 1 ml base (pH up)\n    /*if self.variables['notify_ph'] < time.time():  # Only notify every 12 hours\n        self.variables['notify_ph'] = time.time() + 43200  # 12 hours\n        self.run_action(action_id_email_notification, message=self.message)  # Email alert*/\n}else if( msg.payload.pH > range_ph_high_danger){//  # pH dangerously high, add acid (pH down)\n    //msg = \"pH is dangerously high: {}. Should be < {}. Dispensing 1 ml acid\".format(measure_ph, range_ph_high_danger)\n    //self.logger.debug(msg)\n    //self.message += msg\n    msg2.payload.pumpAcid=1;\n    //self.run_action(action_id_pump_1_acid)  # Dispense 1 ml acid (pH down)\n    /*if self.variables['notify_ph'] < time.time():  # Only notify every 12 hours\n        self.variables['notify_ph'] = time.time() + 43200  # 12 hours\n        self.run_action(action_id_email_notification, message=self.message)  # Email alert*/\n// If pH isn't dangerously low or high, check if EC is within range\n}else if( msg.payload.EC < range_ec_low){ //  # EC too low, add nutrient\n    //self.logger.debug(\"EC: {}. Should be > {}. Dosing 3 ml Nut A, 3 ml Nut B\".format(measure_ec, range_ec_low))\n    msg2.payload.pumpFertilizerA=3;\n    msg2.payload.pumpFertilizerB=3;\n    //self.run_action(action_id_pump_3_nutrient_a)  # Dispense 3 ml nutrient A\n    //self.run_action(action_id_pump_4_nutrient_b)  # Dispense 3 ml nutrient B\n}else if( msg.payload.EC > range_ec_high){//  # EC too high, add water to dilute\n    //msg = \"EC: {}. Should be < {}. Need to add water to dilute!\".format(measure_ec, range_ec_high)\n    //self.logger.debug(msg)\n   /* if self.variables['notify_ec'] < time.time():  # Only notify every 12 hours\n        self.variables['notify_ec'] = time.time() + 43200  # 12 hours\n        self.message += msg\n        self.run_action(action_id_email_notification, message=self.message)  # Email alert*/\n// If EC is in range, make sure pH is within range\n}else if( msg.payload.pH < range_ph_low){  //# pH too low, add base (pH up)\n    msg2.payload.pumpBase=1;\n    //self.logger.debug(\"pH is {}. Should be > {}. Dispensing 1 ml base\".format(measure_ph, range_ph_low))\n    //self.run_action(action_id_pump_2_base)  # Dispense 1 ml base (pH up)\n}else if( msg.payload.pH > range_ph_high){   //# pH too high, add acid (pH down)\n    msg2.payload.pumpAcid=1;\n    //self.logger.debug(\"pH is {}. Should be < {}. Dispensing 1 ml acid\".format(measure_ph, range_ph_high))\n    //self.run_action(action_id_pump_1_acid)  # Dispense 1 ml acid (pH down)\n}\n//Light control\nif (msg.payload.light < range_light_low){\n    msg2.payload.led=true;\n}else if (msg.payload.light > range_light_high){\n    msg2.payload.led=false; \n}\n//water temperaure control\nif (msg.payload.water_temp < range_water_temp_low){\n    msg2.payload.waterBoiler=30;\n}else if (msg.payload.water_temp > range_water_temp_high){\n    msg2.payload.waterCooler=30;\n}\n\n//If there is something to send\nif(msg2.payload !={}){\n    msg2.payload.timeStamp=123;\n    msg2.payload.greenhouse_id=1;\n    msg2.payload.room_id=1;\n    msg2.payload.row_id=1;\n    return msg2;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 780,
+        "wires": [
+            [
+                "b71d7856.881588",
+                "9859a23f.21232"
+            ]
+        ]
+    },
+    {
+        "id": "cf0c8b43.9a6228",
+        "type": "mqtt out",
+        "z": "94d514ac.36e688",
+        "name": "",
+        "topic": "v1/devices/me/telemetry",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "cd5974f0.cae428",
+        "x": 1230,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "e62e65b2.e6cf78",
+        "type": "mqtt in",
+        "z": "94d514ac.36e688",
+        "name": "Subscribe to attributes updates",
+        "topic": "v1/devices/me/attributes",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "cd5974f0.cae428",
+        "nl": false,
+        "rap": false,
+        "x": 270,
+        "y": 1040,
+        "wires": [
+            [
+                "ffd7de34.6dca5"
+            ]
+        ]
+    },
+    {
+        "id": "ffd7de34.6dca5",
+        "type": "json",
+        "z": "94d514ac.36e688",
+        "name": "String2JSON",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 530,
+        "y": 1060,
+        "wires": [
+            [
+                "f42f3e9c.64bfd",
+                "abc74ed6.91c7f"
+            ]
+        ]
+    },
+    {
+        "id": "ea63194c.769d18",
+        "type": "comment",
+        "z": "94d514ac.36e688",
+        "name": "Manage attributes changes",
+        "info": "This section contains the data flows that manage the chnagges in the attributes of some sensors of the plant.\n",
+        "x": 250,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "f42f3e9c.64bfd",
+        "type": "debug",
+        "z": "94d514ac.36e688",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 830,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "3e400a40.da0506",
+        "type": "comment",
+        "z": "94d514ac.36e688",
+        "name": "Init device",
+        "info": "This section contains the data flows that let the device get the desired attributes.",
+        "x": 200,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "90c07cb5.cd9a2",
+        "type": "inject",
+        "z": "94d514ac.36e688",
+        "name": "Init device",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 220,
+        "y": 200,
+        "wires": [
+            [
+                "6cb38584.fa949c"
+            ]
+        ]
+    },
+    {
+        "id": "6cb38584.fa949c",
+        "type": "function",
+        "z": "94d514ac.36e688",
+        "name": "Inic variables and prepare request for attributes",
+        "func": "flow.set(\"seed\",0);\nflow.set(\"amb_hum\",0);\nflow.set(\"amb_temp\",0);\nflow.set(\"light\",0);\nflow.set(\"pH\",0);\nflow.set(\"EC\",0);\nflow.set(\"water_temp\",0);\nflow.set(\"num_measures\",0);\n\nflow.set(\"seed\",flow.get(\"seed\")+1);\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 200,
+        "wires": [
+            [
+                "6242c47.6cea13c",
+                "b0c40996.2d8978",
+                "cb4d2bb8.387808",
+                "b070e8be.374198",
+                "a77835b8.e41dd8"
+            ]
+        ]
+    },
+    {
+        "id": "f5027a12.eef788",
+        "type": "mqtt out",
+        "z": "94d514ac.36e688",
+        "name": "Send request",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "8e02fc03.8c38d",
+        "x": 1170,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "68b9f9e2.a7db28",
+        "type": "mqtt in",
+        "z": "94d514ac.36e688",
+        "name": "Subscribe to attributes responses",
+        "topic": "v1/devices/me/attributes/response/+",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "cd5974f0.cae428",
+        "nl": false,
+        "rap": false,
+        "x": 270,
+        "y": 280,
+        "wires": [
+            [
+                "b76a0855.ec20b8"
+            ]
+        ]
+    },
+    {
+        "id": "b76a0855.ec20b8",
+        "type": "json",
+        "z": "94d514ac.36e688",
+        "name": "String2JSON",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 510,
+        "y": 280,
+        "wires": [
+            [
+                "abcfbff3.29bef"
+            ]
+        ]
+    },
+    {
+        "id": "d332ba36.e4f268",
+        "type": "debug",
+        "z": "94d514ac.36e688",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1090,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "59828d91.e86c44",
+        "type": "inject",
+        "z": "94d514ac.36e688",
+        "name": "Test update",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"growthPhase\":\"Vegetative\",  \"min_amb_temp\":32.4,  \"max_amb_temp\":40.0,  \"min_amb_hum\":30.0,  \"max_amb_hum\":90.0,  \"min_water_temp\":20.4,  \"max_water_temp\":30.0,  \"min_pH\":6,  \"max_pH\":7,  \"min_EC\":120,  \"max_EC\":150,  \"min_light\":32.4,  \"max_light\":80.0 }",
+        "payloadType": "json",
+        "x": 470,
+        "y": 980,
+        "wires": [
+            [
+                "ffd7de34.6dca5"
+            ]
+        ]
+    },
+    {
+        "id": "abc74ed6.91c7f",
+        "type": "function",
+        "z": "94d514ac.36e688",
+        "name": "Update attributes",
+        "func": "if (msg.payload.min_amb_temp != undefined)\n    flow.set(\"min_amb_temp\",msg.payload.min_amb_temp);\nif (msg.payload.max_amb_temp != undefined)\n    flow.set(\"max_amb_temp\",msg.payload.max_amb_temp);\nif (msg.payload.min_amb_hum != undefined)\n    flow.set(\"min_amb_hum\",msg.payload.min_amb_hum);\nif (msg.payload.max_amb_hum != undefined)\n    flow.set(\"max_amb_hum\",msg.payload.max_amb_hum);\nif (msg.payload.min_water_temp != undefined)\n    flow.set(\"min_water_temp\",msg.payload.min_water_temp);\nif (msg.payload.max_water_temp != undefined)\n    flow.set(\"max_water_temp\",msg.payload.max_water_temp);\nif (msg.payload.min_pH != undefined)\n    flow.set(\"min_pH\",msg.payload.min_pH);\nif (msg.payload.max_pH != undefined)\n    flow.set(\"max_pH\",msg.payload.max_pH);\nif (msg.payload.min_EC != undefined)\n    flow.set(\"min_EC\",msg.payload.min_EC);\nif (msg.payload.max_EC != undefined)\n    flow.set(\"max_EC\",msg.payload.max_EC);\nif (msg.payload.min_light != undefined)\n    flow.set(\"min_light\",msg.payload.min_light);\nif (msg.payload.max_light != undefined)\n    flow.set(\"max_light\",msg.payload.max_light);\n\n\n\n\n\nreturn msg;\n/*\n{\"growthPhase\":\"Vegetative\",\n \"min_amb_temp\":32.4,\n \"max_amb_temp\":40.0,\n \"min_amb_hum\":30.0,\n \"max_amb_hum\":90.0,\n \"min_water_temp\":20.4,\n \"max_water_temp\":30.0,\n \"min_pH\":6,\n \"max_pH\":7,\n \"min_EC\":120,\n \"max_EC\":150,\n \"min_light\":32.4,\n \"max_light\":80.0\n}*/\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 1060,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "24ac4b01.b56984",
+        "type": "function",
+        "z": "94d514ac.36e688",
+        "name": "Temp alert check",
+        "func": "\nif(msg.payload.amb_temp<flow.get(\"min_amb_temp\") || msg.payload.amb_temp>flow.get(\"max_amb_temp\")){\n    msg.payload={\"timeStamp\":12563,\n     \"greenhouse_id\":515,\n     \"room_id\":5,\n     \"row_id\":1,\n     \"alert\":\"amb_temp\",\n     \"alarming_value\":msg.payload.amb_temp\n    };\n    return msg;\n}\n//return msg;\n/*}\n{\"timeStamp\":12563,\n \"greenhouse_id\":515,\n \"room_id\":5,\n \"row_id\":1,\n \"amb_temp\":20.1,\n \"amb_hum\":63.1,\n \"water_temp\":23.2,\n \"pH\":6.3,\n \"EC\":120.3,\n \"light\":62.8\n}\n*/",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 620,
+        "wires": [
+            [
+                "cf0c8b43.9a6228",
+                "a263703c.34d22"
+            ]
+        ]
+    },
+    {
+        "id": "cb85ab60.2c18c8",
+        "type": "function",
+        "z": "94d514ac.36e688",
+        "name": "Humidity alert check",
+        "func": "if(msg.payload.amb_hum<flow.get(\"min_amb_hum\") || msg.payload.amb_hum>flow.get(\"max_amb_hum\")){\n        msg.payload={\"timeStamp\":12563,\n     \"greenhouse_id\":515,\n     \"room_id\":5,\n     \"row_id\":1,\n     \"alert\":\"amb_hum\",\n     \"alarming_value\":msg.payload.amb_hum\n    };\n    return msg;\n}\n\n/*\n{\"timeStamp\":12563,\n \"greenhouse_id\":515,\n \"room_id\":5,\n \"row_id\":1,\n \"amb_temp\":20.1,\n \"amb_hum\":63.1,\n \"water_temp\":23.2,\n \"pH\":6.3,\n \"EC\":120.3,\n \"light\":62.8\n}\n*/",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 660,
+        "wires": [
+            [
+                "cf0c8b43.9a6228",
+                "a263703c.34d22"
+            ]
+        ]
+    },
+    {
+        "id": "55272bc.dbb77d4",
+        "type": "function",
+        "z": "94d514ac.36e688",
+        "name": "Water temp check",
+        "func": "if(msg.payload.water_temp<flow.get(\"min_water_temp\") || msg.payload.water_temp>flow.get(\"max_water_temp\")){\n        msg.payload={\"timeStamp\":12563,\n     \"greenhouse_id\":515,\n     \"room_id\":5,\n     \"row_id\":1,\n     \"alert\":\"water_temp\",\n     \"alarming_value\":msg.payload.water_temp\n    };\n    return msg;\n}\n\n/*\n{\"timeStamp\":12563,\n \"greenhouse_id\":515,\n \"room_id\":5,\n \"row_id\":1,\n \"amb_temp\":20.1,\n \"amb_hum\":63.1,\n \"water_temp\":23.2,\n \"pH\":6.3,\n \"EC\":120.3,\n \"light\":62.8\n}\n*/",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 700,
+        "wires": [
+            [
+                "8b7521f0.223d2",
+                "a263703c.34d22"
+            ]
+        ]
+    },
+    {
+        "id": "92ab58b9.672108",
+        "type": "function",
+        "z": "94d514ac.36e688",
+        "name": "pH alert check",
+        "func": "if(msg.payload.pH<flow.get(\"min_pH\") || msg.payload.pH>flow.get(\"max_pH\")){\n        msg.payload={\"timeStamp\":12563,\n     \"greenhouse_id\":515,\n     \"room_id\":5,\n     \"row_id\":1,\n     \"alert\":\"pH\",\n     \"alarming_value\":msg.payload.pH\n    };\n    return msg;\n}\n\n/*\n{\"timeStamp\":12563,\n \"greenhouse_id\":515,\n \"room_id\":5,\n \"row_id\":1,\n \"amb_temp\":20.1,\n \"amb_hum\":63.1,\n \"water_temp\":23.2,\n \"pH\":6.3,\n \"EC\":120.3,\n \"light\":62.8\n}\n*/",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 740,
+        "wires": [
+            [
+                "52b4e59c.ca750c",
+                "a263703c.34d22"
+            ]
+        ]
+    },
+    {
+        "id": "1a8130fd.df084f",
+        "type": "function",
+        "z": "94d514ac.36e688",
+        "name": "EC alert check",
+        "func": "if(msg.payload.EC<flow.get(\"min_EC\") || msg.payload.EC>flow.get(\"max_EC\")){\n        msg.payload={\"timeStamp\":12563,\n     \"greenhouse_id\":515,\n     \"room_id\":5,\n     \"row_id\":1,\n     \"alert\":\"EC\",\n     \"alarming_value\":msg.payload.EC\n    };\n    return msg;\n}\n\n/*\n{\"timeStamp\":12563,\n \"greenhouse_id\":515,\n \"room_id\":5,\n \"row_id\":1,\n \"amb_temp\":20.1,\n \"amb_hum\":63.1,\n \"water_temp\":23.2,\n \"pH\":6.3,\n \"EC\":120.3,\n \"light\":62.8\n}\n*/",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 780,
+        "wires": [
+            [
+                "d404df23.2a08a",
+                "a263703c.34d22"
+            ]
+        ]
+    },
+    {
+        "id": "9f12db3c.5f1208",
+        "type": "function",
+        "z": "94d514ac.36e688",
+        "name": "light alert check",
+        "func": "if(msg.payload.light<flow.get(\"min_light\") || msg.payload.light>flow.get(\"max_light\")){\n        msg.payload={\"timeStamp\":12563,\n     \"greenhouse_id\":515,\n     \"room_id\":5,\n     \"row_id\":1,\n     \"alert\":\"light\",\n     \"alarming_value\":msg.payload.light\n    };\n    return msg;\n}\n\n/*\n{\"timeStamp\":12563,\n \"greenhouse_id\":515,\n \"room_id\":5,\n \"row_id\":1,\n \"amb_temp\":20.1,\n \"amb_hum\":63.1,\n \"water_temp\":23.2,\n \"pH\":6.3,\n \"EC\":120.3,\n \"light\":62.8\n}\n*/",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 820,
+        "wires": [
+            [
+                "f8c304fc.ee3748",
+                "a263703c.34d22"
+            ]
+        ]
+    },
+    {
+        "id": "a263703c.34d22",
+        "type": "debug",
+        "z": "94d514ac.36e688",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1190,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "8b7521f0.223d2",
+        "type": "mqtt out",
+        "z": "94d514ac.36e688",
+        "name": "",
+        "topic": "v1/devices/me/telemetry",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "8fe30325.3118b",
+        "x": 1230,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "52b4e59c.ca750c",
+        "type": "mqtt out",
+        "z": "94d514ac.36e688",
+        "name": "",
+        "topic": "v1/devices/me/telemetry",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "8e02fc03.8c38d",
+        "x": 1230,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "d404df23.2a08a",
+        "type": "mqtt out",
+        "z": "94d514ac.36e688",
+        "name": "",
+        "topic": "v1/devices/me/telemetry",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "1026c339.debe4d",
+        "x": 1230,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "f8c304fc.ee3748",
+        "type": "mqtt out",
+        "z": "94d514ac.36e688",
+        "name": "",
+        "topic": "v1/devices/me/telemetry",
+        "qos": "0",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "d6898a3e.a836c8",
+        "x": 1230,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "de65ad2e.88789",
+        "type": "mqtt in",
+        "z": "94d514ac.36e688",
+        "name": "Subscribe to attributes updates",
+        "topic": "v1/devices/me/attributes",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "1026c339.debe4d",
+        "nl": false,
+        "rap": false,
+        "x": 270,
+        "y": 1100,
+        "wires": [
+            [
+                "ffd7de34.6dca5"
+            ]
+        ]
+    },
+    {
+        "id": "67fb0768.344138",
+        "type": "mqtt in",
+        "z": "94d514ac.36e688",
+        "name": "Subscribe to attributes updates",
+        "topic": "v1/devices/me/attributes",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "8fe30325.3118b",
+        "nl": false,
+        "rap": false,
+        "x": 270,
+        "y": 1160,
+        "wires": [
+            [
+                "ffd7de34.6dca5"
+            ]
+        ]
+    },
+    {
+        "id": "efb040ac.6dbc2",
+        "type": "mqtt in",
+        "z": "94d514ac.36e688",
+        "name": "Subscribe to attributes updates",
+        "topic": "v1/devices/me/attributes",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "d6898a3e.a836c8",
+        "nl": false,
+        "rap": false,
+        "x": 270,
+        "y": 1220,
+        "wires": [
+            [
+                "ffd7de34.6dca5"
+            ]
+        ]
+    },
+    {
+        "id": "dcb91fce.d1ef1",
+        "type": "mqtt in",
+        "z": "94d514ac.36e688",
+        "name": "Subscribe to attributes updates",
+        "topic": "v1/devices/me/attributes",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "8e02fc03.8c38d",
+        "nl": false,
+        "rap": false,
+        "x": 270,
+        "y": 1280,
+        "wires": [
+            [
+                "ffd7de34.6dca5"
+            ]
+        ]
+    },
+    {
+        "id": "6b47fb01.b5ae44",
+        "type": "mqtt in",
+        "z": "94d514ac.36e688",
+        "name": "Subscribe to attributes responses",
+        "topic": "v1/devices/me/attributes/response/+",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "1026c339.debe4d",
+        "nl": false,
+        "rap": false,
+        "x": 270,
+        "y": 340,
+        "wires": [
+            [
+                "b76a0855.ec20b8"
+            ]
+        ]
+    },
+    {
+        "id": "4f8aa7e4.0999f8",
+        "type": "mqtt in",
+        "z": "94d514ac.36e688",
+        "name": "Subscribe to attributes responses",
+        "topic": "v1/devices/me/attributes/response/+",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "d6898a3e.a836c8",
+        "nl": false,
+        "rap": false,
+        "x": 270,
+        "y": 400,
+        "wires": [
+            [
+                "b76a0855.ec20b8"
+            ]
+        ]
+    },
+    {
+        "id": "5a211eb1.533c3",
+        "type": "mqtt in",
+        "z": "94d514ac.36e688",
+        "name": "Subscribe to attributes responses",
+        "topic": "v1/devices/me/attributes/response/+",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "8fe30325.3118b",
+        "nl": false,
+        "rap": false,
+        "x": 270,
+        "y": 460,
+        "wires": [
+            [
+                "b76a0855.ec20b8"
+            ]
+        ]
+    },
+    {
+        "id": "f4fb032.1817a",
+        "type": "mqtt in",
+        "z": "94d514ac.36e688",
+        "name": "Subscribe to attributes responses",
+        "topic": "v1/devices/me/attributes/response/+",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "8e02fc03.8c38d",
+        "nl": false,
+        "rap": false,
+        "x": 270,
+        "y": 520,
+        "wires": [
+            [
+                "b76a0855.ec20b8"
+            ]
+        ]
+    },
+    {
+        "id": "750ae441.45c84c",
+        "type": "inject",
+        "z": "94d514ac.36e688",
+        "name": "Test message",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "3",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"timeStamp\":12563,\"greenhouse_id\":1,\"room_id\":1,\"row_id\":1,\"amb_temp\":33.2,\"amb_hum\":90,\"water_temp\":50,\"pH\":8,\"EC\":12000,\"light\":10}",
+        "payloadType": "json",
+        "x": 280,
+        "y": 800,
+        "wires": [
+            [
+                "88bfb360.81fa8",
+                "52c8d2b0.5260ac"
+            ]
+        ]
+    },
+    {
+        "id": "df33d894.4bbe28",
+        "type": "inject",
+        "z": "94d514ac.36e688",
+        "name": "Calculate average",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "4",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 250,
+        "y": 940,
+        "wires": [
+            [
+                "e0dc9a34.470818"
+            ]
+        ]
+    },
+    {
+        "id": "e0dc9a34.470818",
+        "type": "function",
+        "z": "94d514ac.36e688",
+        "name": "Calculate average",
+        "func": "var num_measures = flow.get(\"num_measures\");\nvar amb_temp= flow.get(\"amb_temp\")/num_measures;\nvar amb_hum = flow.get(\"amb_hum\")/num_measures;\nvar water_temp=flow.get(\"water_temp\")/num_measures;\nvar pH= flow.get(\"pH\")/num_measures;\nvar EC = flow.get(\"EC\")/num_measures;\nvar light = flow.get(\"light\")/num_measures;\n\n\n\nmsg.payload={\n    \"timeStamp\": 12563,\n    \"greenhouse_id\": 1,\n    \"room_id\": 1,\n    \"row_id\": 1,\n    \"amb_temp\": amb_temp,\n    \"amb_hum\": amb_hum,\n    \"water_temp\": water_temp,\n    \"pH\": pH,\n    \"EC\": EC,\n    \"light\": light\n}\n//Reset values for next 30 min\nflow.set(\"seed\",0);\nflow.set(\"amb_hum\",0);\nflow.set(\"amb_temp\",0);\nflow.set(\"light\",0);\nflow.set(\"pH\",0);\nflow.set(\"EC\",0);\nflow.set(\"water_temp\",0);\nflow.set(\"num_measures\",0);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 940,
+        "wires": [
+            [
+                "cf0c8b43.9a6228",
+                "8b7521f0.223d2",
+                "52b4e59c.ca750c",
+                "d404df23.2a08a",
+                "f8c304fc.ee3748"
+            ]
+        ]
+    },
+    {
+        "id": "8c1ef462.dbeb08",
+        "type": "mqtt out",
+        "z": "94d514ac.36e688",
+        "name": "Send request",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "8fe30325.3118b",
+        "x": 1170,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "9c5bb7a6.750708",
+        "type": "mqtt out",
+        "z": "94d514ac.36e688",
+        "name": "Send request",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "d6898a3e.a836c8",
+        "x": 1170,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "45558cb6.f544d4",
+        "type": "mqtt out",
+        "z": "94d514ac.36e688",
+        "name": "Send request",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "1026c339.debe4d",
+        "x": 1170,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "e7f21041.811ab",
+        "type": "mqtt out",
+        "z": "94d514ac.36e688",
+        "name": "Send request",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "cd5974f0.cae428",
+        "x": 1170,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "6242c47.6cea13c",
+        "type": "function",
+        "z": "94d514ac.36e688",
+        "name": "Prepare payload",
+        "func": "\nmsg.topic=\"v1/devices/me/attributes/request/\".concat(flow.get(\"seed\"));\nmsg.payload={}\nmsg.payload.sharedKeys=\"max_amb_temp,min_amb_temp,max_amb_hum,min_amb_hum\";\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 40,
+        "wires": [
+            [
+                "e7f21041.811ab"
+            ]
+        ]
+    },
+    {
+        "id": "b0c40996.2d8978",
+        "type": "function",
+        "z": "94d514ac.36e688",
+        "name": "Prepare payload",
+        "func": "\nmsg.topic=\"v1/devices/me/attributes/request/\".concat(flow.get(\"seed\"));\nmsg.payload={}\nmsg.payload.sharedKeys=\"max_EC,min_EC\";\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 80,
+        "wires": [
+            [
+                "45558cb6.f544d4"
+            ]
+        ]
+    },
+    {
+        "id": "cb4d2bb8.387808",
+        "type": "function",
+        "z": "94d514ac.36e688",
+        "name": "Prepare payload",
+        "func": "\nmsg.topic=\"v1/devices/me/attributes/request/\".concat(flow.get(\"seed\"));\nmsg.payload={}\nmsg.payload.sharedKeys=\"max_light,min_light\";\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 120,
+        "wires": [
+            [
+                "9c5bb7a6.750708"
+            ]
+        ]
+    },
+    {
+        "id": "b070e8be.374198",
+        "type": "function",
+        "z": "94d514ac.36e688",
+        "name": "Prepare payload",
+        "func": "\nmsg.topic=\"v1/devices/me/attributes/request/\".concat(flow.get(\"seed\"));\nmsg.payload={}\nmsg.payload.sharedKeys=\"max_water_temp,min_water_temp\";\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 160,
+        "wires": [
+            [
+                "8c1ef462.dbeb08"
+            ]
+        ]
+    },
+    {
+        "id": "a77835b8.e41dd8",
+        "type": "function",
+        "z": "94d514ac.36e688",
+        "name": "Prepare payload",
+        "func": "\nmsg.topic=\"v1/devices/me/attributes/request/\".concat(flow.get(\"seed\"));\nmsg.payload={}\nmsg.payload.sharedKeys=\"max_pH,min_pH\";\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 200,
+        "wires": [
+            [
+                "f5027a12.eef788"
+            ]
+        ]
+    },
+    {
+        "id": "abcfbff3.29bef",
+        "type": "function",
+        "z": "94d514ac.36e688",
+        "name": "Update attributes",
+        "func": "if(msg.payload.shared.hasOwnProperty('min_amb_temp'))\nflow.set(\"min_amb_temp\",msg.payload.shared.min_amb_temp);\nif(msg.payload.shared.hasOwnProperty('max_amb_temp'))\nflow.set(\"max_amb_temp\",msg.payload.shared.max_amb_temp);\nif(msg.payload.shared.hasOwnProperty('min_amb_hum'))\nflow.set(\"min_amb_hum\",msg.payload.shared.min_amb_hum);\nif(msg.payload.shared.hasOwnProperty('max_amb_hum'))\nflow.set(\"max_amb_hum\",msg.payload.shared.max_amb_hum);\nif(msg.payload.shared.hasOwnProperty('min_water_temp'))\nflow.set(\"min_water_temp\",msg.payload.shared.min_water_temp);\nif(msg.payload.shared.hasOwnProperty('max_water_temp'))\nflow.set(\"max_water_temp\",msg.payload.shared.max_water_temp);\nif(msg.payload.shared.hasOwnProperty('min_pH'))\nflow.set(\"min_pH\",msg.payload.shared.min_pH);\nif(msg.payload.shared.hasOwnProperty('max_pH'))\nflow.set(\"max_pH\",msg.payload.shared.max_pH);\nif(msg.payload.shared.hasOwnProperty('min_EC'))\nflow.set(\"min_EC\",msg.payload.shared.min_EC);\nif(msg.payload.shared.hasOwnProperty('max_EC'))\nflow.set(\"max_EC\",msg.payload.shared.max_EC);\nif(msg.payload.shared.hasOwnProperty('min_light'))\nflow.set(\"min_light\",msg.payload.shared.min_light);\nif(msg.payload.shared.hasOwnProperty('max_light'))\nflow.set(\"max_light\",msg.payload.shared.max_light);\n\nreturn msg;\n/*\n{\"growthPhase\":\"Vegetative\",\n \"min_amb_temp\":32.4,\n \"max_amb_temp\":40.0,\n \"min_amb_hum\":30.0,\n \"max_amb_hum\":90.0,\n \"min_water_temp\":20.4,\n \"max_water_temp\":30.0,\n \"min_pH\":6,\n \"max_pH\":7,\n \"min_EC\":120,\n \"max_EC\":150,\n \"min_light\":32.4,\n \"max_light\":80.0\n}*/\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 280,
+        "wires": [
+            [
+                "d332ba36.e4f268"
+            ]
+        ]
+    },
+    {
+        "id": "9859a23f.21232",
+        "type": "debug",
+        "z": "94d514ac.36e688",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1190,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "4e863037.1e9d8",
+        "type": "comment",
+        "z": "94d514ac.36e688",
+        "name": "Microcontroller manager",
+        "info": "This section contains the data flows that manage the messages from teh microcontroller to decide whether to create alarms or not, calculate the average values, and take actions on the hydroponics",
+        "x": 250,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "64c0fbeb.37ea64",
+        "type": "json",
+        "z": "94d514ac.36e688",
+        "name": "String2JSON",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 390,
+        "y": 640,
+        "wires": [
+            [
+                "52c8d2b0.5260ac",
+                "88bfb360.81fa8",
+                "9859a23f.21232"
+            ]
+        ]
+    },
+    {
+        "id": "37ae3055.f4eab",
+        "type": "serial-port",
+        "serialport": "/dev/ttyACM0",
+        "serialbaud": "9600",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "cd5974f0.cae428",
+        "type": "mqtt-broker",
+        "name": "G7 GH01_GHR01_Row01_TEMP&HUM",
+        "broker": "srv-iot.diatel.upm.es",
+        "port": "8883",
+        "tls": "f5dab55.a277848",
+        "clientid": "",
+        "usetls": true,
+        "protocolVersion": "3",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "8e02fc03.8c38d",
+        "type": "mqtt-broker",
+        "name": "G7 GH01_GHR01_Row01_pH",
+        "broker": "srv-iot.diatel.upm.es",
+        "port": "8883",
+        "tls": "f5dab55.a277848",
+        "clientid": "",
+        "usetls": true,
+        "protocolVersion": "3",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "8fe30325.3118b",
+        "type": "mqtt-broker",
+        "name": "G7 GH01_GHR01_Row01_WATER_TEMP",
+        "broker": "srv-iot.diatel.upm.es",
+        "port": "8883",
+        "tls": "f5dab55.a277848",
+        "clientid": "",
+        "usetls": true,
+        "protocolVersion": "3",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "1026c339.debe4d",
+        "type": "mqtt-broker",
+        "name": "G7 GH01_GHR01_Row01_EC",
+        "broker": "srv-iot.diatel.upm.es",
+        "port": "8883",
+        "tls": "f5dab55.a277848",
+        "clientid": "",
+        "usetls": true,
+        "protocolVersion": "3",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "d6898a3e.a836c8",
+        "type": "mqtt-broker",
+        "name": "G7 GH01_GHR01_Row01_LIGHT",
+        "broker": "srv-iot.diatel.upm.es",
+        "port": "8883",
+        "tls": "f5dab55.a277848",
+        "clientid": "",
+        "usetls": true,
+        "protocolVersion": "3",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "f5dab55.a277848",
+        "type": "tls-config",
+        "name": "No server verification",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": false
+    }
+]
