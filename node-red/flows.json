@@ -1166,5 +1166,63 @@
                 "9859a23f.21232"
             ]
         ]
+    },
+    {
+        "id": "be3db7df1aec78d0",
+        "type": "inject",
+        "z": "94d514ac.36e688",
+        "name": "LED on",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"led\":true}",
+        "payloadType": "json",
+        "x": 610,
+        "y": 840,
+        "wires": [
+            [
+                "b71d7856.881588"
+            ]
+        ]
+    },
+    {
+        "id": "f29bc91b1c7ea3e8",
+        "type": "inject",
+        "z": "94d514ac.36e688",
+        "name": "LED off",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"led\":false}",
+        "payloadType": "json",
+        "x": 610,
+        "y": 880,
+        "wires": [
+            [
+                "b71d7856.881588"
+            ]
+        ]
     }
 ]
