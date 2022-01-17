@@ -11,3 +11,7 @@
 
 - `cd node-red`
 - `npm start`
+
+### Microcontroller
+
+After cloning the repo use call `git submodule update --init --recursive`.
