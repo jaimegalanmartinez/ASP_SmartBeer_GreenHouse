@@ -53,11 +53,12 @@ public class Hop implements Serializable {
      * @param phase growing phase
      * @param growingStatus growing status
      */
-    public Hop(String name, String location, GrowingPhase phase, int growingStatus){
+    public Hop(String name, String location, GrowingPhase phase, int growingStatus, String plantedDate){
         this.name = name;
         this.location = location;
         this.growingPhase = phase.toString();
         this.growingStatus = growingStatus;
+        this.plantedAt = plantedDate;
     }
 
     /**
@@ -94,5 +95,13 @@ public class Hop implements Serializable {
 
     public int getQuality() {
         return quality;
+    }
+
+    public void setHarvestExpectedAt(String harvestExpectedAt) {
+        this.harvestExpectedAt = harvestExpectedAt;
+    }
+
+    public void setQuality(int quality) {
+        this.quality = quality;
     }
 }

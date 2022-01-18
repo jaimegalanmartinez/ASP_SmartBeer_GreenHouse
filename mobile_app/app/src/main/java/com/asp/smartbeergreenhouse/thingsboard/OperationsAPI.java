@@ -65,7 +65,7 @@ public class OperationsAPI {
      */
     public OperationsAPI(Context context, Dataset datasetList, MyAdapter recyclerViewAdapter) {
         this.datasetList = datasetList;
-        this.credentialsAPI = setCredentialsAPI("jaime.galan.martinez@alumnos.upm.es", "134things!A");
+        this.credentialsAPI = setCredentialsAPI("", "");
         this.tokenAPI = getToken(credentialsAPI);
         this.recyclerViewAdapter = recyclerViewAdapter;
         this.context = context;
@@ -145,7 +145,7 @@ public class OperationsAPI {
                 if (response.code() == 200) {
                     try {
                         //alarms_received - element 0
-                        //expected_hop_harvest - element 1
+                        //expected_harvest_date- element 1
                         //expected_hop_quality - element 2
                         //growing_phase - element 3
                         //growing_status - element 4
@@ -160,12 +160,24 @@ public class OperationsAPI {
                         //Get second element of Json Array - Hop type object
                         JSONObject hopTypeObj = new JSONObject(response.body().getAsJsonArray().get(5).toString());
 
+                        int hopQuality = 0;
                         int growingStatus = 0;
+                        String hopName = "";
+                        Hop.GrowingPhase phase = null;
+                        String plantedAt = "";
+                        String expectedHarvestDate = "";
+
+                        if (harvestHopDateObj.getString("key").equals("expected_harvest_date")) {
+                            expectedHarvestDate = harvestHopDateObj.getString("value");
+                        }
+                        if (hopQualityObj.getString("key").equals("expected_hop_quality")) {
+                            hopQuality = hopQualityObj.getInt("value");
+                        }
+
                         if (growingStatusObj.getString("key").equals("growing_status")) {
                             growingStatus = growingStatusObj.getInt("value");
                         }
-                        String hopName = "";
-                        Hop.GrowingPhase phase = null;
+
                         if (growingPhaseObj.getString("key").equals("growing_phase")) {
                             if (growingPhaseObj.getString("value").equals("Vegetative")) {
                                 phase = Hop.GrowingPhase.Vegetative;
@@ -179,7 +191,13 @@ public class OperationsAPI {
                             hopName = hopTypeObj.getString("value");
                         }
 
-                        datasetList.getHops().add(new Hop(hopName, nameRoom, phase, growingStatus));
+                        if (plantedDateObj.getString("key").equals("planting_date")) {
+                            plantedAt = plantedDateObj.getString("value");
+                        }
+                        Hop hopRetrieved = new Hop(hopName, nameRoom, phase, growingStatus, plantedAt);
+                        hopRetrieved.setHarvestExpectedAt(expectedHarvestDate);
+                        hopRetrieved.setQuality(hopQuality);
+                        datasetList.getHops().add(hopRetrieved);
                         recyclerViewAdapter.notifyDataSetChanged();
 
                         Log.d("RESPONSE::", "Room Attributes retrieved:" + response.body().getAsJsonArray().toString() + " Hop: " + hopName + " phase:" + phase.name());
