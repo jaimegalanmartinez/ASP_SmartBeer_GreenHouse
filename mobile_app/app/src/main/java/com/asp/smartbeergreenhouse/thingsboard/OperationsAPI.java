@@ -144,11 +144,23 @@ public class OperationsAPI {
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 if (response.code() == 200) {
                     try {
+                        //alarms_received - element 0
+                        //expected_hop_harvest - element 1
+                        //expected_hop_quality - element 2
+                        //growing_phase - element 3
+                        //growing_status - element 4
+                        //hop_type - element 5
+                        //planting_date - element 6
                         //Get first element of Json Array - Growing phase object
-                        JSONObject growingPhaseObj = new JSONObject(response.body().getAsJsonArray().get(0).toString());
+                        JSONObject growingPhaseObj = new JSONObject(response.body().getAsJsonArray().get(3).toString());
+                        JSONObject growingStatusObj = new JSONObject(response.body().getAsJsonArray().get(4).toString());
                         //Get second element of Json Array - Hop type object
-                        JSONObject hopTypeObj = new JSONObject(response.body().getAsJsonArray().get(1).toString());
+                        JSONObject hopTypeObj = new JSONObject(response.body().getAsJsonArray().get(5).toString());
 
+                        int growingStatus = 0;
+                        if (growingStatusObj.getString("key").equals("growing_status")) {
+                            growingStatus = growingStatusObj.getInt("value");
+                        }
                         String hopName = "";
                         Hop.GrowingPhase phase = null;
                         if (growingPhaseObj.getString("key").equals("growing_phase")) {
@@ -164,7 +176,7 @@ public class OperationsAPI {
                             hopName = hopTypeObj.getString("value");
                         }
 
-                        datasetList.getHops().add(new Hop(hopName, nameRoom, phase, 40));
+                        datasetList.getHops().add(new Hop(hopName, nameRoom, phase, growingStatus));
                         recyclerViewAdapter.notifyDataSetChanged();
 
                         Log.d("RESPONSE::", "Room Attributes retrieved:" + response.body().getAsJsonArray().toString() + " Hop: " + hopName + " phase:" + phase.name());
