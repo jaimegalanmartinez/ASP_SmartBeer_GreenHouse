@@ -32,6 +32,21 @@ public class Hop implements Serializable {
     private int growingStatus;
 
     /**
+     * Represents the date when hop was planted (date)
+     */
+    private String plantedAt;
+
+    /**
+     * Represents the expected harvesting date
+     */
+    private String harvestExpectedAt;
+
+    /**
+     * Represents the expected quality of hop (measured in %)
+     */
+    private int quality;
+
+    /**
      * Hop class constructor
      * @param name Hop's name
      * @param location Greenhouse room where the specific hop is growing
@@ -68,4 +83,16 @@ public class Hop implements Serializable {
      * @return hop's growing status
      */
     public int getGrowingStatus() { return growingStatus; }
+
+    public String getPlantedAt() {
+        return plantedAt;
+    }
+
+    public String getHarvestExpectedAt() {
+        return harvestExpectedAt;
+    }
+
+    public int getQuality() {
+        return quality;
+    }
 }

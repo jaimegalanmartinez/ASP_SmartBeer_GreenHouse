@@ -16,8 +16,8 @@
         <ImageView
             android:id="@+id/cardView_img"
             android:src="@drawable/hop_cone"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
             android:layout_centerVertical="true"
             android:contentDescription="hop cone">
 
@@ -63,6 +63,36 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Status: Growing"
+                android:layout_marginStart="10dp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="6dp"/>
+            <TextView
+                android:id="@+id/cv_item_planted_at"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Planted at: 18/01/2022"
+                android:layout_marginStart="10dp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="6dp"/>
+            <TextView
+                android:id="@+id/cv_item_expected_harvest_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Harvest expected at: 25/01/2022"
+                android:layout_marginStart="10dp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="6dp"/>
+            <TextView
+                android:id="@+id/cv_item_expected_harvest_quality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Expected Quality: 98%"
                 android:layout_marginStart="10dp" />
         </LinearLayout>
 

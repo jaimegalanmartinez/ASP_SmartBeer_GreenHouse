@@ -151,6 +151,9 @@ public class OperationsAPI {
                         //growing_status - element 4
                         //hop_type - element 5
                         //planting_date - element 6
+                        JSONObject harvestHopDateObj = new JSONObject(response.body().getAsJsonArray().get(1).toString());
+                        JSONObject hopQualityObj = new JSONObject(response.body().getAsJsonArray().get(2).toString());
+                        JSONObject plantedDateObj = new JSONObject(response.body().getAsJsonArray().get(6).toString());
                         //Get first element of Json Array - Growing phase object
                         JSONObject growingPhaseObj = new JSONObject(response.body().getAsJsonArray().get(3).toString());
                         JSONObject growingStatusObj = new JSONObject(response.body().getAsJsonArray().get(4).toString());

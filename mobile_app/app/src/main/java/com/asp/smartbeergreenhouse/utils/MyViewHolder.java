@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.asp.smartbeergreenhouse.R;
 import com.asp.smartbeergreenhouse.model.Hop;
 
+import org.w3c.dom.Text;
+
 /**
  * MyViewHolder class
  * <p>Viewholder specific for hops recycler view</p>
@@ -30,6 +32,9 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     TextView hopGrowingPhase;
     TextView hopGrowingStatus;
     ImageView image;
+    TextView plantedAt;
+    TextView harvestExpectedDate;
+    TextView expectedQuality;
 
     private static final String TAG = "ListOfItems, MyViewHolder";
 
@@ -41,6 +46,9 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         hopGrowingPhase = itemView.findViewById(R.id.cv_item_phase_status);
         hopGrowingStatus = itemView.findViewById(R.id.cv_item_status);
         image = itemView.findViewById(R.id.img_hopPlantStatus);
+        plantedAt = itemView.findViewById(R.id.cv_item_planted_at);
+        harvestExpectedDate = itemView.findViewById(R.id.cv_item_expected_harvest_date);
+        expectedQuality = itemView.findViewById(R.id.cv_item_expected_harvest_quality);
     }
 
     void bindValues(Hop item, Boolean isSelected) {
@@ -61,6 +69,10 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
                 hopGrowingStatus.setText(R.string.plant_status_growing);
             }
         }
+
+        plantedAt.setText("Planted at: "+item.getPlantedAt());
+        harvestExpectedDate.setText("Harvest expected at: "+item.getHarvestExpectedAt());
+        expectedQuality.setText("Expected Quality: "+item.getQuality()+"%");
 
 
         if(isSelected) {
