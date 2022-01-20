@@ -16,3 +16,4 @@ mobile_app/.cxx
 mobile_app/local.properties
 node-red/node_modules/
 node-red/*.json.backup
+api/.token.secret
