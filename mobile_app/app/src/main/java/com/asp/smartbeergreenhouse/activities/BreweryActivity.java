@@ -127,6 +127,7 @@ public class BreweryActivity extends AppCompatActivity {
                 String tokenRetrieved = inputMessage.getData().getString("token");
                 //Get Server attributes from greenhouse Room_01 (hop_type and growing phase)
                 operation.getAssetAttributes(tokenRetrieved,"GH01_Room_01");
+                operation.getAssetAttributes(tokenRetrieved,"GH01_Room_02");
             }
         };
 

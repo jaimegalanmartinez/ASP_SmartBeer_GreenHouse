@@ -150,10 +150,11 @@ public class OperationsAPI {
                         //growing_phase - element 3
                         //growing_status - element 4
                         //hop_type - element 5
-                        //planting_date - element 6
+                        //impact alarms - element 6
+                        //planting_date - element 7
                         JSONObject harvestHopDateObj = new JSONObject(response.body().getAsJsonArray().get(1).toString());
                         JSONObject hopQualityObj = new JSONObject(response.body().getAsJsonArray().get(2).toString());
-                        JSONObject plantedDateObj = new JSONObject(response.body().getAsJsonArray().get(6).toString());
+                        JSONObject plantedDateObj = new JSONObject(response.body().getAsJsonArray().get(7).toString());
                         //Get first element of Json Array - Growing phase object
                         JSONObject growingPhaseObj = new JSONObject(response.body().getAsJsonArray().get(3).toString());
                         JSONObject growingStatusObj = new JSONObject(response.body().getAsJsonArray().get(4).toString());
@@ -168,7 +169,11 @@ public class OperationsAPI {
                         String expectedHarvestDate = "";
 
                         if (harvestHopDateObj.getString("key").equals("expected_harvest_date")) {
-                            expectedHarvestDate = harvestHopDateObj.getString("value");
+                            String day = harvestHopDateObj.getString("value").substring(8,10);
+                            String month = harvestHopDateObj.getString("value").substring(4,7);
+                            String year = harvestHopDateObj.getString("value").substring(11,15);
+                            expectedHarvestDate = month + " " + day + ", "+year;
+
                         }
                         if (hopQualityObj.getString("key").equals("expected_hop_quality")) {
                             hopQuality = hopQualityObj.getInt("value");
@@ -192,7 +197,10 @@ public class OperationsAPI {
                         }
 
                         if (plantedDateObj.getString("key").equals("planting_date")) {
-                            plantedAt = plantedDateObj.getString("value");
+                            String day = plantedDateObj.getString("value").substring(8,10);
+                            String month = plantedDateObj.getString("value").substring(4,7);
+                            String year = plantedDateObj.getString("value").substring(11,15);
+                            plantedAt = month + " " + day + ", "+year;
                         }
                         Hop hopRetrieved = new Hop(hopName, nameRoom, phase, growingStatus, plantedAt);
                         hopRetrieved.setHarvestExpectedAt(expectedHarvestDate);

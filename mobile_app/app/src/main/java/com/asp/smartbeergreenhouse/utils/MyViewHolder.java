@@ -59,12 +59,12 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         if(item.getGrowingPhase().equals("Vegetative")){
             image.setImageResource(R.drawable.growing_plant);
             hopGrowingStatus.setText(R.string.plant_status_growing);
-        }else if (item.getGrowingPhase().equals("Reproductive")) {
+        }else if (item.getGrowingPhase().equals("Flowering")) {
 
             if (item.getGrowingStatus() == 100) {
                 image.setImageResource(R.drawable.harvest_plant);
                 hopGrowingStatus.setText(R.string.plant_status_to_harvest);
-            }else {
+            }else  {
                 image.setImageResource(R.drawable.growing_plant);
                 hopGrowingStatus.setText(R.string.plant_status_growing);
             }
