@@ -13,6 +13,9 @@
             "tours": {
                 "welcome": "2.1.4"
             }
+        },
+        "debug": {
+            "filter": "filterAll"
         }
     }
 }

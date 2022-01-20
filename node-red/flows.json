@@ -33,8 +33,9 @@
         "port": "8883",
         "tls": "f5dab55.a277848",
         "clientid": "",
+        "autoConnect": true,
         "usetls": true,
-        "protocolVersion": "3",
+        "protocolVersion": "4",
         "keepalive": "60",
         "cleansession": true,
         "birthTopic": "",
@@ -59,8 +60,9 @@
         "port": "8883",
         "tls": "f5dab55.a277848",
         "clientid": "",
+        "autoConnect": true,
         "usetls": true,
-        "protocolVersion": "3",
+        "protocolVersion": "4",
         "keepalive": "60",
         "cleansession": true,
         "birthTopic": "",
@@ -85,8 +87,9 @@
         "port": "8883",
         "tls": "f5dab55.a277848",
         "clientid": "",
+        "autoConnect": true,
         "usetls": true,
-        "protocolVersion": "3",
+        "protocolVersion": "4",
         "keepalive": "60",
         "cleansession": true,
         "birthTopic": "",
@@ -111,8 +114,9 @@
         "port": "8883",
         "tls": "f5dab55.a277848",
         "clientid": "",
+        "autoConnect": true,
         "usetls": true,
-        "protocolVersion": "3",
+        "protocolVersion": "4",
         "keepalive": "60",
         "cleansession": true,
         "birthTopic": "",
@@ -137,8 +141,9 @@
         "port": "8883",
         "tls": "f5dab55.a277848",
         "clientid": "",
+        "autoConnect": true,
         "usetls": true,
-        "protocolVersion": "3",
+        "protocolVersion": "4",
         "keepalive": "60",
         "cleansession": true,
         "birthTopic": "",
@@ -880,7 +885,8 @@
         "wires": [
             [
                 "88bfb360.81fa8",
-                "52c8d2b0.5260ac"
+                "52c8d2b0.5260ac",
+                "b94eee54eff622c1"
             ]
         ]
     },
@@ -1224,5 +1230,21 @@
                 "b71d7856.881588"
             ]
         ]
+    },
+    {
+        "id": "b94eee54eff622c1",
+        "type": "debug",
+        "z": "94d514ac.36e688",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 360,
+        "y": 880,
+        "wires": []
     }
 ]
