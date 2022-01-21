@@ -74,21 +74,11 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Button signupBtn = binding.loginSignupBtn;
         loginBtn = binding.loginSubmitBtn;
         editUsername = binding.loginTextInputUsername.getEditText();
         editPassword = binding.loginTextInputPassword.getEditText();
 
         myDB = new DBHelper(this);
-
-        signupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
