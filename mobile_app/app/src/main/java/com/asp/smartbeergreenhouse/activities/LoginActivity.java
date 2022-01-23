@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.asp.smartbeergreenhouse.databinding.ActivityLoginBinding;
-import com.asp.smartbeergreenhouse.db.DBHelper;
 
 /**
  * Login Activity
@@ -37,10 +36,6 @@ public class LoginActivity extends AppCompatActivity {
      * Represents the View binding of the Login Activity
      */
     private ActivityLoginBinding binding;
-    /**
-     *  Represents the DB Helper for manage DB operations (reading and writing in the DB)
-     */
-    private DBHelper myDB;
     /**
      * TextWatcher used to detect if the login fields are empty.
      * <p>If all fields are filled, the variables (username and password) will be updated, and enable the login button</p>
@@ -78,17 +73,15 @@ public class LoginActivity extends AppCompatActivity {
         editUsername = binding.loginTextInputUsername.getEditText();
         editPassword = binding.loginTextInputPassword.getEditText();
 
-        myDB = new DBHelper(this);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Boolean checkCredentials = myDB.checkUsernamePassword(username, password);
-                if (checkCredentials){
-                    String userType = myDB.readUserType(username);
+                if (true){
+                    String userType = "Farmer";
 
-                    if(userType != null){
+                    if(true){
                         Log.d("LOGIN_INFO","User type read from DB: "+userType);
                         if (userType.equals("Farmer")){
                             Log.d("LOGIN_INFO","User type DB: "+userType);
