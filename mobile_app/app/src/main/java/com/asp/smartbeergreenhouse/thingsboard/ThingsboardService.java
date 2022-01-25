@@ -64,4 +64,11 @@ public interface ThingsboardService {
     Call<JsonObject> getAlarmsFromAsset (@Header("X-Authorization") String token,
                                           @Path("assetId") String assetId, @Query("pageSize") String pageSize, @Query("page") String pageNumber);
 
+
+    @Headers({"Content-Type: application/json"})
+    @GET("alarm/ASSET/{assetId}?fetchOriginator=true")
+    Call<JsonObject> getSpecificAlarmsFromAsset (@Header("X-Authorization") String token,
+                                         @Path("assetId") String assetId,  @Query("pageSize") String pageSize, @Query("page") String pageNumber,
+                                                 @Query("status") String status);
+
 }

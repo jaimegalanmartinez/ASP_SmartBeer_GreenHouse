@@ -67,7 +67,6 @@ public class AlarmsActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         datasetList = (Dataset) i.getSerializableExtra("dataset");
-        //datasetList =  i.getStringExtra("dataset");
         Log.d("DATASET", String.valueOf(datasetList.sizeAlarmsList()));
         //Button to go back to hops information
         Button hopInfoBtn = binding.alarmHopsBtn;
@@ -100,7 +99,6 @@ public class AlarmsActivity extends AppCompatActivity {
             // Restore state on selections
             tracker.onRestoreInstanceState(savedInstanceState);
         }
-
         hopInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

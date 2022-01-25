@@ -118,6 +118,7 @@ public class FarmerActivity extends AppCompatActivity {
                 Intent i = new Intent(FarmerActivity.this, LoginActivity.class);
                 startActivity(i);
                 datasetList.removeAllItemsHops();
+                datasetList.removeAllItemsAlarms();
                 finish();
             }
         });
@@ -149,6 +150,7 @@ public class FarmerActivity extends AppCompatActivity {
                     @Override
                     public void handleMessage(@NonNull Message inputMessage) {
                         super.handleMessage(inputMessage);
+
                     }
                 };
 
@@ -156,6 +158,7 @@ public class FarmerActivity extends AppCompatActivity {
                 esAlarms.execute(task);
                 datasetList.removeAllItemsHops();
                 datasetList.removeAllItemsAlarms();
+
             }
         });
 
@@ -201,11 +204,12 @@ public class FarmerActivity extends AppCompatActivity {
 
             msg = creator.obtainMessage();
             msg_data = msg.getData();
-            operation.getAlarmsFromGreenhouseAsset(operation.getTokenAPI(),"GH1_GHR01_Row_01");
+            operation.getAlarmsFromGreenhouseAssetSync(operation.getTokenAPI(),"GH1_GHR01_Row_01");
+            operation.getAlarmsFromGreenhouseAssetSync(operation.getTokenAPI(),"GH1_GHR02_Row_01");
+            Intent i = new Intent(operation.getContext(), AlarmsActivity.class);
+            i.putExtra("dataset", operation.getDatasetList());
+            operation.getContext().startActivity(i);
 
-            //msg_data.putSerializable("dataset", operation.getDatasetList());
-            //msg_data.putString("dataset", operation.getDatasetList().toString());
-            //msg.sendToTarget();
         }
     }
 

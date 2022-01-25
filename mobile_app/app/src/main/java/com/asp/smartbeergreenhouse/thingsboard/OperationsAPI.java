@@ -1,10 +1,10 @@
 package com.asp.smartbeergreenhouse.thingsboard;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
-import com.asp.smartbeergreenhouse.activities.AlarmsActivity;
+import androidx.annotation.NonNull;
+
 import com.asp.smartbeergreenhouse.model.Alarm;
 import com.asp.smartbeergreenhouse.model.Dataset;
 import com.asp.smartbeergreenhouse.model.Hop;
@@ -129,6 +129,15 @@ public class OperationsAPI {
     }
 
     /**
+     * getContext from OperationsAPI
+     * <p>Gets the context </p>
+     * @return API's context
+     */
+    public Context getContext() {
+        return context;
+    }
+
+    /**
      * getAttributesFromGreenhouseRoom
      *
      * Get the attributes (growing phase and hop's name) from the asset id specified (greenhouse room)
@@ -141,10 +150,10 @@ public class OperationsAPI {
         Call<JsonArray> respAttributes = tbs.getAssetServerAttributes(token, assetId);
         respAttributes.enqueue(new Callback<JsonArray>() {
             @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+            public void onResponse(@NonNull Call<JsonArray> call, Response<JsonArray> response) {
                 if (response.code() == 200) {
                     try {
-                        //alarms_received - element 0
+                        //control_mode - element 0
                         //expected_harvest_date- element 1
                         //expected_hop_quality - element 2
                         //growing_phase - element 3
@@ -217,7 +226,7 @@ public class OperationsAPI {
             }
 
             @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
+            public void onFailure(@NonNull Call<JsonArray> call, @NonNull Throwable t) {
                 Log.d("RESPONSE:ERROR", "Error, not working1");
             }
         });
@@ -237,7 +246,7 @@ public class OperationsAPI {
         //block the UI-thread)
         resp.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
                 if (response.code() == 200) {
                     try {
                         //here we get the asset id and name from the response
@@ -255,7 +264,7 @@ public class OperationsAPI {
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 Log.d("RESPONSE:ERROR", "Error, not working");
             }
         });
@@ -278,7 +287,7 @@ public class OperationsAPI {
         //block the UI-thread)
         resp.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
                 if (response.code() == 200) {
                     try {
                         //here we get the asset id from the response
@@ -322,7 +331,7 @@ public class OperationsAPI {
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 Log.d("RESPONSE:ERROR", "Error, not working");
             }
         });
@@ -344,11 +353,10 @@ public class OperationsAPI {
         //block the UI-thread)
         resp.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
                 if (response.code() == 200) {
                     try {
                         JSONArray alarms_data = new JSONArray(response.body().getAsJsonArray("data").toString());
-                        ArrayList<Alarm> listAlarms = new ArrayList<>();
                         String alarmId;
                         String type;
                         String originatorName;
@@ -381,9 +389,7 @@ public class OperationsAPI {
                             Log.d("RESPONSE::", "severity: " + datasetList.getAlarms().get(j).getSeverity());
                             Log.d("RESPONSE::", "status: " + datasetList.getAlarms().get(j).getStatus());
                         }*/
-                        Intent i = new Intent(context, AlarmsActivity.class);
-                        i.putExtra("dataset", datasetList);
-                        context.startActivity(i);
+
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -392,16 +398,71 @@ public class OperationsAPI {
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 Log.d("RESPONSE:ERROR", "Error, not working");
             }
         });
     }
 
     /**
+     * getSpecificAlarmsFromAssetIdSync
+     *
+     * Get all alarms from asset id with a specific alarm status, and stores the active alarms in dataset's alarms list
+     * @param token token API
+     * @param assetId asset ID
+     * @param pageSize pageSize
+     * @param pageNumber pageNumber
+     */
+    private ArrayList<Alarm> getSpecificAlarmsFromAssetIdSync(String token, String assetId, String pageSize, String pageNumber,String statusAlarms){
+        ThingsboardService tbs = ThingsboardApiAdapter.getApiService();
+        Call<JsonObject> resp = tbs.getSpecificAlarmsFromAsset(token, assetId, pageSize, pageNumber, statusAlarms);
+        ArrayList<Alarm> assetAlarmsList = new ArrayList<>();
+        try{
+            Response<JsonObject> response = resp.execute();
+
+            if (response.code() == 200) {
+                try {
+
+                    JSONArray alarms_data = new JSONArray(response.body().getAsJsonArray("data").toString());
+                    String alarmId;
+                    String type;
+                    String originatorName;
+                    long createdTime;
+                    long ackTs;
+                    String severity;
+                    String status;
+                    for(int i = 0; i < alarms_data.length(); i++){
+                        JSONObject alarmIdObj = new JSONObject(alarms_data.getJSONObject(i).get("id").toString());
+                        alarmId = alarmIdObj.get("id").toString();
+                        type = alarms_data.getJSONObject(i).get("type").toString();
+                        originatorName = alarms_data.getJSONObject(i).get("originatorName").toString();
+                        createdTime = alarms_data.getJSONObject(i).getLong("createdTime");
+                        ackTs = alarms_data.getJSONObject(i).getLong("ackTs");
+                        severity = alarms_data.getJSONObject(i).get("severity").toString();
+                        status = alarms_data.getJSONObject(i).get("status").toString();
+
+                        if (status.equals("ACTIVE_UNACK") || status.equals("ACTIVE_ACK")){
+                            assetAlarmsList.add(new Alarm(alarmId,type, originatorName, createdTime, ackTs,severity,status));
+                        }
+
+                    }
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+        }else Log.d("RESPONSE:ERROR code: ", String.valueOf(response.code()));
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return  assetAlarmsList;
+    }
+
+    /**
      * getAlarmsFromGreenhouseAsset
      * Get asset id, and call the getAlarmsFromAssetId()
-     * @param token token APIA
+     * @param token token API
      * @param assetName asset name
      */
     public void getAlarmsFromGreenhouseAsset(String token, String assetName) {
@@ -411,7 +472,7 @@ public class OperationsAPI {
         //block the UI-thread)
         resp.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
                 if (response.code() == 200) {
                     try {
                         //here we get the asset id from the response
@@ -427,17 +488,47 @@ public class OperationsAPI {
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 Log.d("RESPONSE:ERROR", "Error, not working");
             }
         });
+
+    }
+    /**
+     * getAlarmsFromGreenhouseAsset
+     * Get asset id, and call the getSpecificAlarmsFromAssetIdSync()
+     * @param token token API
+     * @param assetName asset name
+     */
+    public void getAlarmsFromGreenhouseAssetSync(String token, String assetName) {
+        ThingsboardService tbs = ThingsboardApiAdapter.getApiService();
+        Call<JsonObject> resp = tbs.getInfoFromAsset(token, assetName);
+        try{
+            Response<JsonObject> response = resp.execute();
+
+            if(response.code() == 200){
+                try {
+                    //here we get the token from the response
+                    String assetId = (new JSONObject((response.body().get("id").toString())).getString("id"));
+                    Log.d("RESPONSE::", "Asset id retrieved:" + assetId);
+                    datasetList.getAlarms().addAll(getSpecificAlarmsFromAssetIdSync(tokenAPI, assetId,"100", "0","ACTIVE_UNACK"));
+                    datasetList.getAlarms().addAll(getSpecificAlarmsFromAssetIdSync(tokenAPI, assetId,"100", "0","ACTIVE_ACK"));
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }else Log.d("RESPONSE:ERROR code: ", String.valueOf(response.code()));
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
 
     }
 
     /**
      * getAlarmsFromDevice
      * Get device id, and call the getAlarmsFromDeviceId()
-     * @param token token APIA
+     * @param token token API
      * @param deviceName device name
      */
     public void getAlarmsFromDevice(String token, String deviceName) {
@@ -447,7 +538,7 @@ public class OperationsAPI {
         //block the UI-thread)
         resp.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
                 if (response.code() == 200) {
                     try {
                         //here we get the asset id from the response
@@ -465,7 +556,7 @@ public class OperationsAPI {
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 Log.d("RESPONSE:ERROR", "Error, not working");
             }
         });
