@@ -429,31 +429,11 @@ public class OperationsAPI {
      * getAlarmsFromGreenhouseAsset
      * Get asset id, and call the getSpecificAlarmsFromAssetIdSync()
      * @param token token API
-     * @param assetName asset name
+     * @param assetId ID of asset
      */
-    public void getAlarmsFromGreenhouseAssetSync(String token, String assetName) {
-        ThingsboardService tbs = ThingsboardApiAdapter.getApiService();
-        Call<JsonObject> resp = tbs.getInfoFromAsset(token, assetName);
-        try{
-            Response<JsonObject> response = resp.execute();
-
-            if(response.code() == 200){
-                try {
-                    //here we get the token from the response
-                    String assetId = (new JSONObject((response.body().get("id").toString())).getString("id"));
-                    Log.d("RESPONSE::", "Asset id retrieved:" + assetId);
-                    datasetList.getAlarms().addAll(getSpecificAlarmsFromAssetIdSync(ThingsboardApiAdapter.getToken(), assetId,"100", "0","ACTIVE_ACK"));
-                    datasetList.getAlarms().addAll(getSpecificAlarmsFromAssetIdSync(ThingsboardApiAdapter.getToken(), assetId,"100", "0","ACTIVE_UNACK"));
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }else Log.d("RESPONSE:ERROR code: ", String.valueOf(response.code()));
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
+    public void getAlarmsFromGreenhouseAssetSync(String token, String assetId) {
+        datasetList.getAlarms().addAll(getSpecificAlarmsFromAssetIdSync(ThingsboardApiAdapter.getToken(), assetId,"100", "0","ACTIVE_ACK"));
+        datasetList.getAlarms().addAll(getSpecificAlarmsFromAssetIdSync(ThingsboardApiAdapter.getToken(), assetId,"100", "0","ACTIVE_UNACK"));
     }
 
     /**

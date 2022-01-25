@@ -184,8 +184,13 @@ public class FarmerActivity extends AppCompatActivity {
 
             msg = creator.obtainMessage();
             msg_data = msg.getData();
-            operation.getAlarmsFromGreenhouseAssetSync(ThingsboardApiAdapter.getToken(),"GH1_GHR01_Row_01");
-            operation.getAlarmsFromGreenhouseAssetSync(ThingsboardApiAdapter.getToken(),"GH1_GHR02_Row_01");
+
+            List<Asset> assets = ThingsboardApiAdapter.getAssets();
+            for (Asset asset: assets) {
+                if (asset.getType().equals("Greenhouse_Row"))
+                    operation.getAlarmsFromGreenhouseAssetSync(ThingsboardApiAdapter.getToken(), asset.getId());
+            }
+
             Intent i = new Intent(operation.getContext(), AlarmsActivity.class);
             i.putExtra("dataset", operation.getDatasetList());
             operation.getContext().startActivity(i);
