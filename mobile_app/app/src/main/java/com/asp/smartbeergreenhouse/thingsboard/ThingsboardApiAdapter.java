@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -24,6 +25,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ThingsboardApiAdapter {
 
+    public enum UserType {TENANT, FARMER, BREWERY}
+
     private static final String BASE_URL = "https://srv-iot.diatel.upm.es/api/";
     private static ThingsboardService API_SERVICE;
     //https://programacionymas.com/blog/consumir-una-api-usando-retrofit
@@ -32,6 +35,8 @@ public class ThingsboardApiAdapter {
      * Represents the tokenAPI retrieved from Thingsboard in order to use the Thingsboard REST API
      */
     private static String tokenAPI = null;
+    private static UserType userTye = null;
+    private static String customerId = null;
 
     private static List<Asset> assets = null;
 
@@ -74,7 +79,7 @@ public class ThingsboardApiAdapter {
                 try {
                     tokenAPI = "Bearer " + payloadJson.getString("token");
                     Log.d("RESPONSE::", "Token retrieved:" + tokenAPI);
-                    handler.onResponse(true);
+                    fetchUserInfo(executor, handler);
                     return;
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -85,8 +90,11 @@ public class ThingsboardApiAdapter {
         });
     }
 
-    public static void fetchTenantAssets(LoginHandler handler) {
-        fetchAssets(getApiService().getTenantAssets(getToken(), "100", "0"), handler);
+    public static void fetchAssets(LoginHandler handler) {
+        if (userTye == UserType.TENANT)
+            fetchAssets(getApiService().getTenantAssets(getToken(), "100", "0"), handler);
+        else
+            fetchAssets(getApiService().getCustomerAssets(getToken(), customerId, "100", "0"), handler);
     }
 
     static void fetchAssets(Call<JsonObject> fetcher, LoginHandler handler) {
@@ -106,6 +114,41 @@ public class ThingsboardApiAdapter {
         });
     }
 
+    static void fetchUserInfo(AsyncRequestExecutor executor, LoginHandler handler) {
+        executor.execute(getApiService().getUserinfo(getToken()), (success, payloadJson) -> {
+            if (success) {
+                try {
+                    userTye = parseUserType(payloadJson);
+                    if (userTye != UserType.TENANT)
+                        customerId = payloadJson.getJSONObject("customerId").getString("id");
+
+                    handler.onResponse(true);
+                    return;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            handler.onResponse(false);
+        });
+    }
+
+    static UserType parseUserType(JSONObject payload) throws JSONException {
+        String authority = payload.getString("authority");
+
+        if (authority.equals("TENANT_ADMIN"))
+            return UserType.TENANT;
+        else if (authority.equals("CUSTOMER_USER")) {
+            String description = payload.getJSONObject("additionalInfo").getString("description");
+            if (description.equals("farmer"))
+                return UserType.FARMER;
+            else if (description.equals("brewery"))
+                return UserType.BREWERY;
+        }
+
+        throw new JSONException("Unknown user type");
+    }
+
     /**
      * getTokenString
      * <p>Gets the token attribute to use Thingsboard REST API </p>
@@ -120,6 +163,10 @@ public class ThingsboardApiAdapter {
 
     public static List<Asset> getAssets() {
         return assets;
+    }
+
+    public static UserType getUserTye() {
+        return userTye;
     }
 
     public interface LoginHandler {

@@ -35,6 +35,10 @@ public interface ThingsboardService {
     @POST("auth/login")
     Call<JsonObject> getToken (@Body JsonObject credentials);
 
+    @Headers({"Content-Type: application/json"})
+    @GET("auth/user")
+    Call<JsonObject> getUserinfo (@Header("X-Authorization") String token);
+
 
     @Headers({"Content-Type: application/json"})
     @GET("plugins/telemetry/ASSET/{assetID}/values/attributes")
@@ -76,4 +80,8 @@ public interface ThingsboardService {
                                          @Path("assetId") String assetId,  @Query("pageSize") String pageSize, @Query("page") String pageNumber,
                                                  @Query("status") String status);
 
+    @Headers({"Content-Type: application/json"})
+    @GET("customer/{customerId}/assets?")
+    Call<JsonObject> getCustomerAssets (@Header("X-Authorization") String token,
+                                                 @Path("customerId") String customerId,  @Query("pageSize") String pageSize, @Query("page") String pageNumber);
 }

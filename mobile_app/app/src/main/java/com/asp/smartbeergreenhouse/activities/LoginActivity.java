@@ -81,17 +81,17 @@ public class LoginActivity extends AppCompatActivity {
 
                 ThingsboardApiAdapter.login(username, password, success -> {
                     if (success) {
-                        ThingsboardApiAdapter.fetchTenantAssets(successFetch -> {
+                        ThingsboardApiAdapter.fetchAssets(successFetch -> {
                             if (successFetch)  {
-                                String userType = "Farmer";
+                                ThingsboardApiAdapter.UserType userType = ThingsboardApiAdapter.getUserTye();
 
                                 Log.d("LOGIN_INFO", "User type read from DB: " + userType);
-                                if (userType.equals("Farmer")) {
+                                if (userType == ThingsboardApiAdapter.UserType.TENANT || userType == ThingsboardApiAdapter.UserType.FARMER) {
                                     Log.d("LOGIN_INFO", "User type DB: " + userType);
                                     Intent i = new Intent(LoginActivity.this, FarmerActivity.class);
                                     startActivity(i);
                                     finish();
-                                } else if (userType.equals("Brewery")) {
+                                } else if (userType == ThingsboardApiAdapter.UserType.BREWERY) {
                                     Log.d("LOGIN_INFO", "User type DB: " + userType);
                                     Intent i = new Intent(LoginActivity.this, BreweryActivity.class);
                                     startActivity(i);
