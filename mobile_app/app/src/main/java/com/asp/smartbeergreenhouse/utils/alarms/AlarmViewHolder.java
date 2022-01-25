@@ -55,33 +55,29 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         alarmName.setText("Alarm "+item.getType());
         originatorName.setText(item.getOriginatorName());
         createdTime.setText("Created at: " + item.getCreatedTime());
+        severity.setText(R.string.alarm_severity);
 
         if (item.getSeverity().equals("CRITICAL")){
-            severity.setText("Severity: ");
             Spannable severityAlarm = new SpannableString(item.getSeverity());
             severityAlarm.setSpan(new ForegroundColorSpan(Color.RED), 0, severityAlarm.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             severity.append(severityAlarm);
 
         }else if (item.getSeverity().equals("MAJOR")){
-            severity.setText("Severity: ");
             Spannable severityAlarm = new SpannableString(item.getSeverity());
             severityAlarm.setSpan(new ForegroundColorSpan(Color.argb(255,255,165,0)), 0, severityAlarm.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             severity.append(severityAlarm);
 
         }else if (item.getSeverity().equals("MINOR")){
-            severity.setText("Severity: ");
             Spannable severityAlarm = new SpannableString(item.getSeverity());
             severityAlarm.setSpan(new ForegroundColorSpan(Color.BLUE), 0, severityAlarm.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             severity.append(severityAlarm);
 
         }else if (item.getSeverity().equals("WARNING")){
-            severity.setText("Severity: ");
             Spannable severityAlarm = new SpannableString(item.getSeverity());
             severityAlarm.setSpan(new ForegroundColorSpan(Color.RED), 0, severityAlarm.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             severity.append(severityAlarm);
 
         }else if (item.getSeverity().equals("INDETERMINATE")){
-            severity.setText("Severity: ");
             Spannable severityAlarm = new SpannableString(item.getSeverity());
             severityAlarm.setSpan(new ForegroundColorSpan(Color.GRAY), 0, severityAlarm.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             severity.append(severityAlarm);
@@ -102,11 +98,12 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         image.setImageResource(R.drawable.alarm_green_ic);
 
 
-        if(isSelected) {
+       /* if(isSelected) {
             //alarmName.setTextColor(Color.BLUE);
         } else {
             //alarmName.setTextColor(Color.BLACK);
         }
+        */
     }
 
     @SuppressLint("LongLogTag")

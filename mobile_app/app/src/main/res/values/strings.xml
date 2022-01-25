@@ -12,4 +12,5 @@
     <string name="growing_phase_status">Growing phase: Vegetative\n50%</string>
     <string name="plant_status_growing">Status: Growing</string>
     <string name="plant_status_to_harvest">Status: Ready to harvest</string>
+    <string name="alarm_severity">Severity:&#160;</string>
 </resources>

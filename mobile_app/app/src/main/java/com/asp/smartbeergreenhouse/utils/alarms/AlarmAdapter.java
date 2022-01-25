@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.asp.smartbeergreenhouse.R;
 import com.asp.smartbeergreenhouse.model.Alarm;
-import com.asp.smartbeergreenhouse.model.Hop;
 
 import java.util.List;
 

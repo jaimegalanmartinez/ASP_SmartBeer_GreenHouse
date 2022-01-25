@@ -11,7 +11,6 @@ import com.asp.smartbeergreenhouse.model.Hop;
 import com.asp.smartbeergreenhouse.utils.MyAdapter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

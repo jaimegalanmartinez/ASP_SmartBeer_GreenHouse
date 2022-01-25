@@ -15,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.asp.smartbeergreenhouse.R;
 import com.asp.smartbeergreenhouse.model.Hop;
 
-import org.w3c.dom.Text;
-
 /**
  * MyViewHolder class
  * <p>Viewholder specific for hops recycler view</p>
