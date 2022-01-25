@@ -2,13 +2,17 @@ package com.asp.smartbeergreenhouse.thingsboard;
 
 import android.util.Log;
 
+import com.asp.smartbeergreenhouse.model.Asset;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import org.json.JSONException;
 
+import java.util.List;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -28,6 +32,8 @@ public class ThingsboardApiAdapter {
      * Represents the tokenAPI retrieved from Thingsboard in order to use the Thingsboard REST API
      */
     private static String tokenAPI = null;
+
+    private static List<Asset> assets = null;
 
     public static ThingsboardService getApiService() {
 
@@ -79,6 +85,27 @@ public class ThingsboardApiAdapter {
         });
     }
 
+    public static void fetchTenantAssets(LoginHandler handler) {
+        fetchAssets(getApiService().getTenantAssets(getToken(), "100", "0"), handler);
+    }
+
+    static void fetchAssets(Call<JsonObject> fetcher, LoginHandler handler) {
+        AsyncRequestExecutor executor = new AsyncRequestExecutor();
+
+        executor.execute(fetcher, (success, payloadJson) -> {
+            if (success)
+                try {
+                    assets = Asset.parseJsonArray(payloadJson.getJSONArray("data"));
+                    handler.onResponse(true);
+                    return;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            handler.onResponse(false);
+        });
+    }
+
     /**
      * getTokenString
      * <p>Gets the token attribute to use Thingsboard REST API </p>
@@ -89,6 +116,10 @@ public class ThingsboardApiAdapter {
         if (tokenAPI == null)
             throw new RuntimeException("Log in first");
         return tokenAPI;
+    }
+
+    public static List<Asset> getAssets() {
+        return assets;
     }
 
     public interface LoginHandler {

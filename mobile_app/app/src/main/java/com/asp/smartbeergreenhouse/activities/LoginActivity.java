@@ -81,20 +81,26 @@ public class LoginActivity extends AppCompatActivity {
 
                 ThingsboardApiAdapter.login(username, password, success -> {
                     if (success) {
-                        String userType = "Farmer";
+                        ThingsboardApiAdapter.fetchTenantAssets(successFetch -> {
+                            if (successFetch)  {
+                                String userType = "Farmer";
 
-                        Log.d("LOGIN_INFO", "User type read from DB: " + userType);
-                        if (userType.equals("Farmer")) {
-                            Log.d("LOGIN_INFO", "User type DB: " + userType);
-                            Intent i = new Intent(LoginActivity.this, FarmerActivity.class);
-                            startActivity(i);
-                            finish();
-                        } else if (userType.equals("Brewery")) {
-                            Log.d("LOGIN_INFO", "User type DB: " + userType);
-                            Intent i = new Intent(LoginActivity.this, BreweryActivity.class);
-                            startActivity(i);
-                            finish();
-                        }
+                                Log.d("LOGIN_INFO", "User type read from DB: " + userType);
+                                if (userType.equals("Farmer")) {
+                                    Log.d("LOGIN_INFO", "User type DB: " + userType);
+                                    Intent i = new Intent(LoginActivity.this, FarmerActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                } else if (userType.equals("Brewery")) {
+                                    Log.d("LOGIN_INFO", "User type DB: " + userType);
+                                    Intent i = new Intent(LoginActivity.this, BreweryActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                }
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Can't access assets", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     } else { //User not found
                         Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
                     }

@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.asp.smartbeergreenhouse.databinding.ActivityBreweryBinding;
+import com.asp.smartbeergreenhouse.model.Asset;
 import com.asp.smartbeergreenhouse.model.Dataset;
 import com.asp.smartbeergreenhouse.thingsboard.OperationsAPI;
 import com.asp.smartbeergreenhouse.thingsboard.ThingsboardApiAdapter;
@@ -27,6 +28,7 @@ import com.asp.smartbeergreenhouse.utils.MyItemDetailsLookup;
 import com.asp.smartbeergreenhouse.utils.MyItemKeyProvider;
 import com.asp.smartbeergreenhouse.utils.MyOnItemActivatedListener;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -125,8 +127,11 @@ public class BreweryActivity extends AppCompatActivity {
         es.execute(new Runnable(){
             @Override
             public void run() {
-                operation.getAssetAttributes(ThingsboardApiAdapter.getToken(),"GH01_Room_02");
-                operation.getAssetAttributes(ThingsboardApiAdapter.getToken(),"GH01_Room_01");
+                List<Asset> assets = ThingsboardApiAdapter.getAssets();
+                for (Asset asset: assets) {
+                    if (asset.getType().equals("Greenhouse_room"))
+                        operation.getAttributesFromGreenhouseRoom(ThingsboardApiAdapter.getToken(), asset.getId(), asset.getName());
+                }
             }
         });
 

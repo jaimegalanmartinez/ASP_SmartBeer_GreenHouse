@@ -44,6 +44,11 @@ public interface ThingsboardService {
 
     @Headers({"Content-Type: application/json"})
     @GET("tenant/assets?")
+    Call<JsonObject> getTenantAssets (@Header("X-Authorization") String token,
+                                       @Query("pageSize") String pageSize, @Query("page") String pageNumber);
+
+    @Headers({"Content-Type: application/json"})
+    @GET("tenant/assets?")
     Call<JsonObject> getInfoFromAsset (@Header("X-Authorization") String token,
                                                @Query("assetName") String name);
 
