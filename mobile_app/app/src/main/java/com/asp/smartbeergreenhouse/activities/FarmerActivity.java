@@ -124,23 +124,17 @@ public class FarmerActivity extends AppCompatActivity {
             }
         });
 
+        operation = new OperationsAPI(FarmerActivity.this, datasetList, recyclerViewAdapter);
 
         ExecutorService es;
         es = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper()){
+        es.execute(new Runnable(){
             @Override
-            public void handleMessage(@NonNull Message inputMessage) {
-                super.handleMessage(inputMessage);
-                String tokenRetrieved = inputMessage.getData().getString("token");
-                //Get Server attributes from greenhouse Room_01 (hop_type and growing phase)
-                operation.getAssetAttributes(tokenRetrieved,"GH01_Room_01");
-                operation.getAssetAttributes(tokenRetrieved,"GH01_Room_02");
-
+            public void run() {
+                operation.getAssetAttributes(ThingsboardApiAdapter.getToken(),"GH01_Room_02");
+                operation.getAssetAttributes(ThingsboardApiAdapter.getToken(),"GH01_Room_01");
             }
-        };
-
-        TaskGetTokenFarmer task = new TaskGetTokenFarmer(handler);
-        es.execute(task);
+        });
 
         alarmsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,26 +163,6 @@ public class FarmerActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         tracker.onSaveInstanceState(outState); // Save state about selections.
-    }
-
-    public class TaskGetTokenFarmer implements Runnable {
-        Handler creator;
-
-        public TaskGetTokenFarmer(Handler handler){
-            this.creator = handler;
-        }
-
-        @Override
-        public void run() {
-            Message msg;
-            Bundle msg_data;
-
-            msg = creator.obtainMessage();
-            msg_data = msg.getData();
-            operation = new OperationsAPI(FarmerActivity.this,datasetList,recyclerViewAdapter);
-            msg_data.putString("token", ThingsboardApiAdapter.getToken());
-            msg.sendToTarget();
-        }
     }
 
     public class TaskGetAlarmsFarmer implements Runnable {
