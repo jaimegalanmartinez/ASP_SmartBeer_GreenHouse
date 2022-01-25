@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.asp.smartbeergreenhouse.databinding.ActivityLoginBinding;
+import com.asp.smartbeergreenhouse.thingsboard.ThingsboardApiAdapter;
 
 /**
  * Login Activity
@@ -78,28 +79,26 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (true){
-                    String userType = "Farmer";
+                ThingsboardApiAdapter.login(username, password, success -> {
+                    if (success) {
+                        String userType = "Farmer";
 
-                    if(true){
-                        Log.d("LOGIN_INFO","User type read from DB: "+userType);
-                        if (userType.equals("Farmer")){
-                            Log.d("LOGIN_INFO","User type DB: "+userType);
+                        Log.d("LOGIN_INFO", "User type read from DB: " + userType);
+                        if (userType.equals("Farmer")) {
+                            Log.d("LOGIN_INFO", "User type DB: " + userType);
                             Intent i = new Intent(LoginActivity.this, FarmerActivity.class);
                             startActivity(i);
                             finish();
-                        }else if(userType.equals("Brewery")){
-                            Log.d("LOGIN_INFO","User type DB: "+userType);
+                        } else if (userType.equals("Brewery")) {
+                            Log.d("LOGIN_INFO", "User type DB: " + userType);
                             Intent i = new Intent(LoginActivity.this, BreweryActivity.class);
                             startActivity(i);
                             finish();
                         }
-
+                    } else { //User not found
+                        Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
                     }
-                }else{ //User not found
-                    Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
-                }
-
+                });
             }
         });
 

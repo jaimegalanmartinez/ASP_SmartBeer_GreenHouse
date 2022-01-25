@@ -21,6 +21,7 @@ import android.widget.Button;
 import com.asp.smartbeergreenhouse.databinding.ActivityFarmerBinding;
 import com.asp.smartbeergreenhouse.model.Dataset;
 import com.asp.smartbeergreenhouse.thingsboard.OperationsAPI;
+import com.asp.smartbeergreenhouse.thingsboard.ThingsboardApiAdapter;
 import com.asp.smartbeergreenhouse.utils.MyAdapter;
 import com.asp.smartbeergreenhouse.utils.MyItemDetailsLookup;
 import com.asp.smartbeergreenhouse.utils.MyItemKeyProvider;
@@ -185,7 +186,7 @@ public class FarmerActivity extends AppCompatActivity {
             msg = creator.obtainMessage();
             msg_data = msg.getData();
             operation = new OperationsAPI(FarmerActivity.this,datasetList,recyclerViewAdapter);
-            msg_data.putString("token", operation.getTokenAPI());
+            msg_data.putString("token", ThingsboardApiAdapter.getToken());
             msg.sendToTarget();
         }
     }
@@ -204,8 +205,8 @@ public class FarmerActivity extends AppCompatActivity {
 
             msg = creator.obtainMessage();
             msg_data = msg.getData();
-            operation.getAlarmsFromGreenhouseAssetSync(operation.getTokenAPI(),"GH1_GHR01_Row_01");
-            operation.getAlarmsFromGreenhouseAssetSync(operation.getTokenAPI(),"GH1_GHR02_Row_01");
+            operation.getAlarmsFromGreenhouseAssetSync(ThingsboardApiAdapter.getToken(),"GH1_GHR01_Row_01");
+            operation.getAlarmsFromGreenhouseAssetSync(ThingsboardApiAdapter.getToken(),"GH1_GHR02_Row_01");
             Intent i = new Intent(operation.getContext(), AlarmsActivity.class);
             i.putExtra("dataset", operation.getDatasetList());
             operation.getContext().startActivity(i);

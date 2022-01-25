@@ -1,5 +1,12 @@
 package com.asp.smartbeergreenhouse.thingsboard;
 
+import android.util.Log;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
+import org.json.JSONException;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -16,6 +23,11 @@ public class ThingsboardApiAdapter {
     private static final String BASE_URL = "https://srv-iot.diatel.upm.es/api/";
     private static ThingsboardService API_SERVICE;
     //https://programacionymas.com/blog/consumir-una-api-usando-retrofit
+
+    /**
+     * Represents the tokenAPI retrieved from Thingsboard in order to use the Thingsboard REST API
+     */
+    private static String tokenAPI = null;
 
     public static ThingsboardService getApiService() {
 
@@ -39,4 +51,47 @@ public class ThingsboardApiAdapter {
         return API_SERVICE;
     }
 
+    public static void login(String username, String password, LoginHandler handler) {
+        JsonObject credentials = new JsonObject();
+        try {
+            credentials.addProperty("username", username);
+            credentials.addProperty("password", password);
+            Log.d("JSON_api: ", credentials.toString());
+
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        }
+
+        AsyncRequestExecutor executor = new AsyncRequestExecutor();
+        executor.execute(getApiService().getToken(credentials), (success, payloadJson) -> {
+            if (success) {
+                try {
+                    tokenAPI = "Bearer " + payloadJson.getString("token");
+                    Log.d("RESPONSE::", "Token retrieved:" + tokenAPI);
+                    handler.onResponse(true);
+                    return;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            handler.onResponse(false);
+        });
+    }
+
+    /**
+     * getTokenString
+     * <p>Gets the token attribute to use Thingsboard REST API </p>
+     *
+     * @return API's token
+     */
+    public static String getToken() {
+        if (tokenAPI == null)
+            throw new RuntimeException("Log in first");
+        return tokenAPI;
+    }
+
+    public interface LoginHandler {
+        void onResponse(boolean success);
+    }
 }

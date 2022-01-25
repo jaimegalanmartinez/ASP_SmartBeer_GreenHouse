@@ -21,6 +21,7 @@ import android.widget.Button;
 import com.asp.smartbeergreenhouse.databinding.ActivityBreweryBinding;
 import com.asp.smartbeergreenhouse.model.Dataset;
 import com.asp.smartbeergreenhouse.thingsboard.OperationsAPI;
+import com.asp.smartbeergreenhouse.thingsboard.ThingsboardApiAdapter;
 import com.asp.smartbeergreenhouse.utils.MyAdapter;
 import com.asp.smartbeergreenhouse.utils.MyItemDetailsLookup;
 import com.asp.smartbeergreenhouse.utils.MyItemKeyProvider;
@@ -157,7 +158,7 @@ public class BreweryActivity extends AppCompatActivity {
             msg = creator.obtainMessage();
             msg_data = msg.getData();
             operation = new OperationsAPI(BreweryActivity.this,datasetList,recyclerViewAdapter);
-            msg_data.putString("token", operation.getTokenAPI());
+            msg_data.putString("token", ThingsboardApiAdapter.getToken());
             msg.sendToTarget();
         }
     }
