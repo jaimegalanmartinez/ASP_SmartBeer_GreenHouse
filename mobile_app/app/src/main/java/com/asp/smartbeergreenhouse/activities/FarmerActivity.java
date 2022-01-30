@@ -19,8 +19,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.asp.smartbeergreenhouse.databinding.ActivityFarmerBinding;
+import com.asp.smartbeergreenhouse.model.Asset;
 import com.asp.smartbeergreenhouse.model.Dataset;
 import com.asp.smartbeergreenhouse.thingsboard.OperationsAPI;
+import com.asp.smartbeergreenhouse.thingsboard.ThingsboardApiAdapter;
 import com.asp.smartbeergreenhouse.utils.MyAdapter;
 import com.asp.smartbeergreenhouse.utils.MyItemDetailsLookup;
 import com.asp.smartbeergreenhouse.utils.MyItemKeyProvider;
@@ -29,6 +31,7 @@ import com.asp.smartbeergreenhouse.utils.MyOnItemActivatedListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -123,23 +126,20 @@ public class FarmerActivity extends AppCompatActivity {
             }
         });
 
+        operation = new OperationsAPI(FarmerActivity.this, datasetList, recyclerViewAdapter);
 
         ExecutorService es;
         es = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper()){
+        es.execute(new Runnable(){
             @Override
-            public void handleMessage(@NonNull Message inputMessage) {
-                super.handleMessage(inputMessage);
-                String tokenRetrieved = inputMessage.getData().getString("token");
-                //Get Server attributes from greenhouse Room_01 (hop_type and growing phase)
-                operation.getAssetAttributes(tokenRetrieved,"GH01_Room_01");
-                operation.getAssetAttributes(tokenRetrieved,"GH01_Room_02");
-
+            public void run() {
+                List<Asset> assets = ThingsboardApiAdapter.getAssets();
+                for (Asset asset: assets) {
+                    if (asset.getType().equals("Greenhouse_room"))
+                        operation.getAttributesFromGreenhouseRoom(ThingsboardApiAdapter.getToken(), asset.getId(), asset.getName());
+                }
             }
-        };
-
-        TaskGetTokenFarmer task = new TaskGetTokenFarmer(handler);
-        es.execute(task);
+        });
 
         alarmsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,26 +170,6 @@ public class FarmerActivity extends AppCompatActivity {
         tracker.onSaveInstanceState(outState); // Save state about selections.
     }
 
-    public class TaskGetTokenFarmer implements Runnable {
-        Handler creator;
-
-        public TaskGetTokenFarmer(Handler handler){
-            this.creator = handler;
-        }
-
-        @Override
-        public void run() {
-            Message msg;
-            Bundle msg_data;
-
-            msg = creator.obtainMessage();
-            msg_data = msg.getData();
-            operation = new OperationsAPI(FarmerActivity.this,datasetList,recyclerViewAdapter);
-            msg_data.putString("token", operation.getTokenAPI());
-            msg.sendToTarget();
-        }
-    }
-
     public class TaskGetAlarmsFarmer implements Runnable {
         Handler creator;
 
@@ -204,8 +184,13 @@ public class FarmerActivity extends AppCompatActivity {
 
             msg = creator.obtainMessage();
             msg_data = msg.getData();
-            operation.getAlarmsFromGreenhouseAssetSync(operation.getTokenAPI(),"GH1_GHR01_Row_01");
-            operation.getAlarmsFromGreenhouseAssetSync(operation.getTokenAPI(),"GH1_GHR02_Row_01");
+
+            List<Asset> assets = ThingsboardApiAdapter.getAssets();
+            for (Asset asset: assets) {
+                if (asset.getType().equals("Greenhouse_Row"))
+                    operation.getAlarmsFromGreenhouseAssetSync(ThingsboardApiAdapter.getToken(), asset.getId());
+            }
+
             Intent i = new Intent(operation.getContext(), AlarmsActivity.class);
             i.putExtra("dataset", operation.getDatasetList());
             operation.getContext().startActivity(i);

@@ -31,15 +31,6 @@ import retrofit2.Response;
  * @author Jaime Galan Martinez, Victor Aranda Lopez, Akos Zsolt Becsey.
  */
 public class OperationsAPI {
-
-    /**
-     * Represents the tokenAPI retrieved from Thingsboard in order to use the Thingsboard REST API
-     */
-    private String tokenAPI;
-    /**
-     * Represents a JSON Object with the API credentials (username, password)
-     */
-    private final JsonObject credentialsAPI;
     /**
      * Represents a Dataset
      * @see Dataset
@@ -64,67 +55,8 @@ public class OperationsAPI {
      */
     public OperationsAPI(Context context, Dataset datasetList, MyAdapter recyclerViewAdapter) {
         this.datasetList = datasetList;
-        this.credentialsAPI = setCredentialsAPI("", "");
-        this.tokenAPI = getToken(credentialsAPI);
         this.recyclerViewAdapter = recyclerViewAdapter;
         this.context = context;
-    }
-
-
-    private JsonObject setCredentialsAPI(String username, String password) {
-        JsonObject userAPIcredentials = new JsonObject();
-        try {
-            userAPIcredentials.addProperty("username", username);
-            userAPIcredentials.addProperty("password", password);
-            Log.d("JSON_api: ", userAPIcredentials.toString());
-
-        } catch (JsonParseException e) {
-            e.printStackTrace();
-        }
-        return userAPIcredentials;
-    }
-
-    /**
-     * getToken
-     *
-     * <p>Retrieve synchronously the token API using a post request to Thingsboard. Used this method in a background thread</p>
-     * @param credentials
-     * @return Token API from Thingsboard associated to the credentials provided
-     */
-    private String getToken(JsonObject credentials) {
-        ThingsboardService tbs = ThingsboardApiAdapter.getApiService();
-        Call<JsonObject> resp = tbs.getToken(credentials);
-        String token ="";
-        try{
-            Response<JsonObject> response = resp.execute();
-
-            if(response.code() == 200){
-                try {
-                    //here we get the token from the response
-                    token = "Bearer " + (new JSONObject((response.body().toString())).getString("token"));
-
-                    Log.d("RESPONSE::", "Token retrieved:" + token);
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }else Log.d("RESPONSE:ERROR code: ", String.valueOf(response.code()));
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
-        return token;
-
-    }
-
-    /**
-     * getTokenAPI
-     * <p>Gets the token attribute to use Thingsboard REST API </p>
-     * @return API's token
-     */
-    public String getTokenAPI() {
-        return tokenAPI;
     }
 
     /**
@@ -253,7 +185,7 @@ public class OperationsAPI {
                         String name = response.body().get("name").getAsString();
 
                         Log.d("RESPONSE::", "Asset id retrieved:" + assetId);
-                        getAttributesFromGreenhouseRoom(tokenAPI, assetId, name);
+                        getAttributesFromGreenhouseRoom(ThingsboardApiAdapter.getToken(), assetId, name);
 
 
                     } catch (Exception ex) {
@@ -477,7 +409,7 @@ public class OperationsAPI {
                         //here we get the asset id from the response
                         String assetId = (new JSONObject((response.body().get("id").toString())).getString("id"));
                         Log.d("RESPONSE::", "Asset id retrieved:" + assetId);
-                        getAlarmsFromAssetId(tokenAPI, assetId, "100", "0");
+                        getAlarmsFromAssetId(ThingsboardApiAdapter.getToken(), assetId, "100", "0");
 
 
                     } catch (Exception ex) {
@@ -497,31 +429,11 @@ public class OperationsAPI {
      * getAlarmsFromGreenhouseAsset
      * Get asset id, and call the getSpecificAlarmsFromAssetIdSync()
      * @param token token API
-     * @param assetName asset name
+     * @param assetId ID of asset
      */
-    public void getAlarmsFromGreenhouseAssetSync(String token, String assetName) {
-        ThingsboardService tbs = ThingsboardApiAdapter.getApiService();
-        Call<JsonObject> resp = tbs.getInfoFromAsset(token, assetName);
-        try{
-            Response<JsonObject> response = resp.execute();
-
-            if(response.code() == 200){
-                try {
-                    //here we get the token from the response
-                    String assetId = (new JSONObject((response.body().get("id").toString())).getString("id"));
-                    Log.d("RESPONSE::", "Asset id retrieved:" + assetId);
-                    datasetList.getAlarms().addAll(getSpecificAlarmsFromAssetIdSync(tokenAPI, assetId,"100", "0","ACTIVE_UNACK"));
-                    datasetList.getAlarms().addAll(getSpecificAlarmsFromAssetIdSync(tokenAPI, assetId,"100", "0","ACTIVE_ACK"));
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }else Log.d("RESPONSE:ERROR code: ", String.valueOf(response.code()));
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
+    public void getAlarmsFromGreenhouseAssetSync(String token, String assetId) {
+        datasetList.getAlarms().addAll(getSpecificAlarmsFromAssetIdSync(ThingsboardApiAdapter.getToken(), assetId,"100", "0","ACTIVE_ACK"));
+        datasetList.getAlarms().addAll(getSpecificAlarmsFromAssetIdSync(ThingsboardApiAdapter.getToken(), assetId,"100", "0","ACTIVE_UNACK"));
     }
 
     /**
@@ -544,7 +456,7 @@ public class OperationsAPI {
                         String deviceId = (new JSONObject((response.body().get("id").toString())).getString("id"));
                         //String assetName =  response.body().get("name").toString();
                         Log.d("RESPONSE::", "Device id retrieved:" + deviceId);
-                        getAlarmsFromDeviceId(tokenAPI, deviceId, "100", "0");
+                        getAlarmsFromDeviceId(ThingsboardApiAdapter.getToken(), deviceId, "100", "0");
 
 
 

@@ -31,18 +31,7 @@ public class WelcomeActivity extends AppCompatActivity {
         binding = ActivityWelcomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Button signupButton = binding.welcomeSignupBtn;
         Button loginButton = binding.welcomeLoginBtn;
-
-        //Sign Up Button
-        signupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(WelcomeActivity.this, SignUpActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
 
         //Log in button
         loginButton.setOnClickListener(new View.OnClickListener() {

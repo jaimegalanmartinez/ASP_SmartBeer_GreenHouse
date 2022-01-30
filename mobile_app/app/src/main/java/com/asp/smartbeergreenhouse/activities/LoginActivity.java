@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.asp.smartbeergreenhouse.databinding.ActivityLoginBinding;
-import com.asp.smartbeergreenhouse.db.DBHelper;
+import com.asp.smartbeergreenhouse.thingsboard.ThingsboardApiAdapter;
 
 /**
  * Login Activity
@@ -37,10 +37,6 @@ public class LoginActivity extends AppCompatActivity {
      * Represents the View binding of the Login Activity
      */
     private ActivityLoginBinding binding;
-    /**
-     *  Represents the DB Helper for manage DB operations (reading and writing in the DB)
-     */
-    private DBHelper myDB;
     /**
      * TextWatcher used to detect if the login fields are empty.
      * <p>If all fields are filled, the variables (username and password) will be updated, and enable the login button</p>
@@ -74,49 +70,41 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Button signupBtn = binding.loginSignupBtn;
         loginBtn = binding.loginSubmitBtn;
         editUsername = binding.loginTextInputUsername.getEditText();
         editPassword = binding.loginTextInputPassword.getEditText();
 
-        myDB = new DBHelper(this);
-
-        signupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Boolean checkCredentials = myDB.checkUsernamePassword(username, password);
-                if (checkCredentials){
-                    String userType = myDB.readUserType(username);
+                ThingsboardApiAdapter.login(username, password, success -> {
+                    if (success) {
+                        ThingsboardApiAdapter.fetchAssets(successFetch -> {
+                            if (successFetch)  {
+                                ThingsboardApiAdapter.UserType userType = ThingsboardApiAdapter.getUserTye();
 
-                    if(userType != null){
-                        Log.d("LOGIN_INFO","User type read from DB: "+userType);
-                        if (userType.equals("Farmer")){
-                            Log.d("LOGIN_INFO","User type DB: "+userType);
-                            Intent i = new Intent(LoginActivity.this, FarmerActivity.class);
-                            startActivity(i);
-                            finish();
-                        }else if(userType.equals("Brewery")){
-                            Log.d("LOGIN_INFO","User type DB: "+userType);
-                            Intent i = new Intent(LoginActivity.this, BreweryActivity.class);
-                            startActivity(i);
-                            finish();
-                        }
-
+                                Log.d("LOGIN_INFO", "User type read from DB: " + userType);
+                                if (userType == ThingsboardApiAdapter.UserType.TENANT || userType == ThingsboardApiAdapter.UserType.FARMER) {
+                                    Log.d("LOGIN_INFO", "User type DB: " + userType);
+                                    Intent i = new Intent(LoginActivity.this, FarmerActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                } else if (userType == ThingsboardApiAdapter.UserType.BREWERY) {
+                                    Log.d("LOGIN_INFO", "User type DB: " + userType);
+                                    Intent i = new Intent(LoginActivity.this, BreweryActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                }
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Can't access assets", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else { //User not found
+                        Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
                     }
-                }else{ //User not found
-                    Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
-                }
-
+                });
             }
         });
 

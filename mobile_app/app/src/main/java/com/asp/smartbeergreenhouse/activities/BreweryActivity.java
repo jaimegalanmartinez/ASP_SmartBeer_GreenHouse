@@ -19,13 +19,16 @@ import android.view.View;
 import android.widget.Button;
 
 import com.asp.smartbeergreenhouse.databinding.ActivityBreweryBinding;
+import com.asp.smartbeergreenhouse.model.Asset;
 import com.asp.smartbeergreenhouse.model.Dataset;
 import com.asp.smartbeergreenhouse.thingsboard.OperationsAPI;
+import com.asp.smartbeergreenhouse.thingsboard.ThingsboardApiAdapter;
 import com.asp.smartbeergreenhouse.utils.MyAdapter;
 import com.asp.smartbeergreenhouse.utils.MyItemDetailsLookup;
 import com.asp.smartbeergreenhouse.utils.MyItemKeyProvider;
 import com.asp.smartbeergreenhouse.utils.MyOnItemActivatedListener;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -117,22 +120,20 @@ public class BreweryActivity extends AppCompatActivity {
             }
         });
 
+        operation = new OperationsAPI(BreweryActivity.this, datasetList, recyclerViewAdapter);
 
         ExecutorService es;
         es = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper()){
+        es.execute(new Runnable(){
             @Override
-            public void handleMessage(@NonNull Message inputMessage) {
-                super.handleMessage(inputMessage);
-                String tokenRetrieved = inputMessage.getData().getString("token");
-                //Get Server attributes from greenhouse Room_01 (hop_type and growing phase)
-                operation.getAssetAttributes(tokenRetrieved,"GH01_Room_01");
-                operation.getAssetAttributes(tokenRetrieved,"GH01_Room_02");
+            public void run() {
+                List<Asset> assets = ThingsboardApiAdapter.getAssets();
+                for (Asset asset: assets) {
+                    if (asset.getType().equals("Greenhouse_room"))
+                        operation.getAttributesFromGreenhouseRoom(ThingsboardApiAdapter.getToken(), asset.getId(), asset.getName());
+                }
             }
-        };
-
-        TaskGetTokenBrewery task = new TaskGetTokenBrewery(handler);
-        es.execute(task);
+        });
 
     }
 
@@ -141,26 +142,5 @@ public class BreweryActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         tracker.onSaveInstanceState(outState); // Save state about selections.
     }
-
-    public class TaskGetTokenBrewery implements Runnable {
-        Handler creator;
-
-        public TaskGetTokenBrewery(Handler handler){
-            this.creator = handler;
-        }
-
-        @Override
-        public void run() {
-            Message msg;
-            Bundle msg_data;
-
-            msg = creator.obtainMessage();
-            msg_data = msg.getData();
-            operation = new OperationsAPI(BreweryActivity.this,datasetList,recyclerViewAdapter);
-            msg_data.putString("token", operation.getTokenAPI());
-            msg.sendToTarget();
-        }
-    }
-
 }
 

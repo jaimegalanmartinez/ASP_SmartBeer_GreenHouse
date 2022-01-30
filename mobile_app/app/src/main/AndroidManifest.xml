@@ -27,10 +27,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.SignUpActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
-        <activity
             android:name=".activities.LoginActivity"
             android:screenOrientation="portrait"
             android:exported="false" />

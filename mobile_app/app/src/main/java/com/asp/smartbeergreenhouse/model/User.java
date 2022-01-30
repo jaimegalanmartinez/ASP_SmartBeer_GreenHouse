@@ -1,13 +1,12 @@
 package com.asp.smartbeergreenhouse.model;
 
-import java.io.Serializable;
 
 /**
  * User class
  * <p>Represents a user</p>
  * @author Jaime Galan Martinez, Victor Aranda Lopez, Akos Zsolt Becsey.
  */
-public class User implements Serializable {
+public class User {
     /**
      * Enum Type
      * <p>The user can be : Farmer or Brewery</p>
@@ -19,10 +18,6 @@ public class User implements Serializable {
      * Represents the username
      */
     private String name;
-    /**
-     * Represents the user's password
-     */
-    private String password;
     /**
      * Represents the user's type
      */
@@ -36,7 +31,6 @@ public class User implements Serializable {
      */
     public User (String name, String password, Type type){
         this.name = name;
-        this.password = password;
         this.type = type;
     }
 
@@ -46,14 +40,6 @@ public class User implements Serializable {
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * getPassword
-     * @return user's password
-     */
-    public String getPassword() {
-        return password;
     }
 
     /**

@@ -73,22 +73,13 @@
             android:layout_height="20dp"></Space>
 
         <Button
-            android:id="@+id/welcome_signup_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginBottom="20dp"
-            android:text="Sign up"
-            style="?android:attr/button" />
-
-        <Button
             android:id="@+id/welcome_login_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
-            android:text="Already have an account? Log in"
+            android:text="Log in"
             android:textSize="12sp"
-            style="?android:attr/buttonBarButtonStyle" />
+            style="?android:attr/button" />
 
     </LinearLayout>
 
